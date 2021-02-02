@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Страхование";
+$arDirProperties = Array(
+
+);
+?>
