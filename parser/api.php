@@ -72,7 +72,7 @@ CModule::IncludeModule("iblock");
 $IBLOCK_ID = 31;
 $xml = parser('https://api.quick-deal.ru/v3/feed/organisationObjects/303?secret=iakUVegLtUWzKpqQ9JJ1QjghTeA&format=yandex');
 
-
+$z = 0;
 $arSelect = array("ID", "NAME");
 $arFilter = array("IBLOCK_ID"=>IntVal($IBLOCK_ID));
 $res = CIBlockElement::GetList(array(), $arFilter, false, array(), $arSelect);
@@ -107,9 +107,11 @@ if (!empty($xml)) {
                         }
                     } else {
 
+
                         if ($k == 'sales-agent') {
                             $PROP[str_replace('-', '_', $k.'_'.$key)] = $val;
-                        } else {
+                        }
+                        else {
                             $PROP[str_replace('-', '_', $k . '_' . $key)] = $val;
                         }
                     }
@@ -119,7 +121,20 @@ if (!empty($xml)) {
                     $PROP['location_' . str_replace('-', '_', $key)] = $val;
                 }
             } else if ($k == 'rooms'){
-                $PROP[$k] = array("VALUE" => $v );
+                switch ($v):
+                    case 1: $room = 27;break;
+                    case 2: $room = 28;break;
+                    case 3: $room = 29;break;
+                    case 4: $room = 30;break;
+                    case 5: $room = 31;break;
+                    case 6: $room = 32;break;
+                    case 7: $room = 33;break;
+                    case 8: $room = 34;break;
+                    case 9: $room = 35;break;
+                    case 10: $room = 36;break;
+                    case 11: $room = 37;break;
+                    endswitch;
+                $PROP[$k] = array("VALUE" => $room );
             }
             else if ($k == 'floors-total'){
                 $PROP[$k] = array("VALUE" => $v );
@@ -141,7 +156,21 @@ if (!empty($xml)) {
             $PROP['images'] = $images;
         }
         if (!empty($PROP['rooms'])){
-            $name = $PROP["rooms"]["VALUE"]." "."комнатная";
+            $room ="";
+            switch ($PROP["rooms"]["VALUE"]):
+                case 27: $room = 1;break;
+                case 28: $room = 2;break;
+                case 29: $room = 3;break;
+                case 30: $room = 4;break;
+                case 31: $room = 5;break;
+                case 32: $room = 6;break;
+                case 33: $room = 7;break;
+                case 34: $room = 8;break; 
+                case 35: $room = 9;break;
+                case 36: $room = 10;break;
+                case 37: $room = 11;break;
+            endswitch;
+            $name = $room ." "."комнатная";
         }
         elseif (!empty($PROP['floors-total'])){
             $name = $PROP["floors-total"]["VALUE"]." "."этажный";
