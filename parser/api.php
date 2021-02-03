@@ -165,7 +165,7 @@ if (!empty($xml)) {
                 case 31: $room = 5;break;
                 case 32: $room = 6;break;
                 case 33: $room = 7;break;
-                case 34: $room = 8;break;
+                case 34: $room = 8;break; 
                 case 35: $room = 9;break;
                 case 36: $room = 10;break;
                 case 37: $room = 11;break;
