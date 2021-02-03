@@ -83,14 +83,20 @@ $strAlt = (
 
 <h1 class="title_page">
     <?php
-
-    if($arResult['PROPERTIES']['location_country']['VALUE']){
+    if($arResult["NAME"]){
+        echo $arResult["NAME"];
+    }elseif($arResult["NAME"]){
+        echo $arResult["NAME"];
+    }else{
+        echo $arResult["NAME"];
+    }
+    /*if($arResult['PROPERTIES']['location_country']['VALUE']){
 echo $arResult['PROPERTIES']['location_country']['VALUE'];
     }elseif($arResult['PROPERTIES']['location_country']['VALUE']){
         echo $arResult['PROPERTIES']['location_country']['VALUE'];
     }else{
         echo $arResult['PROPERTIES']['location_country']['VALUE'];
-    }
+    }*/
     ?></h1>
 					<div class="object_desc_und_title"><?=$arResult['PROPERTIES']['location_district']['VALUE']?>, <?=$arResult['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arResult['PROPERTIES']['location_address']['VALUE']?></div>
 					<div class="object_general">
