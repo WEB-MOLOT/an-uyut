@@ -86,7 +86,7 @@ while($ob = $res->GetNextElement())
 if (!empty($xml)) {
 
     $data = simplexml_load_string($xml);
-    
+
     foreach ($data->offer as $object) {
         //echo '<pre>';
         //var_dump($object);
@@ -121,6 +121,9 @@ if (!empty($xml)) {
             } else if ($k == 'rooms'){
                 $PROP[$k] = array("VALUE" => $v );
             }
+            else if ($k == 'floors-total'){
+                $PROP[$k] = array("VALUE" => $v );
+            }
             else if ($k == 'image') {
                 $PROP['image'] = $v;
                 $PROP['main_picture'] = $v[0];
@@ -137,6 +140,13 @@ if (!empty($xml)) {
             }
             $PROP['images'] = $images;
         }
+        if (!empty($PROP['rooms'])){
+            $name = $PROP["rooms"]["VALUE"]." "."комнатная";
+        }
+        elseif (!empty($PROP['floors-total'])){
+            $name = $PROP["floors-total"]["VALUE"]." "."этажный";
+        }
+
         if(!empty($PROP['sales_agent_photo'])) {
             $PROP['sales_agent_photo'] = CFile::MakeFileArray( $PROP['sales_agent_photo'] );
 }
@@ -234,13 +244,12 @@ if (!empty($xml)) {
             }
             echo $PROP['category'] . ' | Третья категория ' . $sectionId.'<br/>';
         }
-
         $arLoadProductArray = array(
             'MODIFIED_BY' => $GLOBALS['USER']->GetID(), // элемент изменен текущим пользователем
             'IBLOCK_SECTION_ID' => $sectionId, // элемент лежит в корне раздела
             'IBLOCK_ID' => 31,
             'PROPERTY_VALUES' => $PROP,
-            'NAME' => $PROP['internal_id'],
+            'NAME' => $name." ".$PROP['category'],
             'CODE'=>$PROP['internal_id'],
             'ACTIVE' => 'Y', // активен
             'DETAIL_TEXT' => trim($PROP['description']),
