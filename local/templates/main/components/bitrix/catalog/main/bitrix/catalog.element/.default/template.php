@@ -98,7 +98,8 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
         echo $arResult['PROPERTIES']['location_country']['VALUE'];
     }*/
     ?></h1>
-					<div class="object_desc_und_title"><?=$arResult['PROPERTIES']['location_district']['VALUE']?>, <?=$arResult['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arResult['PROPERTIES']['location_address']['VALUE']?></div>
+					<div class="object_desc_und_title">
+                        <?/*=$arResult['PROPERTIES']['location_district']['VALUE']*/?> <?=$arResult['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arResult['PROPERTIES']['location_address']['VALUE']?></div>
 					<div class="object_general">
 						<div class="object_cols d_flex j_content_between f_wrap">
 							<div class="object_col_left">
@@ -191,7 +192,7 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 										<span class="object_general_price--area"><?=number_format(ceil($arResult['PROPERTIES']['price_value']['VALUE']/$arResult['PROPERTIES']['area_value']['VALUE']), 0, '', ' ' )?> ₽ за м<sup>2</sup></span>
                                         <?}?>
                                         <? if(!empty($arResult['PROPERTIES']['price_value']['VALUE'])){?>
-										<span class="object_general_price--month"><?=number_format(ceil($arResult['PROPERTIES']['price_value']['VALUE']), 0, '', ' ' )?> ₽ в месяц</span>
+										<span class="object_general_price--month">от <span></span> ₽ в месяц</span>
                                         <?}?>
 									</div>
 									<div class="object_general_side--info">
@@ -243,27 +244,26 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 									<div class="object_general_manager--form">
 										<div class="object_general_manager--form_title">Или оставьте ваш номер, и я вам перезвоню:</div>
                                         <?$APPLICATION->IncludeComponent("bitrix:form.result.new",
-                                            "",
-                                            Array(
-                                                "WEB_FORM_ID" => "4",
-                                                "IGNORE_CUSTOM_TEMPLATE" => "N",
-                                                "USE_EXTENDED_ERRORS" => "N",
-                                                "SEF_MODE" => "N",
-                                                "CACHE_TYPE" => "A",
-                                                "CACHE_TIME" => "3600",
-                                                "LIST_URL" => "",
-                                                "EDIT_URL" => "",
-                                                "SUCCESS_URL" => "",
-                                                "SUCCESS" => "",
-                                                "CHAIN_ITEM_TEXT" => "",
-                                                "CHAIN_ITEM_LINK" => "",
-                                                "VARIABLE_ALIASES" => Array(
-                                                    "WEB_FORM_ID" => "WEB_FORM_ID",
-                                                    "RESULT_ID" => "RESULT_ID"
-                                                )
-                                            ),
-
-);?>
+											"",
+											Array(
+												"WEB_FORM_ID" => "4",
+												"IGNORE_CUSTOM_TEMPLATE" => "N",
+												"USE_EXTENDED_ERRORS" => "N",
+												"SEF_MODE" => "N",
+												"CACHE_TYPE" => "A",
+												"CACHE_TIME" => "3600",
+												"LIST_URL" => "",
+												"EDIT_URL" => "",
+												"SUCCESS_URL" => "",
+												"SUCCESS" => "",
+												"CHAIN_ITEM_TEXT" => "",
+												"CHAIN_ITEM_LINK" => "",
+												"VARIABLE_ALIASES" => Array(
+													"WEB_FORM_ID" => "WEB_FORM_ID",
+													"RESULT_ID" => "RESULT_ID"
+												)
+											),
+										);?>
 									</div>
 								</div>
 
@@ -313,36 +313,34 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 									<div class="col col-2">
 										<div class="item">
 											<? $arProperty = $arResult["DISPLAY_PROPERTIES"]; ?>
-
                                                 <? $arPos = explode(",", $arProperty['map']['VALUE']);?>
-                                                <div class="yandexmapa">
-                                                    <?$APPLICATION->IncludeComponent(
+                                                <div class="yandexmapa" id="yandexmapa">
+                                                    <?/*$APPLICATION->IncludeComponent(
                                                     "bitrix:map.yandex.view",
                                                     "",
                                                     Array(
-                                                    "INIT_MAP_TYPE" => "MAP",
-                                                    "MAP_DATA" => serialize(array(
-                                                    'yandex_lat' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
-                                                    'yandex_lon' =>  $arResult['PROPERTIES']['location_longitude']['VALUE'],
-                                                    'yandex_scale' => $arProperty["map_zoom"]["VALUE"],
-                                                    'PLACEMARKS' => array (
-                                                    array(
-                                                    'TEXT' => $arProperty["map_caption"]["VALUE"]{"TEXT"},
-                                                    'LON' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
-                                                    'LAT' => $arResult['PROPERTIES']['location_longitude']['VALUE'],
-                                                    ),
-                                                    ),
-                                                    )),
-                                                    "MAP_WIDTH" => "100%",
-                                                    "MAP_HEIGHT" => '',
-                                                    "CONTROLS" => array("ZOOM", "MINIMAP", "TYPECONTROL", "SCALELINE"),
-                                                    "OPTIONS" => array("DESABLE_SCROLL_ZOOM", "ENABLE_DBLCLICK_ZOOM", "ENABLE_DRAGGING"),
-                                                    "MAP_ID" => ""
+														"INIT_MAP_TYPE" => "MAP",
+														"MAP_DATA" => serialize(array(
+															'yandex_lat' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
+															'yandex_lon' =>  $arResult['PROPERTIES']['location_longitude']['VALUE'],
+															'yandex_scale' => $arProperty["map_zoom"]["VALUE"],
+															'PLACEMARKS' => array (
+																array(
+																	'TEXT' => $arProperty["map_caption"]["VALUE"]{"TEXT"},
+																	'LON' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
+																	'LAT' => $arResult['PROPERTIES']['location_longitude']['VALUE'],
+																),
+															),
+														)),
+														"MAP_WIDTH" => "100%",
+														"MAP_HEIGHT" => '',
+														"CONTROLS" => array("ZOOM", "MINIMAP", "TYPECONTROL", "SCALELINE"),
+														"OPTIONS" => array("DESABLE_SCROLL_ZOOM", "ENABLE_DBLCLICK_ZOOM", "ENABLE_DRAGGING"),
+														"MAP_ID" => ""
                                                     ),
                                                     false
-                                                    );?>
+                                                    );*/?>
                                                 </div>
-
 										</div>
 									</div>
 								</div>
@@ -484,6 +482,35 @@ $arProps = $ob->GetProperties();
 );?>
 
 
+<script>
+ymaps.ready(init);
+
+function init () {
+	var myMap = new ymaps.Map("yandexmapa", {
+		center: [<?=$arResult['PROPERTIES']['location_latitude']['VALUE']?>, <?=$arResult['PROPERTIES']['location_longitude']['VALUE']?>],
+		zoom: 8
+	}),
+	myPlacemark = new ymaps.Placemark([<?=$arResult['PROPERTIES']['location_latitude']['VALUE']?>, <?=$arResult['PROPERTIES']['location_longitude']['VALUE']?>], {
+		balloonContentHeader: "<?=$arResult["NAME"]?>",
+		balloonContentBody: '<img src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" height="60" width="90" style="float: left; padding-right: 5px;">'+
+		'<?=$arResult['PROPERTIES']['area_value']['VALUE']?> / <?=$arResult['PROPERTIES']['living_space_value']['VALUE']?> / <?=$arResult['PROPERTIES']['kitchen_space_value']['VALUE']?> м<sup>2</sup>,<br> <?=$arResult['PROPERTIES']['floor']['VALUE']?> / <?=$arResult['PROPERTIES']['floors_total']['VALUE']?> эт.' +
+		'<br><b><?=number_format($arResult['PROPERTIES']['price_value']['VALUE'], 0, '', ' ' )?> ₽</b>' +
+		'<div style="clear:both"></div>',
+		hintContent: "<?=$arResult["NAME"]?>"
+	});
+	
+	myMap.controls
+		.add('zoomControl', { left: 5, top: 5 })
+		.add('mapTools', { left: 35, top: 5 });
+
+	myMap.geoObjects.add(myPlacemark);
+
+	myMap.hint.show(myMap.getCenter(), "Содержимое хинта", {
+		showTimeout: 1500
+	});
+// 	myMap.setBounds(myMap.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:9});
+}
+</script>
 
 
 

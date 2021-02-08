@@ -88,9 +88,9 @@ $APPLICATION->SetTitle("Ипотека");
                                 "AJAX_OPTION_STYLE" => "Y",
                                 "AJAX_OPTION_HISTORY" => "N",
                                 "AJAX_OPTION_ADDITIONAL" => "",
-                                "PRICE"=>25000000,
+                                "PRICE"=>4000000,
                                 "TERMIN"=>'40',
-                                "FIRST_PAY"=> 500000,
+                                "FIRST_PAY"=> 100000,
                                 "PRICE_CHANGEABLE"=>"Y",
                             )
                         );?>

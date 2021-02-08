@@ -102,7 +102,7 @@ foreach ($arResult['ITEMS'] as $key => $arItem)
     
     
     
-    <? } ?> 
+    <? } ?>
     </div>
     </div>
     
@@ -135,9 +135,9 @@ foreach ($arResult['ITEMS'] as $key => $arItem)
     	</div>
     </div>
     
-    <div class="catalog_item" data-item="3">
-       		
-			<? foreach ($arResult['ITEMS'] as $key => $arItem){?>  
+	<div class="catalog_item" data-item="3">
+		<div class="yandexmapa" id="yandexmapa" style="width: 100%; height: 700px;"></div>
+			<? foreach ($arResult['ITEMS'] as $key => $arItem){?>
             
 			<?}?>
             
@@ -169,24 +169,24 @@ foreach ($arResult['ITEMS'] as $key => $arItem)
 
     }
 
-	$APPLICATION->IncludeComponent(
+	/*$APPLICATION->IncludeComponent(
     "bitrix:map.yandex.view",
-    "",
-     Array(
-        "INIT_MAP_TYPE" => "map",
-       "MAP_DATA" => serialize(array(
-            'yandex_lat' => $onMap[0], 
-            'yandex_lon' => $onMap[1], 
-            'yandex_scale' => 9, 
-            'PLACEMARKS' => $arPlacemarks)),
-        "MAP_WIDTH" => "100%",
-        "MAP_HEIGHT" => "550",
-        "CONTROLS" => array("ZOOM", "MINIMAP", "TYPECONTROL", "SCALELINE"),
-        "OPTIONS" => array("DESABLE_SCROLL_ZOOM", "ENABLE_DBLCLICK_ZOOM", "ENABLE_DRAGGING"),
-         "MAP_ID" => ""
-    ),
-false
-);	
+	"",
+	Array(
+		"INIT_MAP_TYPE" => "map",
+		"MAP_DATA" => serialize(array(
+				'yandex_lat' => $onMap[0], 
+				'yandex_lon' => $onMap[1], 
+				'yandex_scale' => 9, 
+				'PLACEMARKS' => $arPlacemarks)),
+		"MAP_WIDTH" => "100%",
+		"MAP_HEIGHT" => "550",
+		"CONTROLS" => array("ZOOM", "MINIMAP", "TYPECONTROL", "SCALELINE"),
+		"OPTIONS" => array("DESABLE_SCROLL_ZOOM", "ENABLE_DBLCLICK_ZOOM", "ENABLE_DRAGGING"),
+		"MAP_ID" => ""
+	),
+	false
+	);*/
 
 
 	?>
@@ -195,10 +195,115 @@ false
 
 	   					
 	</div>
-    
-    
+
+
 
     <? echo $arResult["NAV_STRING"]; ?>
 
-    
+<script>
+ymaps.ready(init);
+window.points1 = [];
+
+function init () {
+	 var myMap = new ymaps.Map('yandexmapa', {
+		center: [63.369315, 105.440191],
+		zoom: 3,
+		// Добавим к стандартным поведениям карты зум колесом мыши.
+		behaviors: ['default', 'scrollZoom']
+	});
+
+    myMap.controls.add('zoomControl', { top: 5 });
+	var clusterer = new ymaps.Clusterer({
+		/**
+		* Через кластеризатор можно указать только стили кластеров,
+		* стили для меток нужно назначать каждой метке отдельно.
+		* @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/option.presetStorage.xml
+		*/
+		preset: 'twirl#invertedVioletClusterIcons',
+		/**
+		* Ставим true, если хотим кластеризовать только точки с одинаковыми координатами.
+		*/
+		groupByCoordinates: false,
+		/**
+		* Опции кластеров указываем в кластеризаторе с префиксом "cluster".
+		* @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Cluster.xml
+		*/
+		clusterDisableClickZoom: true
+	});
+	var getPointData = function (index) {
+		var data = pointsData[index];
+		return {
+			balloonContentHeader: '<a href="'+data[8]+'">'+data[0]+'</a>',
+			balloonContentBody: '<a href="'+data[8]+'"><img src="'+data[1]+'" height="60" width="90" style="float: left; padding-right: 5px;"></a>'+
+		data[2]+' / '+data[3]+' / '+data[4]+' м<sup>2</sup>,<br> '+data[5]+' / '+data[6]+' эт.' +
+		'<br><b>'+data[7]+' ₽</b>' +
+		'<div style="clear:both"></div>',
+			hintContent: data[0],
+			clusterCaption: data[0],
+		};
+	};
+	var getPointOptions = function () {
+		return {
+			preset: 'twirl#violetIcon'
+		};
+	};
+	var points = [];
+// 	var points1 = [];
+	<? foreach($arResult['ITEMS'] as $key => $arItem){ ?>
+	/*ymaps.geocode('<?=$arItem['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arItem['PROPERTIES']['location_address']['VALUE']?>', { results: 1 }).then(function (res<?=$key?>) {
+		var firstGeoObject<?=$key?> = res<?=$key?>.geoObjects.get(0);
+		var coords<?=$key?> = firstGeoObject<?=$key?>.geometry.getCoordinates();
+		window.points1.push([coords<?=$key?>[0],coords<?=$key?>[1]]);
+	}, function (err) {
+		alert(err.message);
+	});*/
+	<? } ?>
+	<? foreach ($arResult['ITEMS'] as $key => $arItem){ ?>
+	points.push([<?=$arItem['PROPERTIES']['location_latitude']['VALUE']?>,<?=$arItem['PROPERTIES']['location_longitude']['VALUE']?>]);
+	<? } ?>
+	var pointsData = [];
+	<? foreach ($arResult['ITEMS'] as $key => $arItem){ ?>
+	pointsData.push(['<?=$arItem["NAME"]?>','<?=$arItem["DETAIL_PICTURE"]["SRC"]?>','<?=$arItem['PROPERTIES']['area_value']['VALUE']?>','<?=$arItem['PROPERTIES']['living_space_value']['VALUE']?>','<?=$arItem['PROPERTIES']['kitchen_space_value']['VALUE']?>','<?=$arItem['PROPERTIES']['floor']['VALUE']?>','<?=$arItem['PROPERTIES']['floors_total']['VALUE']?>','<?=number_format($arItem['PROPERTIES']['price_value']['VALUE'], 0, '', ' ' )?>','<?=$arItem['DETAIL_PAGE_URL']?>']);
+	<? } ?>
+	console.log(JSON.stringify(window.points1));
+	
+	var geoObjects = [];
+	for(var i = 0, len = points.length; i < len; i++) {
+		geoObjects[i] = new ymaps.Placemark(points[i], getPointData(i), getPointOptions());
+	}
+	clusterer.options.set({
+		gridSize: 80,
+		clusterDisableClickZoom: true
+	});
+	clusterer.add(geoObjects);
+	clusterer.events.once('objectsaddtomap', function () {
+		myMap.setBounds(clusterer.getBounds());
+	});
+	clusterer.events
+	.add(['mouseenter', 'mouseleave'], function (e) {
+		var target = e.get('target'),
+			eType = e.get('type'),
+			zIndex = Number(eType === 'mouseenter') * 1000;
+
+		target.options.set('zIndex', zIndex);
+	});
+	clusterer.events.add('objectsaddtomap', function () {
+		for(var i = 0, len = geoObjects.length; i < len; i++) {
+			var geoObject = geoObjects[i],
+				geoObjectState = clusterer.getObjectState(geoObject),
+				isShown = geoObjectState.isShown,
+				isClustered = geoObjectState.isClustered,
+				cluster = geoObjectState.cluster;
+
+			if(window.console) {
+				console.log('Геообъект: %s, находится в видимой области карты: %s, в составе кластера: %s', i, isShown, isClustered);
+			}
+		}
+	});
+
+	myMap.geoObjects.add(clusterer);
+	
+// 	myMap.setBounds(myMap.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:9});
+}
+</script>
    

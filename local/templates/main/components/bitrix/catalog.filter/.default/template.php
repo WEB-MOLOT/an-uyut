@@ -17,6 +17,7 @@ if(!stripos($arResult["FORM_ACTION"],'search')){
 
 $re = '/arrFilter\_pf\[(.*?)\]/m';
 ?>
+
 <form name="<?echo $arResult["FILTER_NAME"]?>" action="<?echo $arResult["FORM_ACTION"]?>" method="get">
     <input type="hidden" name="arrFilter_pf[section_id]" value="<?=$arParams['SECTION_ID'];?>">
 	<?foreach($arResult["ITEMS"] as $arItem):
@@ -24,6 +25,7 @@ $re = '/arrFilter\_pf\[(.*?)\]/m';
 			echo $arItem["INPUT"];
 		endif;
 	endforeach;?>
+
 
     <div class="row row_catalog_filters_fp d_flex  f_wrap">
         <div class="col2" style="width: 100%;">

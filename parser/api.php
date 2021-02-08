@@ -70,7 +70,7 @@ set_time_limit(0);
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("iblock");
 $IBLOCK_ID = 31;
-$xml = parser('https://api.quick-deal.ru/v3/feed/organisationObjects/303?secret=iakUVegLtUWzKpqQ9JJ1QjghTeA&format=yandex');
+$xml = parser('https://api.quick-deal.ru/v3/feed/organisationObjects/303?secret=iakUVegLtUWzKpqQ9JJ1QjghTeA&format=yandex&descriptionType=html&withAddressCoordinates');
 
 $z = 0;
 $arSelect = array("ID", "NAME");
@@ -165,7 +165,7 @@ if (!empty($xml)) {
                 case 31: $room = 5;break;
                 case 32: $room = 6;break;
                 case 33: $room = 7;break;
-                case 34: $room = 8;break; 
+                case 34: $room = 8;break;
                 case 35: $room = 9;break;
                 case 36: $room = 10;break;
                 case 37: $room = 11;break;

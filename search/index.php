@@ -5,7 +5,7 @@ $APPLICATION->SetTitle("Каталог недвижимости");
 global $arrFilter_pf;
 
 ?>
-
+<script src="http://api-maps.yandex.ru/2.0/?load=package.full&mode=release&lang=ru-RU&wizard=bitrix&apikey=08dc2ec1-14e3-44be-9780-22973df3b581"></script>
 
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog",

@@ -20,9 +20,9 @@ $this->setFrameMode(true);
 // $arProps = $ob->GetProperties();
 
 $range_val_1 = $arParams['PRICE'];
-$range_val_2 =500000;
+$range_val_2 = 1000000;
 
-$range_val_3 = 30;
+$range_val_3 = 25;
 
 
 ?>
@@ -35,8 +35,8 @@ $range_val_3 = 30;
                 <div class="mortgage_calculator_field">
                     <div class="mortgage_calculator_field--title">Стоимость квартиры:</div>
                     <div class="mortgage_calculator_field--range_wrapper">
-                        <div id="js__field_1" class="mortgage_calculator_field--range_field "><?=number_format($range_val_1, 0, false, ' ')?> руб.</div>
-                        <div   class="mortgage_calculator_field <?Php if($arParams['PRICE_CHANGEABLE']){ ?>mortgage_calculator_field--range<?php }?>" data-min="0" data-max="<?=$range_val_1;?>" data-start="<?=$range_val_1;?>"></div>
+                        <div id="js__field_1" class="mortgage_calculator_field--range_field "><?=number_format($range_val_1, 0, false, ' ')?> ₽</div>
+                        <div   class="mortgage_calculator_field <?Php if($arParams['PRICE_CHANGEABLE']){ ?>mortgage_calculator_field--range<?php }?>" data-min="0" data-max="25000000" data-start="<?=$range_val_1;?>"></div>
                     </div>
                 </div>
             </div>
@@ -44,8 +44,8 @@ $range_val_3 = 30;
                 <div class="mortgage_calculator_field">
                     <div class="mortgage_calculator_field--title">Первый взнос?</div>
                     <div class="mortgage_calculator_field--range_wrapper">
-                        <div  id="js__field_2"  class="mortgage_calculator_field--range_field">1000000 ₽</div>
-                        <div class="mortgage_calculator_field--range" data-min="0" data-max="10000000" data-start="1000000"></div>
+                        <div  id="js__field_2"  class="mortgage_calculator_field--range_field"><?=$range_val_2;?> ₽</div>
+                        <div class="mortgage_calculator_field--range" data-min="0" data-max="10000000" data-start="<?=$range_val_2;?>"></div>
                     </div>
                 </div>
             </div>
@@ -75,8 +75,29 @@ $range_val_3 = 30;
                 <tbody>
 
     <div class="mortgage_calculator">
-          	<?php foreach($arResult['ITEMS'] as $item){
-                $first = $range_val_1 * $item['PROPERTIES']['FIRST_FEE']['VALUE'] /100;
+		<?
+		$total_sum = $range_val_1;
+		$first_sum = $range_val_2;
+		$years = $range_val_3;
+		
+		$month_payments = array();
+		foreach($arResult['ITEMS'] as $item) {
+			$monthly_rate = $item['PROPERTIES']['RATE']['VALUE'] / 12 / 100; // Месячная ставка
+			$whole_rate =  pow((1 + $monthly_rate), $years*12); // Общая ставка
+			
+			$first = $total_sum * ($item['PROPERTIES']['FIRST_FEE']['VALUE'] /100); // минимально возможный первоначальный взнос по тарифам банка
+			if($first < $first_sum){
+				$minimal = $first_sum;
+			}else{
+				$minimal = $first;
+			}
+			$credit_sum = $total_sum - $minimal; // Сумма кредита
+			
+			$monthly_payment = round($credit_sum * $monthly_rate * $whole_rate / ($whole_rate - 1)); // Месячный платеж
+			
+			$month_payments[] = $monthly_payment;
+			
+                /*$first = $range_val_1 * $item['PROPERTIES']['FIRST_FEE']['VALUE'] /100;
 
                 if($range_val_3 > $item['PROPERTIES']['TERM']['VALUE']){
                     $year = $item['PROPERTIES']['RATE']['VALUE'];
@@ -104,23 +125,31 @@ $range_val_3 = 30;
                 $n =   $year * 12;
                 $K = ($i*pow((1+$i),$n)) / (pow((1+$i),$n) - 1);
 
-                $total = $K*$clear_sum;
+                $total = $K*$clear_sum;*/
 
               $item['PROPERTIES']['RATE']['VALUE'] = (float)str_replace(',','.', $item['PROPERTIES']['RATE']['VALUE']);
-
+				$row[$item['ID']] = array(
+					'img' => CFile::GetPath($item['PROPERTIES']['SVG_ICON']['VALUE']),
+					'name' => $item['NAME'],
+					'rate' => $item['PROPERTIES']['RATE']['VALUE'],
+					'first_perc' => $item['PROPERTIES']['FIRST_FEE']['VALUE'],
+					'pay' => number_format($monthly_payment, 0, false, ' '),
+					'first' => number_format($minimal, 0, false, ' '),
+					'year' => $item['PROPERTIES']['TERM']['VALUE']
+				);
           		?>
-                <tr>
-                <td class="mortgage_calculator_table--bank"><img src="<?=CFile::GetPath($item['PROPERTIES']['SVG_ICON']['VALUE']);?>" alt="<?=$item['NAME'];?>" style="max-width:200px;"></td>
-                    <td class="mortgage_calculator_table--stavka"> от <?=$item['PROPERTIES']['RATE']['VALUE'];?>%</td>
-              <td class="mortgage_calculator_table--vznos" id="<?=$item['ID'];?>" ><?=number_format($first, 0, false, ' ');?> руб.</td>
-                    <td class="mortgage_calculator_table--srok"> до <?=$item['PROPERTIES']['TERM']['VALUE']?> лет</td>
 
-              <td class="mortgage_calculator_table--plat"><span class="reslut_<?=$item['ID'];?>"><?=number_format($total, 0, false, ' ');?></span> руб</td>
-            </ul>
-
+			<?php } ?>
+			<? uasort($row, 'cmp'); ?>
+			<? foreach($row as $k => $r) { ?>
+				<tr>
+                <td class="mortgage_calculator_table--bank"><img src="<?=$r['img'];?>" alt="<?=$r['name'];?>" style="max-width:200px;"></td>
+				<td class="mortgage_calculator_table--stavka"> от <?=$r['rate'];?>%</td>
+				<td class="mortgage_calculator_table--vznos" id="<?=$k;?>" ><?=$r['first_perc']?>% / <?=$r['first'];?> руб.</td>
+				<td class="mortgage_calculator_table--srok"> до <?=$r['year']?> лет</td>
+				<td class="mortgage_calculator_table--plat"><span class="reslut_<?=$k;?>"><?=$r['pay'];?></span> руб</td>
                 </tr>
-
-            <?php }?>
+			<?php } ?>
 
     </div>
 
@@ -130,3 +159,17 @@ $range_val_3 = 30;
 
     </div>
 </form>
+<script>
+$(document).ready(function(){
+	var min = '<?=number_format(min($month_payments), 0, false, ' ')?>';
+	$('.object_general_price--month span').text(min);
+});
+</script>
+<?
+function cmp($a, $b) {
+	if($a['pay'] == $b['pay']) {
+		return 0;
+	}
+	return ($a['pay'] > $b['pay']) ? 1 : -1;
+}
+?>

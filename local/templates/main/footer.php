@@ -3,39 +3,37 @@
 
 <div class="overlay">
 	<div class="overlay2"></div>
-  <div class="modal2">
-    <div id="popup-thank" class="popup popup-thank">
-      <div class="popup-in">
-        <img class="popup__close" src="/forms_ajax/close.png">
-        <p class="popup__title"> Спасибо </p>
-        <p class="popup__desc"> Мы свяжемся с вами в течение дня.</span>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="modal3">
-    <div id="popup-form" class="popup popup-form">
-      <div class="popup-in">
-        <div class="popup__close"></div>
-       
-          <h3>Заказать обратный звонок</h3>
-          <span class="podzag">Оставьте заявку в этой форме или позвоните нам по номеру 8 495 150 33 28 и мы решим ваш жилищный вопрос!</span>
-          <div class="wus_form2">
-          <?$APPLICATION->IncludeComponent(
-              "bitrix:form.result.new",
-              "",
-              Array(
-                  "WEB_FORM_ID" => "6",
-                  "SUCCESS_URL" => "/thanks/",
-              ),
+	<div class="modal2">
+		<div id="popup-thank" class="popup popup-thank">
+		<div class="popup-in">
+			<img class="popup__close" src="/forms_ajax/close.png">
+			<p class="popup__title"> Спасибо </p>
+			<p class="popup__desc"> Мы свяжемся с вами в течение дня.</span>
+			</p>
+		</div>
+		</div>
+	</div>
+	<div class="modal3">
+		<div id="popup-form" class="popup popup-form">
+		<div class="popup-in">
+			<div class="popup__close"></div>
+		
+			<h3>Заказать обратный звонок</h3>
+			<span class="podzag">Оставьте заявку в этой форме или позвоните нам по номеру 8 495 150 33 28 и мы решим ваш жилищный вопрос!</span>
+			<div class="wus_form2">
+			<?$APPLICATION->IncludeComponent(
+				"bitrix:form.result.new",
+				"",
+				Array(
+					"WEB_FORM_ID" => "6",
+					"SUCCESS_URL" => "/thanks/",
+				),
 
-          );?>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
+			);?>
+			</div>
+		</div>
+		</div>
+	</div>
 </div>
 <script src="/forms_ajax/common.js"></script>
 
@@ -60,6 +58,7 @@
   })
   $(".sidebar_btn .btn_yellow").click(function(e) {
     e.preventDefault();
+    console.log('dsdasd');
     $(".modal3").addClass('open');
     $(".popup-form").addClass('open');
     $(".overlay").addClass('open');

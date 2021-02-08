@@ -22,6 +22,22 @@
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
 }
+
+
+
+<!-- /*стили с select2.min.css*/  -->
+.select2-results__option {
+	padding: 16px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+span.select2-dropdown.select2-dropdown--above {
+	top: -1px;
+}
+span.select2-dropdown.select2-dropdown--below {
+	top: 1px;
+}
+<!-- -->
 @media (max-width:960px){
 	.grid2x1 .bx_sidebar{
 		padding-left: 4%;

@@ -21,10 +21,10 @@ $this->setFrameMode(true);
 <div class="main_inside_wrapper">
 				<div class="main_catalog_head">
 					<div class="container">
-                    
+
                     <?$APPLICATION->IncludeComponent(
-                        "bitrix:breadcrumb", 
-                        "main", 
+                        "bitrix:breadcrumb",
+                        "main",
                         array(
                             "START_FROM" => "0",
                             "PATH" => "",
@@ -34,7 +34,7 @@ $this->setFrameMode(true);
                         false
                     );?>
 
-                    
+
 <h1 class="title_page">Каталог недвижимости</h1>
 
 
@@ -78,7 +78,8 @@ if ($el = $res->Fetch())
                             </div>
 
 
-                   </div class="catalog_head d_flex a_items_center j_content_between f_wrap">
+
+                   <div class="catalog_head d_flex a_items_center j_content_between f_wrap">
 								<div class="catalog_items_tabs">
 									<ul class="d_flex f_wrap">
 										<li class="d_flex j_content_center a_items_center" data-item="1"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="4" transform="matrix(-1 0 0 1 16 0)" fill="#B4C7D9" fill-opacity="0.65"/><rect width="16" height="4" transform="matrix(-1 0 0 1 16 6)" fill="#B4C7D9" fill-opacity="0.65"/><rect width="16" height="4" transform="matrix(-1 0 0 1 16 12)" fill="#B4C7D9" fill-opacity="0.65"/></svg></li>
@@ -86,13 +87,20 @@ if ($el = $res->Fetch())
 										<li class="d_flex j_content_center a_items_center" data-item="3"><svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.25 0.15918L12.041 2.09814L6.55176 0.728515L0.375 2.46338V17.6421L1.24512 17.395L6.57324 15.8965L12.084 17.2769L18.25 15.3486V0.15918ZM16.875 2.02832V14.3389L12.75 15.6279V3.31738L16.875 2.02832ZM7.25 2.31836L11.375 3.34961V15.6816L7.25 14.6504V2.31836ZM5.875 2.34521V14.6665L1.75 15.8267V3.50537L5.875 2.34521Z" fill="#B4C7D9"/></svg></li>
 									</ul>
 								</div>
+
 								<div class="catalog_items_select d_flex a_items_center f_wrap">
 									<div class="catalog_items_select_txt">Сортировать по:</div>
-                                    <form class="catalog_items_select_field" method="get" onchange="this.submit()">
+                                    <form  method="get" onchange="this.submit()">
+                                        <div class="catalog_items_select_field">
                                         <select class="select_custom" name="sort">
-                                            <option value="date" <?=(!isset($_GET['sort']) || $_GET['sort'] =='date') ? 'selected':'';?> >Дате добавления</option>
-                                            <option value="price_value" <?=(isset($_GET['sort']) || $_GET['sort'] =='price_value') ? 'selected':'';?>>По цене</option>
+
+                                           <!-- <option value="date" <?/*=(!isset($_GET['sort']) && $_GET['sort'] =='date') ? 'selected':'';*/?> >Дате добавления</option>
+                                            <option value="price_value" <?/*=(isset($_GET['sort']) && $_GET['sort'] =='price_value') ? 'selected':'';*/?> >По цене</option>-->
+                                            <option value="date" <?=(!isset($_GET['sort']) && $_GET['sort'] =='date') ? 'selected':'';?> >Дате добавления</option>
+                                            <option value="price_value" <?=(isset($_GET['sort']) && $_GET['sort'] =='price_value') ? 'selected':'';?> >По цене</option>
+
                                         </select>
+                                        </div>
                                     </form>
 								</div>
 							</div>
@@ -101,14 +109,22 @@ if ($el = $res->Fetch())
 <?
 $intSectionID = 0;
 ?><?
-
+if($_GET['sort'] =='price_value'){
+    $sort = "PROPERTY_price_value";
+}
+elseif($_GET['sort'] =='date'){
+    $sort = "CREATE_DATE";
+}
+else{
+    $sort = $arParams["ELEMENT_SORT_FIELD"];
+}
 $intSectionID = $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
 	"",
 	array(
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-		"ELEMENT_SORT_FIELD" => ($_GET['sort']) ? $_GET['sort'] :  $arParams["ELEMENT_SORT_FIELD"],
+		"ELEMENT_SORT_FIELD" => $sort,
 		"ELEMENT_SORT_ORDER" => $arParams["ELEMENT_SORT_ORDER"],
 		"ELEMENT_SORT_FIELD2" => $arParams["ELEMENT_SORT_FIELD2"],
 		"ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
@@ -201,6 +217,7 @@ $intSectionID = $APPLICATION->IncludeComponent(
 	$component
 );?>
 </div>
+
 <?$APPLICATION->IncludeFile(
 $APPLICATION->GetTemplatePath("include_areas/bottom_form.php"),
 Array(),

@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/css/jquery-ui.css" media="all">
 		<link type="text/css" media="all" rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/css/OverlayScrollbars.min.css" />
 		<link type="text/css" media="all" rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/css/style.css" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 		<title><? $APPLICATION->ShowTitle() ?></title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<? $APPLICATION->ShowHead(); ?>
