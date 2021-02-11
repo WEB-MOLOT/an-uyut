@@ -119,7 +119,7 @@ foreach ($arResult['ITEMS'] as $key => $arItem)
 													<div class="item_head">
 														<div class="item_image"><a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>"><img src="<?=$arItem['PREVIEW_PICTURE']['SRC'];?>" alt=""/></a></div>
 														<span class="item_favorite"><svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.00062 13.1365L7.79562 12.9665C7.40687 12.6415 6.88062 12.289 6.27062 11.8815C3.89438 10.2902 0.640625 8.11273 0.640625 4.40023C0.640625 2.10648 2.50687 0.240234 4.80062 0.240234C6.04688 0.240234 7.21438 0.795234 8.00062 1.74398C8.78687 0.795234 9.95438 0.240234 11.2006 0.240234C13.4944 0.240234 15.3606 2.10648 15.3606 4.40023C15.3606 8.11273 12.1069 10.2902 9.73063 11.8815C9.12062 12.289 8.59438 12.6415 8.20563 12.9665L8.00062 13.1365Z" fill="#D9E3EC"/></svg></span>
-													</div> 
+													</div>
 													<a href="<? echo $arItem['DETAIL_PAGE_URL']; ?>" class="item_body">
 														<div class="item_meta d_flex a_items_center j_content_between f_wrap">
 															<div class="item_meta_price"><?=number_format($arItem['PROPERTIES']['price_value']['VALUE'], 0, '', ' ')?> ₽</div>
