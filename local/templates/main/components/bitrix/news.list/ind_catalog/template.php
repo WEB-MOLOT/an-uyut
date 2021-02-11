@@ -33,9 +33,12 @@ $this->setFrameMode(true);
 				<?}?>
 			</div>
 			<div class="item_info">
-				<? if($arItem['PROPERTIES']['rooms']['VALUE']) { ?>
-				<span class="item_info--appartment"><?=$arItem['PROPERTIES']['rooms']['VALUE']?>-комн. квартира</span>,
-				<? } ?>
+                <? if($arItem["NAME"]) { ?>
+                    <span class="item_info--appartment"><?=$arItem["NAME"]?></span>,
+                <? } ?>
+				<?/* if($arItem['PROPERTIES']['rooms']['VALUE']) { */?><!--
+				<span class="item_info--appartment"><?/*=$arItem['PROPERTIES']['rooms']['VALUE']*/?>-комн. квартира</span>,
+				--><?/* } */?>
 				<span class="item_info--appartment_info"><? if (!empty($arItem['PROPERTIES']['area_value']['VALUE'])){?>
 						<?=$arItem['PROPERTIES']['area_value']['VALUE']?> м<sup>²</sup>,
 					<?}?>
@@ -46,7 +49,7 @@ $this->setFrameMode(true);
 		</a>
 	</div>
 
-    
+
     
 <?endforeach;?>
 </div>

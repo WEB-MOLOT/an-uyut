@@ -70,7 +70,7 @@ set_time_limit(0);
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("iblock");
 $IBLOCK_ID = 31;
-$xml = parser('https://api.quick-deal.ru/v3/feed/organisationObjects/303?secret=iakUVegLtUWzKpqQ9JJ1QjghTeA&format=yandex');
+$xml = parser('https://api.quick-deal.ru/v3/feed/organisationObjects/303?secret=iakUVegLtUWzKpqQ9JJ1QjghTeA&format=yandex&withAddressCoordinates');
 
 $z = 0;
 $arSelect = array("ID", "NAME");
@@ -133,7 +133,7 @@ if (!empty($xml)) {
                     case 9: $room = 35;break;
                     case 10: $room = 36;break;
                     case 11: $room = 37;break;
-                    endswitch;
+                endswitch;
                 $PROP[$k] = array("VALUE" => $room );
             }
             else if ($k == 'floors-total'){
@@ -165,20 +165,20 @@ if (!empty($xml)) {
                 case 31: $room = 5;break;
                 case 32: $room = 6;break;
                 case 33: $room = 7;break;
-                case 34: $room = 8;break; 
+                case 34: $room = 8;break;
                 case 35: $room = 9;break;
                 case 36: $room = 10;break;
                 case 37: $room = 11;break;
             endswitch;
-            $name = $room ." "."комнатная";
+            $name = $room ." "."-"." "."комн.";
         }
         elseif (!empty($PROP['floors-total'])){
-            $name = $PROP["floors-total"]["VALUE"]." "."этажный";
+            $name = $PROP["floors-total"]["VALUE"]." "."-"." "."эт.";
         }
 
         if(!empty($PROP['sales_agent_photo'])) {
             $PROP['sales_agent_photo'] = CFile::MakeFileArray( $PROP['sales_agent_photo'] );
-}
+        }
 
         //Проверим доп поля
 
@@ -194,22 +194,22 @@ if (!empty($xml)) {
         }
 
         $diffirence = array_diff($fields,$iblock_fields);
-      if(!empty($diffirence)){
-          foreach($diffirence as $item){
-              $arFields = array(
-                  "NAME" => $item,
-                  "ACTIVE" => "Y",
-                  "SORT" => "100",
-                  "CODE" => $item,
-                  "PROPERTY_TYPE" => "S",
-                  "IBLOCK_ID" => $IBLOCK_ID
-              );
+        if(!empty($diffirence)){
+            foreach($diffirence as $item){
+                $arFields = array(
+                    "NAME" => $item,
+                    "ACTIVE" => "Y",
+                    "SORT" => "100",
+                    "CODE" => $item,
+                    "PROPERTY_TYPE" => "S",
+                    "IBLOCK_ID" => $IBLOCK_ID
+                );
 
-              $ibp = new CIBlockProperty;
-              $PropID = $ibp->Add($arFields);
+                $ibp = new CIBlockProperty;
+                $PropID = $ibp->Add($arFields);
 
-          }
-      }
+            }
+        }
         //Ищем раздел
         $arFilter = array('IBLOCK_ID' => '31', 'NAME' => $PROP['type']);
         $db_list = CIBlockSection::GetList(array(), $arFilter, true);
@@ -254,7 +254,7 @@ if (!empty($xml)) {
         $arFilter = array('IBLOCK_ID' => '31', 'SECTION_ID'=>$sectionId, 'NAME' => $PROP['category']);
         $db_list = CIBlockSection::GetList(array(), $arFilter, true);
         $ar_result = $db_list->GetNext();
-             if(!empty($PROP['category'])) {
+        if(!empty($PROP['category'])) {
             if (!$ar_result) {
                 $arParams = array("replace_space"=>"-","replace_other"=>"-");
 
@@ -264,7 +264,7 @@ if (!empty($xml)) {
                     "IBLOCK_ID" => 31,
                     "IBLOCK_SECTION_ID" => $sectionId,
                     "CODE"=>Cutil::translit(str_replace(' ','-',$PROP['category']),"ru",$arParams),
-                "NAME" => trim($PROP['category'])
+                    "NAME" => trim($PROP['category'])
                 );
                 $sectionId = $bs->Add($arFields);
 
@@ -303,8 +303,8 @@ if (!empty($xml)) {
         }
     }
 }
-    //else {
-    //echo 'CRM вернул пустой результат';
+//else {
+//echo 'CRM вернул пустой результат';
 //}
 
 
@@ -330,5 +330,3 @@ function parser($url)
 }
 
 ?>
-
-

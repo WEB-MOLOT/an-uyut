@@ -76,65 +76,102 @@ $APPLICATION->IncludeComponent(
 );
 
 
-$range_val_1 = (int)$_POST['total_sum'];
+$total_sum = (int)$_POST['total_sum'];
 
-$range_val_2 = (int)preg_replace('/\D/', '',$_POST['first_sum']);
-$range_val_3 = (int)preg_replace('/\D/', '',$_POST['years']);
-var_dump($_POST);
-if($range_val_2 > $range_val_1){
-    $range_val_2 = $range_val_1;
+$first_sum = (int)preg_replace('/\D/', '',$_POST['first_sum']);
+$years = (int)preg_replace('/\D/', '',$_POST['years']);
+// var_dump($_POST);
+if($first_sum > $total_sum){
+    $first_sum = $total_sum;
 }
-$first_pay_min = 1000000000;
-
-foreach($_SESSION['calculator'] as $item){
-    $first = $range_val_1 * $item['PROPERTIES']['FIRST_FEE']['VALUE'] /100;
-
-
-    if($first < $range_val_2){
-        $minimal = $range_val_2;
-    }else{
-        $minimal = $first;
-    }
-    $clear_sum = $range_val_1 - $minimal;
-
-    $B10  =$range_val_1 - $minimal;
-
-
-    $m10  =(float)str_replace(',','.',$item['PROPERTIES']['RATE']['VALUE']) /12;
-
-//$m10 = $m10;
-
-    if($range_val_3 > $item['PROPERTIES']['TERM']['VALUE']){
-        $year = $item['PROPERTIES']['TERM']['VALUE'];
-    }else{
-        $year = $range_val_3;
-    }
-
-    $l10 = $year *12;
-//B10*(M10/(1-(1+M10)^-(L10-0)))
-    $ab =-1*($l10 - 0);
-    $ads = 1+$m10;
-    $m10In = pow($ads,$ab);
-    $total  = $B10*($m10/(1-$m10In) );
-
-    $i = $m10/100;
-
-    $n = $year  * 12;
-    $K = ($i*pow((1+$i),$n)) / (pow((1+$i),$n) - 1);
-
-    $total = $K*$clear_sum;
+// $first_pay_min = 1000000000;
+$html = '';
+if($first_sum < $total_sum){
+	$row = array();
+	foreach($_SESSION['calculator'] as $item){
+		$monthly_rate = $item['PROPERTIES']['RATE']['VALUE'] / 12 / 100; // Месячная ставка
+		$whole_rate =  pow((1 + $monthly_rate), $years*12); // Общая ставка
+		
+		$first = $total_sum * ($item['PROPERTIES']['FIRST_FEE']['VALUE'] /100); // минимально возможный первоначальный взнос по тарифам банка
+		if($first < $first_sum){
+			$minimal = $first_sum;
+		}else{
+			$minimal = $first;
+		}
+		$credit_sum = $total_sum - $minimal; // Сумма кредита
+		
+		$monthly_payment = round($credit_sum * $monthly_rate * $whole_rate / ($whole_rate - 1)); // Месячный платеж
+// 		echo $monthly_payment."<br>";
+		
 
 
-    if($range_val_3 > $item['PROPERTIES']['TERM']['VALUE']){
-        $year = $item['PROPERTIES']['TERM']['VALUE'];
-        $total = 0;
-    }else{
-        $year = $range_val_3;
-    }
-//
-    $html .='<tr><td class="mortgage_calculator_table--bank"><img src="'.CFile::GetPath($item['PROPERTIES']['SVG_ICON']['VALUE']).'" alt="'.$item['NAME'].'" style="max-width:200px;"></td><td class="mortgage_calculator_table--stavka"> от '.$item['PROPERTIES']['FIRST_FEE']['VALUE'].'%</td><td class="mortgage_calculator_table--vznos" id="395">'.number_format($total, 0, false, ' ').' руб.</td><td class="mortgage_calculator_table--srok"> до '.$range_val_3.' лет</td><td class="mortgage_calculator_table--plat"><span class="reslut_395">'.number_format($total/$range_val_3*12, 0, false, ' ') .'</span> руб</td></tr>';
-    $row[$item['ID']] = array('pay'=>number_format($total, 0, false, ' '),'first'=>number_format($minimal , 0, false, ' '), 'year'=>$year);
+		/*if($first < $first_sum){
+			$minimal = $first_sum;
+		}else{
+			$minimal = $first;
+		}
+		$clear_sum = $total_sum - $minimal;
+
+		$B10 = $total_sum - $minimal;
+
+
+		$m10  =(float)str_replace(',','.',$item['PROPERTIES']['RATE']['VALUE']) /12;
+
+	//$m10 = $m10;
+
+		if($years > $item['PROPERTIES']['TERM']['VALUE']){
+			$year = $item['PROPERTIES']['TERM']['VALUE'];
+		}else{
+			$year = $years;
+		}
+
+		$l10 = $year *12;
+	//B10*(M10/(1-(1+M10)^-(L10-0)))
+		$ab =-1*($l10 - 0);
+		$ads = 1+$m10;
+		$m10In = pow($ads,$ab);
+		$total  = $B10*($m10/(1-$m10In) );
+
+		$i = $m10/100;
+
+		$n = $year  * 12;
+		$K = ($i*pow((1+$i),$n)) / (pow((1+$i),$n) - 1);
+
+		$total = $K*$clear_sum;
+
+
+		if($years > $item['PROPERTIES']['TERM']['VALUE']){
+			$year = $item['PROPERTIES']['TERM']['VALUE'];
+			$total = 0;
+		}else{
+			$year = $years;
+		}*/
+		$row[$item['ID']] = array(
+			'img' => CFile::GetPath($item['PROPERTIES']['SVG_ICON']['VALUE']),
+			'name' => $item['NAME'],
+			'rate' => $item['PROPERTIES']['RATE']['VALUE'],
+			'first_perc' => $item['PROPERTIES']['FIRST_FEE']['VALUE'],
+			'pay' => number_format($monthly_payment, 0, false, ' '),
+			'first' => number_format($minimal, 0, false, ' '),
+			'year' => $item['PROPERTIES']['TERM']['VALUE']
+		);
+	}
+	uasort($row, 'cmp');
+	foreach($row as $r) {
+		$html .='<tr>
+			<td class="mortgage_calculator_table--bank"><img src="'.$r['img'].'" alt="'.$r['name'].'" style="max-width:200px;"></td>
+			<td class="mortgage_calculator_table--stavka"> от '.$r['rate'].'%</td>
+			<td class="mortgage_calculator_table--vznos" id="395">'.$r['first_perc']."% / ".$r['first'].' руб.</td>
+			<td class="mortgage_calculator_table--srok"> до '.$r['year'].' лет</td>
+			<td class="mortgage_calculator_table--plat"><span class="reslut_395">'.$r['pay'].'</span> руб</td>
+		</tr>';
+	}
 }
-
+function cmp($a, $b) {
+	if($a['pay'] == $b['pay']) {
+		return 0;
+	}
+	return ($a['pay'] > $b['pay']) ? 1 : -1;
+}
 
 echo $html;

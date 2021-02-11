@@ -1,5 +1,23 @@
+Number.prototype.format = function(n, x, s, c) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+        num = this.toFixed(Math.max(0, ~~n));
+
+    return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+};
 $(document).ready(function() {
-	
+	function formatMoney(number, decPlaces, decSep, thouSep) {
+decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+decSep = typeof decSep === "undefined" ? "." : decSep;
+thouSep = typeof thouSep === "undefined" ? "," : thouSep;
+var sign = number < 0 ? "-" : "";
+var i = String(parseInt(number = Math.abs(Number(number) || 0).toFixed(decPlaces)));
+var j = (j = i.length) > 3 ? j % 3 : 0;
+
+return sign +
+	(j ? i.substr(0, j) + thouSep : "") +
+	i.substr(j).replace(/(\decSep{3})(?=\decSep)/g, "$1" + thouSep) +
+	(decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
+}
 	$('.tabs_changer ul li').on('click', function() {
 		if(!$(this).find('span')) {
 			var curDataItem = $(this).attr('data-item');
@@ -47,18 +65,31 @@ $(document).ready(function() {
 				values: [rangeMin, rangeStart],
 				range: true,
 				create: function() {
-					var curText = $(this).slider("values", 1) + ' ₽';
+					var meas = '';
+					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
+						meas = ' лет';
+					} else {
+						meas = ' ₽';
+					}
+					var v = parseInt($(this).slider("values", 1));
+					var curText = v.format(0, 3, " ", ",") + meas;
 					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
 				},
 				change: function() {
-					var curText = $(this).slider("values", 1) + ' ₽';
+					var meas = '';
+					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
+						meas = ' лет';
+					} else {
+						meas = ' ₽';
+					}
+					var v = parseInt($(this).slider("values", 1));
+					var curText = v.format(0, 3, " ", ",") + meas;
 					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
 
-
 					$.post( "/ajax.php", {
-						total_sum : parseInt($('#js__field_1').text()),
-						first_sum :parseInt($('#js__field_2').text()),
-						years :parseInt($('#js__field_3').text())
+						total_sum : parseInt($('#js__field_1').text().replace(/\s+/g, '').trim()),
+						first_sum :parseInt($('#js__field_2').text().replace(/\s+/g, '').trim()),
+						years :parseInt($('#js__field_3').text().replace(/\s+/g, '').trim())
 					}).done(function( response ) {
 				
 
@@ -66,11 +97,25 @@ $(document).ready(function() {
 					});
 				},
 				slide: function() {
-					var curText = $(this).slider("values", 1) + ' ₽';
+					var meas = '';
+					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
+						meas = ' лет';
+					} else {
+						meas = ' ₽';
+					}
+					var v = parseInt($(this).slider("values", 1));
+					var curText = v.format(0, 3, " ", ",") + meas;
 					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
 				},
 				stop: function() {
-					var curText = $(this).slider("values", 1) + ' ₽';
+					var meas = '';
+					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
+						meas = ' лет';
+					} else {
+						meas = ' ₽';
+					}
+					var v = parseInt($(this).slider("values", 1));
+					var curText = v.format(0, 3, " ", ",") + meas;
 					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
 				}
 			});
@@ -381,9 +426,16 @@ $(document).ready(function() {
 		$('.contacts_info_address').hide();
 		$(target).show();
 		console.log(target);
-		$('.contacts_info_button a').removeClass('btn_yellow').addClass('btn_yellow_transparent');
-		$(this).addClass('btn_yellow').removeClass('btn_yellow_transparent');
+		var cl = '';
+		if($(this).hasClass('btn_green_transparent') === true || $(this).hasClass('btn_green') === true) {
+			$('.contacts_info_button a').removeClass('btn_green').addClass('btn_green_transparent');
+			$(this).addClass('btn_green').removeClass('btn_green_transparent');
+		} else {
+			$('.contacts_info_button a').removeClass('btn_yellow').addClass('btn_yellow_transparent');
+			$(this).addClass('btn_yellow').removeClass('btn_yellow_transparent');
+		}
 		return false;
 	});
 	
+	$(".wus_field input[name='form_text_4'], .wus_field input[name='form_text_22'], .wus_field input[name='form_text_38'], .wus_field input[name='form_text_43'], .wus_field input[name='form_text_26'], .object_general_manager--form input[name='form_text_12']").mask("+7(999) 999-99-99");
 });

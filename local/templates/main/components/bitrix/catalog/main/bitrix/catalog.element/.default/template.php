@@ -83,16 +83,23 @@ $strAlt = (
 
 <h1 class="title_page">
     <?php
-
-    if($arResult['PROPERTIES']['location_country']['VALUE']){
+    if($arResult["NAME"]){
+        echo $arResult["NAME"];
+    }elseif($arResult["NAME"]){
+        echo $arResult["NAME"];
+    }else{
+        echo $arResult["NAME"];
+    }
+    /*if($arResult['PROPERTIES']['location_country']['VALUE']){
 echo $arResult['PROPERTIES']['location_country']['VALUE'];
     }elseif($arResult['PROPERTIES']['location_country']['VALUE']){
         echo $arResult['PROPERTIES']['location_country']['VALUE'];
     }else{
         echo $arResult['PROPERTIES']['location_country']['VALUE'];
-    }
+    }*/
     ?></h1>
-					<div class="object_desc_und_title"><?=$arResult['PROPERTIES']['location_district']['VALUE']?>, <?=$arResult['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arResult['PROPERTIES']['location_address']['VALUE']?></div>
+					<div class="object_desc_und_title">
+                        <?/*=$arResult['PROPERTIES']['location_district']['VALUE']*/?> <?=$arResult['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arResult['PROPERTIES']['location_address']['VALUE']?></div>
 					<div class="object_general">
 						<div class="object_cols d_flex j_content_between f_wrap">
 							<div class="object_col_left">
@@ -135,7 +142,7 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 											</div>
 											<?endforeach?>
 										</div>
-										<div class="object_general_slider_nav">
+										<div class="object_general_slider_nav"> 
 											<span class="work_examples_slider_nav--arr work_examples_slider_nav--arr_left d_flex j_content_center a_items_center">
 												<svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M0.929688 3.5L4.26562 6.96875L4.98437 6.28125L2.78906 3.99219L14 3.99219L14 2.99219L2.80859 2.99219L4.98438 0.718751L4.26563 0.0312504L0.929688 3.5Z" fill="#010101"/>
@@ -185,7 +192,7 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 										<span class="object_general_price--area"><?=number_format(ceil($arResult['PROPERTIES']['price_value']['VALUE']/$arResult['PROPERTIES']['area_value']['VALUE']), 0, '', ' ' )?> ₽ за м<sup>2</sup></span>
                                         <?}?>
                                         <? if(!empty($arResult['PROPERTIES']['price_value']['VALUE'])){?>
-										<span class="object_general_price--month"><?=number_format(ceil($arResult['PROPERTIES']['price_value']['VALUE']), 0, '', ' ' )?> ₽ в месяц</span>
+										<span class="object_general_price--month">от <span></span> ₽ в месяц</span>
                                         <?}?>
 									</div>
 									<div class="object_general_side--info">
@@ -199,13 +206,13 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 											</a>
 										</div>
 										<div class="object_general_side--button">
-											<a href="#" class="btn btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
+											<a href="#" class="btn btn-my-price btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
 												<em class="btn_txt">Предложить свою цену</em>
 												<em class="btn_icon"><svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.0703 3.5L9.73438 0.0312499L9.01563 0.71875L11.2109 3.00781L-1.3011e-07 3.00781L-1.73821e-07 4.00781L11.1914 4.00781L9.01563 6.28125L9.73438 6.96875L13.0703 3.5Z" fill="#39331E"/></svg></em>
 											</a>
 										</div>
 										<div class="object_general_side--button">
-											<a href="#" class="btn btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
+											<a href="#" class="btn btn-ipoteka btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
 												<em class="btn_txt">Рассчитать ипотеку</em>
 												<em class="btn_icon"><svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.0703 3.5L9.73438 0.0312499L9.01563 0.71875L11.2109 3.00781L-1.3011e-07 3.00781L-1.73821e-07 4.00781L11.1914 4.00781L9.01563 6.28125L9.73438 6.96875L13.0703 3.5Z" fill="#39331E"/></svg></em>
 											</a>
@@ -237,27 +244,26 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 									<div class="object_general_manager--form">
 										<div class="object_general_manager--form_title">Или оставьте ваш номер, и я вам перезвоню:</div>
                                         <?$APPLICATION->IncludeComponent("bitrix:form.result.new",
-                                            "",
-                                            Array(
-                                                "WEB_FORM_ID" => "4",
-                                                "IGNORE_CUSTOM_TEMPLATE" => "N",
-                                                "USE_EXTENDED_ERRORS" => "N",
-                                                "SEF_MODE" => "N",
-                                                "CACHE_TYPE" => "A",
-                                                "CACHE_TIME" => "3600",
-                                                "LIST_URL" => "",
-                                                "EDIT_URL" => "",
-                                                "SUCCESS_URL" => "",
-                                                "SUCCESS" => "",
-                                                "CHAIN_ITEM_TEXT" => "",
-                                                "CHAIN_ITEM_LINK" => "",
-                                                "VARIABLE_ALIASES" => Array(
-                                                    "WEB_FORM_ID" => "WEB_FORM_ID",
-                                                    "RESULT_ID" => "RESULT_ID"
-                                                )
-                                            ),
-
-);?>
+											"",
+											Array(
+												"WEB_FORM_ID" => "4",
+												"IGNORE_CUSTOM_TEMPLATE" => "N",
+												"USE_EXTENDED_ERRORS" => "N",
+												"SEF_MODE" => "N",
+												"CACHE_TYPE" => "A",
+												"CACHE_TIME" => "3600",
+												"LIST_URL" => "",
+												"EDIT_URL" => "",
+												"SUCCESS_URL" => "",
+												"SUCCESS" => "",
+												"CHAIN_ITEM_TEXT" => "",
+												"CHAIN_ITEM_LINK" => "",
+												"VARIABLE_ALIASES" => Array(
+													"WEB_FORM_ID" => "WEB_FORM_ID",
+													"RESULT_ID" => "RESULT_ID"
+												)
+											),
+										);?>
 									</div>
 								</div>
 
@@ -307,36 +313,34 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 									<div class="col col-2">
 										<div class="item">
 											<? $arProperty = $arResult["DISPLAY_PROPERTIES"]; ?>
-
                                                 <? $arPos = explode(",", $arProperty['map']['VALUE']);?>
-                                                <div class="yandexmapa">
-                                                    <?$APPLICATION->IncludeComponent(
+                                                <div class="yandexmapa" id="yandexmapa">
+                                                    <?/*$APPLICATION->IncludeComponent(
                                                     "bitrix:map.yandex.view",
                                                     "",
                                                     Array(
-                                                    "INIT_MAP_TYPE" => "MAP",
-                                                    "MAP_DATA" => serialize(array(
-                                                    'yandex_lat' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
-                                                    'yandex_lon' =>  $arResult['PROPERTIES']['location_longitude']['VALUE'],
-                                                    'yandex_scale' => $arProperty["map_zoom"]["VALUE"],
-                                                    'PLACEMARKS' => array (
-                                                    array(
-                                                    'TEXT' => $arProperty["map_caption"]["VALUE"]{"TEXT"},
-                                                    'LON' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
-                                                    'LAT' => $arResult['PROPERTIES']['location_longitude']['VALUE'],
-                                                    ),
-                                                    ),
-                                                    )),
-                                                    "MAP_WIDTH" => "100%",
-                                                    "MAP_HEIGHT" => '',
-                                                    "CONTROLS" => array("ZOOM", "MINIMAP", "TYPECONTROL", "SCALELINE"),
-                                                    "OPTIONS" => array("DESABLE_SCROLL_ZOOM", "ENABLE_DBLCLICK_ZOOM", "ENABLE_DRAGGING"),
-                                                    "MAP_ID" => ""
+														"INIT_MAP_TYPE" => "MAP",
+														"MAP_DATA" => serialize(array(
+															'yandex_lat' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
+															'yandex_lon' =>  $arResult['PROPERTIES']['location_longitude']['VALUE'],
+															'yandex_scale' => $arProperty["map_zoom"]["VALUE"],
+															'PLACEMARKS' => array (
+																array(
+																	'TEXT' => $arProperty["map_caption"]["VALUE"]{"TEXT"},
+																	'LON' => $arResult['PROPERTIES']['location_latitude']['VALUE'],
+																	'LAT' => $arResult['PROPERTIES']['location_longitude']['VALUE'],
+																),
+															),
+														)),
+														"MAP_WIDTH" => "100%",
+														"MAP_HEIGHT" => '',
+														"CONTROLS" => array("ZOOM", "MINIMAP", "TYPECONTROL", "SCALELINE"),
+														"OPTIONS" => array("DESABLE_SCROLL_ZOOM", "ENABLE_DBLCLICK_ZOOM", "ENABLE_DRAGGING"),
+														"MAP_ID" => ""
                                                     ),
                                                     false
-                                                    );?>
+                                                    );*/?>
                                                 </div>
-
 										</div>
 									</div>
 								</div>
@@ -477,7 +481,41 @@ $arProps = $ob->GetProperties();
     )
 );?>
 
+<script src="http://demos.flesler.com/jquery/scrollTo/js/jquery.scrollTo-min.js"></script>
+<script>
+ymaps.ready(init);
 
+function init () {
+	var myMap = new ymaps.Map("yandexmapa", {
+		center: [<?=$arResult['PROPERTIES']['location_latitude']['VALUE']?>, <?=$arResult['PROPERTIES']['location_longitude']['VALUE']?>],
+		zoom: 14
+	}),
+	myPlacemark = new ymaps.Placemark([<?=$arResult['PROPERTIES']['location_latitude']['VALUE']?>, <?=$arResult['PROPERTIES']['location_longitude']['VALUE']?>], {
+		balloonContentHeader: "<?=$arResult["NAME"]?>",
+		balloonContentBody: '<img src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" height="60" width="90" style="float: left; padding-right: 5px;">'+
+		'<?=$arResult['PROPERTIES']['area_value']['VALUE']?> / <?=$arResult['PROPERTIES']['living_space_value']['VALUE']?> / <?=$arResult['PROPERTIES']['kitchen_space_value']['VALUE']?> м<sup>2</sup>,<br> <?=$arResult['PROPERTIES']['floor']['VALUE']?> / <?=$arResult['PROPERTIES']['floors_total']['VALUE']?> эт.' +
+		'<br><b><?=number_format($arResult['PROPERTIES']['price_value']['VALUE'], 0, '', ' ' )?> ₽</b>' +
+		'<div style="clear:both"></div>',
+		hintContent: "<?=$arResult["NAME"]?>"
+	});
+	
+	myMap.controls
+		.add('zoomControl', { left: 5, top: 5 })
+		.add('mapTools', { left: 35, top: 5 });
+
+	myMap.geoObjects.add(myPlacemark);
+
+	myMap.hint.show(myMap.getCenter(), "Содержимое хинта", {
+		showTimeout: 1500
+	});
+// 	myMap.setBounds(myMap.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:9});
+}
+$('.object_general_side--button a.btn-ipoteka').on('click', function() {
+// console.log($('.wrapper > .main'));
+$('.wrapper .os-viewport').scrollTo($('.mortgage_calculator') , 800);
+	return false;
+});
+</script>
 
 
 

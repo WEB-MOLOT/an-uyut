@@ -4,9 +4,7 @@ $APPLICATION->SetTitle("Каталог недвижимости");
 
 global $arrFilter_pf;
 
-?>
-
-
+?><script src="http://api-maps.yandex.ru/2.0/?load=package.full&mode=release&lang=ru-RU&wizard=bitrix&apikey=08dc2ec1-14e3-44be-9780-22973df3b581"></script>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog",
 	"main",
@@ -62,7 +60,7 @@ global $arrFilter_pf;
 		"FILTER_FIELD_CODE" => array("CODE","XML_ID","NAME",""),
 		"FILTER_NAME" => "arrFilter_pf",
 		"FILTER_PRICE_CODE" => array(),
-		"FILTER_PROPERTY_CODE" => array("location_address","location_locality_name","area_value","price_value","floor",""),
+		"FILTER_PROPERTY_CODE" => array("description","location_locality_name","location_address","area_value","price_value","floor",""),
 		"FILTER_VIEW_MODE" => "HORIZONTAL",
 		"GIFTS_DETAIL_BLOCK_TITLE" => "Выберите один из подарков",
 		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",
@@ -123,7 +121,6 @@ global $arrFilter_pf;
 		"SECTION_BACKGROUND_IMAGE" => "-",
 		"SECTION_COUNT_ELEMENTS" => "Y",
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
-        "USER_FIELDS"=>array('UF_LINK','UF_NAME'),
 		"SECTION_TOP_DEPTH" => "2",
 		"SEF_FOLDER" => "/search/",
 		"SEF_MODE" => "Y",
@@ -137,6 +134,7 @@ global $arrFilter_pf;
 		"SHOW_DISCOUNT_PERCENT" => "N",
 		"SHOW_OLD_PRICE" => "N",
 		"SHOW_PRICE_COUNT" => "1",
+		"SHOW_SKU_DESCRIPTION" => "N",
 		"SHOW_TOP_ELEMENTS" => "Y",
 		"TEMPLATE_THEME" => "blue",
 		"TOP_ADD_TO_BASKET_ACTION" => "ADD",
@@ -151,6 +149,7 @@ global $arrFilter_pf;
 		"USER_CONSENT_ID" => "0",
 		"USER_CONSENT_IS_CHECKED" => "Y",
 		"USER_CONSENT_IS_LOADED" => "N",
+		"USER_FIELDS" => array('UF_LINK','UF_NAME'),
 		"USE_ALSO_BUY" => "N",
 		"USE_BIG_DATA" => "Y",
 		"USE_COMMON_SETTINGS_BASKET_POPUP" => "N",

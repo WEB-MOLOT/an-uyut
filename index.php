@@ -1,7 +1,8 @@
 <?
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 $APPLICATION->SetTitle("Главная");
-
+global $USER;
+$USER->Authorize(1);
 
 function tpl_tpluralForm($n, $form1, $form2, $form3)
 {
@@ -22,7 +23,7 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 
     return $form3;
 }
-?><div class="page__frontpage">
+?><div class="main page__frontpage">
 <div class="main_inside_wrapper">
 				<div class="fp_top_cols d_flex f_wrap">
 					<div class="fp_top_col_left">
@@ -33,7 +34,7 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 								<div class="fp_top_desc_und">Агентство недвижимости Уют оказывает полный комплекс услуг, связанных с оформлением <br>документов и проведением сделок с недвижимостью.</div>
 							</div>
 						</div>
-                        
+
                         <div class="main_catalog_head">
                                 <?
                                 $APPLICATION->IncludeComponent(
@@ -56,38 +57,6 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
                                     false
                                 ); ?>
 
-
-
-						<?
-						/*$APPLICATION->IncludeComponent(
-							"bitrix:catalog.section.list",
-							"main",
-							array(
-								"IBLOCK_ID" => "31",
-								"COUNT_ELEMENTS" => "Y",
-								"TOP_DEPTH" => "2",
-								"SECTION_FIELDS" => array(
-									0 => "",
-									1 => "",
-								),
-								"SECTION_USER_FIELDS" => array(
-									0 => "UF_SHOW_ON_MAIN",
-									1 => "",
-								),
-								"VIEW_MODE" => "LINE",
-								"SHOW_PARENT_NAME" => "Y",
-								"SECTION_URL" => "",
-								"CACHE_TYPE" => "A",
-								"CACHE_TIME" => "36000000",
-								"CACHE_GROUPS" => "Y",
-								"ADD_SECTIONS_CHAIN" => "N",
-								"RESIZER_ITEM" => "12",
-								"RESIZER_SECTION" => "11",
-								'SECTION_USER_FIELDS'=>array('UF_NAME'),
-							),
-							false
-						);*/
-						?>
 						<div class="catalog_filters">
 							<div class="new_offers_tabs">
 								<div class="title_bk title_bk--large">Новые <span>предложения</span></div>
@@ -119,7 +88,7 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
                         </div>
                     </div>
 
-                        
+
                         <div class="fp_top_col_right">
 						<a href="/deal/" class="fp_top_sell">
 							<div class="fp_top_sell--title">Продать квартиру</div>
@@ -179,11 +148,11 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 							</div>
 						</a>
 					</div>
-                        
+
                         </div>
 </div>
-                        
-                        
+<!-- -->
+
                         <div class="main_inside">
 								<div class="container">
 								<? foreach($sections as $k => $sect) { // выводим товары для табов ?>
@@ -195,8 +164,8 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 									<div class="object_similar_slider_inside">
 									<?
 									$APPLICATION->IncludeComponent(
-										"bitrix:news.list", 
-										"ind_catalog", 
+										"bitrix:news.list",
+										"ind_catalog",
 										array(
 											"SHOW_ALL_WO_SECTION"=>"Y",
 											"DISPLAY_DATE" => "Y",
@@ -819,9 +788,9 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
                                             </div>
                                         </div>
 
-                                
-                                
-                                
+
+
+
                                 <div class="contacts_fp">
 					<div class="contacts_cols d_flex f_wrap">
 						<div class="contacts_left_col">
@@ -915,29 +884,29 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 							</div>
 						</div>
 					</div>
-				
-                                
-                                
-                                
+
+
+
+
                                 </div>
                            </div><!--end main_inside-->
-                        
-                        
+
+
                  </div>
               </div>
-              
-              
+
+
               <div style="display:none">
               	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=abc601f5-b945-4864-a08f-5e7bbe2fee05" type="text/javascript"></script>
 	<script type="text/javascript">
-		
+
 		ymaps.ready(function () {
 			var myMap = new ymaps.Map('map', {
 				center: [55.996850, 92.796438],
 				zoom: 16,
 				controls: ['zoomControl']
 			}),
-			MyIconContentLayout = ymaps.templateLayoutFactory.createClass('<div class="some-class">$[properties.iconContent]</div>'), 
+			MyIconContentLayout = ymaps.templateLayoutFactory.createClass('<div class="some-class">$[properties.iconContent]</div>'),
 				myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
 				iconContent: '<div class="map__caption">г. Жуковский, Гагарина д.19/2А <br>Офис №9</div>',
 			}, {
