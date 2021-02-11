@@ -1,7 +1,7 @@
 ﻿<div class="want_use_services">
 						<div class="wus_inside">
 							<div class="wus_title"><span>Хотите воспользоваться</span> нашими услугами?</div>
-							<div class="wus_desc">Оставьте заявку в этой форме или позвоните нам по номеру <span>8 495 150 33 28</span> и мы решим ваш жилищный вопрос!</div>
+							
 							<div class="wus_form">
 
                                 <?$APPLICATION->IncludeComponent(
@@ -13,8 +13,9 @@
                                         "SHOW_LIST_PAGE" => "N",
                                         "SHOW_EDIT_PAGE" => "N",
                                         "SHOW_VIEW_PAGE" => "N",
-                                        "SUCCESS_URL" => "/thanks/",
+                                        "SUCCESS_URL" => "",
                                         "SHOW_ANSWER_VALUE" => "Y",
+                                        "USE_EXTENDED_ERRORS" => "Y",
 										"AJAX_MODE" => "Y"
                                     ),
 
@@ -66,3 +67,5 @@
 							</div>
 						</div>
 					</div>-->
+	</div>
+</div>

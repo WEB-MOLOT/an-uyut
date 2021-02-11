@@ -142,7 +142,7 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 											</div>
 											<?endforeach?>
 										</div>
-										<div class="object_general_slider_nav">
+										<div class="object_general_slider_nav"> 
 											<span class="work_examples_slider_nav--arr work_examples_slider_nav--arr_left d_flex j_content_center a_items_center">
 												<svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M0.929688 3.5L4.26562 6.96875L4.98437 6.28125L2.78906 3.99219L14 3.99219L14 2.99219L2.80859 2.99219L4.98438 0.718751L4.26563 0.0312504L0.929688 3.5Z" fill="#010101"/>
@@ -206,13 +206,13 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 											</a>
 										</div>
 										<div class="object_general_side--button">
-											<a href="#" class="btn btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
+											<a href="#" class="btn btn-my-price btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
 												<em class="btn_txt">Предложить свою цену</em>
 												<em class="btn_icon"><svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.0703 3.5L9.73438 0.0312499L9.01563 0.71875L11.2109 3.00781L-1.3011e-07 3.00781L-1.73821e-07 4.00781L11.1914 4.00781L9.01563 6.28125L9.73438 6.96875L13.0703 3.5Z" fill="#39331E"/></svg></em>
 											</a>
 										</div>
 										<div class="object_general_side--button">
-											<a href="#" class="btn btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
+											<a href="#" class="btn btn-ipoteka btn_green_transparent btn--arrow btn--large d_flex a_items_center j_content_center">
 												<em class="btn_txt">Рассчитать ипотеку</em>
 												<em class="btn_icon"><svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.0703 3.5L9.73438 0.0312499L9.01563 0.71875L11.2109 3.00781L-1.3011e-07 3.00781L-1.73821e-07 4.00781L11.1914 4.00781L9.01563 6.28125L9.73438 6.96875L13.0703 3.5Z" fill="#39331E"/></svg></em>
 											</a>
@@ -481,14 +481,14 @@ $arProps = $ob->GetProperties();
     )
 );?>
 
-
+<script src="http://demos.flesler.com/jquery/scrollTo/js/jquery.scrollTo-min.js"></script>
 <script>
 ymaps.ready(init);
 
 function init () {
 	var myMap = new ymaps.Map("yandexmapa", {
 		center: [<?=$arResult['PROPERTIES']['location_latitude']['VALUE']?>, <?=$arResult['PROPERTIES']['location_longitude']['VALUE']?>],
-		zoom: 8
+		zoom: 14
 	}),
 	myPlacemark = new ymaps.Placemark([<?=$arResult['PROPERTIES']['location_latitude']['VALUE']?>, <?=$arResult['PROPERTIES']['location_longitude']['VALUE']?>], {
 		balloonContentHeader: "<?=$arResult["NAME"]?>",
@@ -510,6 +510,11 @@ function init () {
 	});
 // 	myMap.setBounds(myMap.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:9});
 }
+$('.object_general_side--button a.btn-ipoteka').on('click', function() {
+// console.log($('.wrapper > .main'));
+$('.wrapper .os-viewport').scrollTo($('.mortgage_calculator') , 800);
+	return false;
+});
 </script>
 
 

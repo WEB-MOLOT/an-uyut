@@ -8,7 +8,7 @@ $Regex = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GE
 
 foreach($Regex as $name => $object){
 	$data = file_get_contents($name);
-	if(preg_match('/catalog_tabs tabs_changer/', $data))
+	if(preg_match('/item_favorite/', $data))
 		echo "$name", '<br>';
 }
 

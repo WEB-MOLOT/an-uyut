@@ -28,6 +28,9 @@ body {
     width: 100%;
     overflow-x: hidden;
 }
+body > iframe {
+	display: none;
+}
 a {
     color: #269944;
 }
@@ -78,6 +81,163 @@ body {
     position: relative;
     width: 100%;
     max-width: 1600px;
+}
+
+.popup-thank.open, .popup-form.open {
+    opacity: 1;
+    display: block;
+    width: 544px;
+        position: relative;
+    padding: 16px;
+    padding-bottom: 48px;
+}
+.overlay.open {position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100000;
+   
+    overflow-x: hidden;
+    overflow-y: auto;
+    
+    text-align: center;
+    opacity: 1;
+    display: block;
+}
+.overlay {
+    opacity: 0;
+    display: none;
+}
+.overlay2 {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100000;
+    background: #151c2dbf;
+    overflow-x: hidden;
+    overflow-y: auto;
+    
+    text-align: center;
+
+}
+#popup-form h3, .popup__title {
+
+font-family: 'Proxima Nova Bl';
+font-style: normal;
+font-weight: 800;
+font-size: 32px;
+line-height: 35px;
+/* identical to box height */
+text-transform: uppercase;
+
+color: #000000;
+
+}
+#popup-form .wus_form input, #popup-form .wus_form textarea {border: 1px solid #B4C7D9 !important;}
+#popup-form .agree_txt {color: #000;}
+#popup-form span.podzag, .popup__desc {
+
+font-family: 'Proxima Nova Rg';
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 29px;
+/* identical to box height, or 209% */
+
+color: #000000;
+
+}
+.popup-form.open {
+    background: #FFF;
+    padding: 50px 72px;
+    text-align: left;
+    width: 509px;
+    
+}
+.popup-thank.open {
+    background: #FFF;
+    padding: 50px 72px;
+    text-align: center;
+    width: 609px;
+}
+.popup__close:hover {cursor: pointer;}
+#popup-form .booking-form {padding: 0px;}
+.modal2, .modal3, .modal4, .modal5, .modal6 {display: none;}
+.modal3.open, .modal2.open, .modal4.open, .modal5.open, .modal6.open {
+    display: inline-block;
+    vertical-align: middle;
+    z-index: 10000000;position: relative;
+}
+.overlay:after {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 100%;
+    content: '';
+}
+
+
+.popup__close {float: right;position: absolute;right: 16px;top: 16px;}
+#form span {
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 24px;
+
+letter-spacing: 1px;
+
+
+color: #FFFFFF;}
+.popup__close {
+position: absolute;
+right: 10px;
+top: 10px;
+width: 32px;
+height: 32px;
+opacity: 0.3;
+}
+.popup__close:hover {
+opacity: 1;
+}
+.popup__close:before, .popup__close:after {
+position: absolute;
+left: 15px;
+content: ' ';
+height: 33px;
+width: 2px;
+background-color: #333;
+}
+.popup__close:hover:before, .popup__close:hover:after {background-color: #269944;}
+.popup__close:before {
+transform: rotate(45deg);
+}
+.popup__close:after {
+transform: rotate(-45deg);
+}
+.popup-form form input[type='checkbox'] {
+	appearance: auto;
+	height: auto;
+	width: auto;
+	cursor: pointer;
+}
+.popup-form form input[type='text'], .popup-form form textarea {
+	border: 1px solid #B4C7D9;
+}
+.popup-form .col-1 + .col-1 {
+	margin-top: 10px;
+}
+.popup-form .wus_form_submit {
+	text-align: center;
+	margin: 7px 0;
+}
+.want_use_services .wus_field {
+	color: white;
+}
+.wus_field label {
+	cursor: pointer;
 }
 
 h1.title_page {
@@ -979,9 +1139,13 @@ h1.title_page {
 }
 .service_control {
     margin-bottom: 46px;
+	margin-top: 80px;
 }
 .service_control .title_bk {
     margin-bottom: 25px;
+}
+.want_use_services .partners {
+	margin-top: 80px;
 }
 .service_control .sc_desc {
     font-family: 'Proxima Nova Lt';
@@ -3364,11 +3528,12 @@ h1.title_page {
     text-transform: uppercase;
 }
 .contacts_info_address {
-    oclor: #000;
+    color: #000;
     font-size: 19px;
     line-height: 1.4;
     max-width: 500px;
-    margin-bottom: 30px
+    margin-bottom: 30px;
+	display: none;
 }
 .contacts_info_address > * {
     margin-bottom: 12px;
@@ -4809,14 +4974,6 @@ h1.title_page {
 .cols:after, .row:after, .clearfix::after{display:table;clear:both;content:""}
 
 
-.overlay {
-	position: fixed;
-	display: none;
-}
-.overlay .open {
-	display: block;
-}
-
 /* ERRORS STYLES and CONTACT FORM 7 STYLES */
 
 .slick-slider:focus,
@@ -4868,6 +5025,30 @@ form *:focus {
     }
 }
 @media screen and (max-width:1600px) {
+	.popup-form.open {
+		background: #FFF;
+		padding: 50px;
+		text-align: left;
+		width: 1024px;
+	}
+	#popup-form h3, .popup__title {
+		font-family: 'Proxima Nova Bl';
+		font-style: normal;
+		font-weight: 800;
+		font-size: 35px;
+		line-height: 55px;
+		text-transform: uppercase;
+		color: #000000;
+	}
+	#popup-form span.podzag, .popup__desc {
+		font-family: 'Proxima Nova Rg';
+
+		font-weight: bold;
+		font-size: 18px;
+		line-height: 18px;
+		color: #000000;
+	}
+	#form1 {margin-top: 30px;}
     .container {
         padding: 0 20px !important;
         max-width: 1200px;
@@ -6145,6 +6326,29 @@ form *:focus {
     }
 }
 @media screen and (max-width:1024px) {
+	.popup-form.open {
+		background: #FFF;
+		padding: 50px;
+		text-align: left;
+		width: 768px;
+	}
+	#popup-form h3, .popup__title {
+		font-family: 'Proxima Nova Bl';
+		font-style: normal;
+		font-weight: 800;
+		font-size: 35px;
+		line-height: 55px;
+		text-transform: uppercase;
+		color: #000000;
+	}
+	#popup-form span.podzag, .popup__desc {
+		font-family: 'Proxima Nova Rg';
+
+		font-weight: bold;
+		font-size: 18px;
+		line-height: 18px;
+		color: #000000;
+	}
     .sidebar_btn_wrapper {
         opacity: 1;
         visibility: visible;
@@ -6288,6 +6492,27 @@ form *:focus {
     }
 }
 @media screen and (max-width:768px) {
+	.popup-form.open, .popup-thank.open {
+		padding: 30px;
+		width: 500px;
+	}
+	#popup-form h3, .popup__title {
+		font-family: 'Proxima Nova Bl';
+		font-style: normal;
+		font-weight: 800;
+		font-size: 35px;
+		line-height: 40px;
+		text-transform: uppercase;
+		color: #000000;
+	}
+	#popup-form span.podzag, .popup__desc {
+		font-family: 'Proxima Nova Rg';
+
+		font-weight: bold;
+		font-size: 18px;
+		line-height: 18px;
+		color: #000000;
+	}
     .wus_desc {
         line-height: 1.5;
         margin-bottom: 30px;
@@ -6569,7 +6794,23 @@ form *:focus {
     }
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width:540px) {
+	.popup-form.open, .popup-thank.open {
+		padding: 20px;
+		width: 300px;
+	}
+	#popup-form h3, .popup__title {
+		
+		font-size: 25px;
+		line-height: 30px;
+
+	}
+	#popup-form span.podzag, .popup__desc {
+		
+		font-size: 16px;
+		line-height: 18px;
+
+	}
     .row_documents .col {
         width: 100%;
     }

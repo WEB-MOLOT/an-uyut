@@ -135,7 +135,12 @@ $APPLICATION->SetTitle("Ипотека");
 							</div>
 						</div>
 					</div>
-					<div class="want_use_services">
+					<?$APPLICATION->IncludeFile(
+					$APPLICATION->GetTemplatePath("include_areas/bottom_form.php"),
+					Array(),
+					Array("MODE"=>"html")
+					);?>
+					<!--<div class="want_use_services">
 						<div class="wus_inside">
 							<div class="wus_title">Отправьте заявку на <span>расчет ипотеки</span></div>
 							<div class="wus_desc">Заполните форму и мы свяжемся с вами что бы ответить на все ваши вопросы.</div>
@@ -177,6 +182,6 @@ $APPLICATION->SetTitle("Ипотека");
 								</form>
 							</div>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

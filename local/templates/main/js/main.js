@@ -426,10 +426,16 @@ return sign +
 		$('.contacts_info_address').hide();
 		$(target).show();
 		console.log(target);
-		$('.contacts_info_button a').removeClass('btn_yellow').addClass('btn_yellow_transparent');
-		$(this).addClass('btn_yellow').removeClass('btn_yellow_transparent');
+		var cl = '';
+		if($(this).hasClass('btn_green_transparent') === true || $(this).hasClass('btn_green') === true) {
+			$('.contacts_info_button a').removeClass('btn_green').addClass('btn_green_transparent');
+			$(this).addClass('btn_green').removeClass('btn_green_transparent');
+		} else {
+			$('.contacts_info_button a').removeClass('btn_yellow').addClass('btn_yellow_transparent');
+			$(this).addClass('btn_yellow').removeClass('btn_yellow_transparent');
+		}
 		return false;
 	});
 	
-	
+	$(".wus_field input[name='form_text_4'], .wus_field input[name='form_text_22'], .wus_field input[name='form_text_38'], .wus_field input[name='form_text_43'], .wus_field input[name='form_text_26'], .object_general_manager--form input[name='form_text_12']").mask("+7(999) 999-99-99");
 });

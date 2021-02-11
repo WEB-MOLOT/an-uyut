@@ -57,7 +57,7 @@ $this->setFrameMode(true);
                                 'SECTION_USER_FIELDS'=>array('UF_LINK','UF_NAME'),
                             ),
                             false
-                        ); ?>
+                        ); ?>  
 
 </div>
 </div>

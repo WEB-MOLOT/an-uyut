@@ -230,8 +230,8 @@ $arProps = $ob->GetProperties();
                         </div>
                   </div>
                 <?}?>
-                
-                
+
+
                 
                 <?$APPLICATION->IncludeFile(
 $APPLICATION->GetTemplatePath("include_areas/bottom_form.php"),

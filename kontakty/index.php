@@ -48,27 +48,27 @@ $APPLICATION->SetTitle("Контакты");
 									<div class="contacts_info_buttons_title">Как добраться:</div>
 									<div class="contacts_info_buttons">
 										<div class="contacts_info_button active" data-item="1">
-											<a href="#" class="btn btn_green btn--bold d_flex a_items_center j_content_center"><span>на автомобиле</span></a>
+											<a href="#contacts_info_address-car" class="btn btn_green btn--bold d_flex a_items_center j_content_center"><span>на автомобиле</span></a>
 										</div>
 										<div class="contacts_info_button" data-item="2">
-											<a href="#" class="btn btn_green_transparent btn--bold d_flex a_items_center j_content_center"><span>на общественном транспорте</span></a>
+											<a href="#contacts_info_address-ob" class="btn btn_green_transparent btn--bold d_flex a_items_center j_content_center"><span>на общественном транспорте</span></a>
 										</div>
 										<div class="contacts_info_button" data-item="3">
-											<a href="#" class="btn btn_green_transparent btn--bold d_flex a_items_center j_content_center"><span>на такси</span></a>
+											<a href="#contacts_info_address-tx" class="btn btn_green_transparent btn--bold d_flex a_items_center j_content_center"><span>на такси</span></a>
 										</div>
 									</div>
 								</div>
 								<div class="contacts_info_address_wrapper">
-									<div class="contacts_info_address active" data-item="1">
-										<p>По адресу: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
+									<div class="contacts_info_address active" id="contacts_info_address-car" style="display: block;">
+										<p>По адресу1: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
 										<p>Координаты gps: 55.604381, 38.102618</p>
 									</div>
-									<div class="contacts_info_address" data-item="2">
-										<p>По адресу: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
+									<div class="contacts_info_address" id="contacts_info_address-ob">
+										<p>По адресу2: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
 										<p>Координаты gps: 55.604381, 38.102618</p>
 									</div>
-									<div class="contacts_info_address" data-item="3">
-										<p>По адресу: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
+									<div class="contacts_info_address" id="contacts_info_address-tx">
+										<p>По адресу3: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
 										<p>Координаты gps: 55.604381, 38.102618</p>
 									</div>
 								</div>

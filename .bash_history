@@ -34,3 +34,7 @@ git add .
 git coomit -m "update parser2"
 git commit -m "update parser2"
 git push
+git status
+git add .
+git commit -m "commit pull"
+git status
