@@ -91,3 +91,6 @@ bower_components
 
 # и логи xhprof напоследок
 /xhprof/logs
+
+#исключаем htaccess, так как у всех настройки сервера могут быть свои
+.htaccess
