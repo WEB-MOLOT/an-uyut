@@ -16,14 +16,6 @@ $arUrlRewrite=array (
     'PATH' => '/bitrix/services/ymarket/index.php',
     'SORT' => 100,
   ),
-  7 => 
-  array (
-    'CONDITION' => '#^/catalog/([^/]+?)/\\??(.*)#',
-    'RULE' => 'SECTION_CODE=$1&$2',
-    'ID' => 'main:catalog.section',
-    'PATH' => '/personal/wishlist/index.php',
-    'SORT' => 100,
-  ),
   5 => 
   array (
     'CONDITION' => '#^/filter/(.*)#',
@@ -46,6 +38,14 @@ $arUrlRewrite=array (
     'RULE' => '',
     'ID' => 'bitrix:catalog',
     'PATH' => '/search/index.php',
+    'SORT' => 100,
+  ),
+  7 => 
+  array (
+    'CONDITION' => '#^\\??(.*)#',
+    'RULE' => '&$1',
+    'ID' => 'bitrix:catalog.section',
+    'PATH' => '/personal/wishlist/index.php',
     'SORT' => 100,
   ),
   1 => 

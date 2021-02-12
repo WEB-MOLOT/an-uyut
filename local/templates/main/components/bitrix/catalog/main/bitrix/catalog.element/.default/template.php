@@ -218,14 +218,56 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 											</a>
 										</div>
 									</div>
-									<span class="object_general_side_favorite d_flex a_items_center j_content_center">
+									<span class="object_general_side_favorite d_flex a_items_center j_content_center" data-item="<?=$arResult["ID"]?>">
 										<svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M7 11L6.80503 10.855C6.43529 10.5778 5.93478 10.2771 5.35462 9.92953C3.0946 8.57226 0 6.71494 0 3.54832C0 1.59184 1.77497 0 3.95652 0C5.14181 0 6.25221 0.473393 7 1.28264C7.74779 0.473393 8.85819 0 10.0435 0C12.225 0 14 1.59184 14 3.54832C14 6.71494 10.9054 8.57226 8.64538 9.92953C8.06522 10.2771 7.56471 10.5778 7.19497 10.855L7 11Z" fill="#D9E3EC"/>
 										</svg>
 									</span>
 								</div>
-                                
-                                
+
+                                <script>
+                                    $(document).ready(function() {
+                                        /* Favorites */
+                                        $('span.object_general_side_favorite.d_flex.a_items_center.j_content_center').on('click', function(e) {
+                                            var favorID = $(this).attr('data-item');
+                                            if($(this).hasClass('active'))
+                                                var doAction = 'delete';
+                                            else
+                                                var doAction = 'add';
+
+                                            addFavorite(favorID, doAction);
+                                        });
+                                        /* Favorites */
+                                    });
+                                    /* Избранное */
+                                    function addFavorite(id, action)
+                                    {
+                                        var param = 'id='+id+"&action="+action;
+                                        $.ajax({
+                                            url:     '/ajax/favorites.php', // URL отправки запроса
+                                            type:     "GET",
+                                            dataType: "html",
+                                            data: param,
+                                            success: function(response) { // Если Данные отправлены успешно
+                                                var result = $.parseJSON(response);
+                                                if(result == 1){ // Если всё чётко, то выполняем действия, которые показывают, что данные отправлены :)
+                                                    $('.favor[data-item="'+id+'"]').addClass('active');
+                                                    var wishCount = parseInt($('#want .col').html()) + 1;
+                                                    $('#want .col').html(wishCount); // Визуально меняем количество у иконки
+                                                }
+                                                if(result == 2){
+                                                    $('.favor[data-item="'+id+'"]').removeClass('active');
+                                                    var wishCount = parseInt($('#want .col').html()) - 1;
+                                                    $('#want .col').html(wishCount); // Визуально меняем количество у иконки
+                                                }
+                                            },
+                                            error: function(jqXHR, textStatus, errorThrown){ // Если ошибка, то выкладываем печаль в консоль
+                                                console.log('Error: '+ errorThrown);
+                                            }
+                                        });
+                                    }
+                                    /* Избранное */
+                                </script>
                                 
                                 
                                 <? if(!empty($arResult['PROPERTIES']['sales_agent_name']['VALUE'])){?>
@@ -404,7 +446,7 @@ $arProps = $ob->GetProperties();
                              <?endwhile?>
                                     <?php }?>
                                     
-                                    
+
 								</div>
 							</div>
 							<div class="object_similar_nav">

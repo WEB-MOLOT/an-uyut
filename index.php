@@ -23,9 +23,36 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 
     return $form3;
 }
-?><div class="main page__frontpage">
+?>
+<style>
+
+    .menu {
+        position: absolute;
+        display: inline-block;
+        right: 33%;
+        top: 1%;
+        padding: 10px 60px;
+        background: #1f7022;
+        border-radius: 7px 7px 7px 7px;
+        z-index: 99999;
+
+        color: #fff;
+
+    }
+
+
+</style>
+    <div class="main page__frontpage">
 <div class="main_inside_wrapper">
+    <a href="/personal/wishlist/">
+    <div class="menu">Избранное</div>
+    <div class="text"></div>
+    </a>
 				<div class="fp_top_cols d_flex f_wrap">
+
+
+
+
 					<div class="fp_top_col_left">
 						<div class="fp_top" style="background-image: url(/local/templates/main/img/bg_fp_top.jpg)">
 							<div class="fp_top_inside">

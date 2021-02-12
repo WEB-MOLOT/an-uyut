@@ -30,7 +30,7 @@ $context = $application->getContext();
         if(count($favorites) > 0 && is_array($favorites)):
             $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section", 
-	"favorites", 
+	".default", 
 	array(
 		"ACTION_VARIABLE" => "action",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -50,7 +50,7 @@ $context = $application->getContext();
 		"CACHE_TYPE" => "A",
 		"COMPATIBLE_MODE" => "Y",
 		"CONVERT_CURRENCY" => "N",
-		"DETAIL_URL" => "/search/#SECTION_CODE#/#ELEMENT_CODE#/",
+		"DETAIL_URL" => "/catalog/#SECTION_CODE#/#ELEMENT_CODE#/",
 		"DISABLE_INIT_JS_IN_COMPONENT" => "N",
 		"DISPLAY_BOTTOM_PAGER" => "Y",
 		"DISPLAY_COMPARE" => "N",
@@ -104,12 +104,12 @@ $context = $application->getContext();
 		"SECTION_CODE" => "",
 		"SECTION_ID" => "",
 		"SECTION_ID_VARIABLE" => "SECTION_CODE",
-		"SECTION_URL" => "/search/#SECTION_CODE#",
+		"SECTION_URL" => "/catalog/#SECTION_CODE#",
 		"SECTION_USER_FIELDS" => array(
 			0 => "",
 			1 => "",
 		),
-		"SEF_MODE" => "Y",
+		"SEF_MODE" => "N",
 		"SET_BROWSER_TITLE" => "Y",
 		"SET_LAST_MODIFIED" => "N",
 		"SET_META_DESCRIPTION" => "Y",
@@ -129,7 +129,7 @@ $context = $application->getContext();
 		"USE_MAIN_ELEMENT_SECTION" => "N",
 		"USE_PRICE_COUNT" => "N",
 		"USE_PRODUCT_QUANTITY" => "N",
-		"COMPONENT_TEMPLATE" => "favorites",
+		"COMPONENT_TEMPLATE" => ".default",
 		"CUSTOM_FILTER" => "{\"CLASS_ID\":\"CondGroup\",\"DATA\":{\"All\":\"AND\",\"True\":\"True\"},\"CHILDREN\":[]}",
 		"PROPERTY_CODE_MOBILE" => array(
 		),
@@ -150,9 +150,7 @@ $context = $application->getContext();
 			0 => "",
 			1 => "",
 		),
-		"PRODUCT_DISPLAY_MODE" => "N",
-		"SEF_RULE" => "",
-		"SECTION_CODE_PATH" => ""
+		"PRODUCT_DISPLAY_MODE" => "N"
 	),
 	false
 );

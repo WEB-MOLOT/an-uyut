@@ -1650,3 +1650,7 @@ window.JCCatalogSection.prototype.InitPopupWindow = function()
 	});
 };
 })(window);
+
+
+
+

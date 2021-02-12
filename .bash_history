@@ -38,3 +38,41 @@ git status
 git add .
 git commit -m "commit pull"
 git status
+git checkout dev
+git add .
+git commit -m "news test"
+git push
+git pull
+git status
+ls
+git status
+git add .
+git commit -m"local Changes"
+git branch - v
+git branch -v
+git branch
+git status
+git add .
+git commit -m"local Changes"
+git status
+git push origin dev
+git push origin dev
+git fetch origin
+git log dev..origin/dev
+git push --help
+git push origin dev --force
+git status
+git push origin dev
+git fetch
+git branch
+git pull origin
+git pull origin dev
+git pull origin filter filter
+git status
+git diff ajax/ajax.php
+git diff index.php
+git checkout branch filter
+git checkout -b filter
+git pull origin filter
+git status
+git checkout dev
