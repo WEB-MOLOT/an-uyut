@@ -24,6 +24,46 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
     return $form3;
 }
 ?>
+<?
+
+use Bitrix\Main\Application;
+use Bitrix\Main\Web\Cookie;
+$application = Application::getInstance();
+$context = $application->getContext();
+/* Вывод количества избранного */
+if(!$USER->IsAuthorized()) // Для неавторизованного
+{
+    $arElements = unserialize($APPLICATION->get_cookie('favorites'));
+    if($arElements == '')
+        unset($arElements);
+
+    foreach($arElements as $k=>$fav) // Checking empty IDs
+    {
+        if($fav == '0')
+            unset($arElements[$k]);
+        unset($fav);
+    }
+    $wishCount = count($arElements);
+}
+else {
+    $idUser = $USER->GetID();
+    $rsUser = CUser::GetByID($idUser);
+    $arUser = $rsUser->Fetch();
+    foreach($arUser['UF_FAVORITES'] as $k=>$fav) // Checking empty IDs
+    {
+        if($fav == '0')
+        {
+            unset($arUser['UF_FAVORITES'][$k]);
+            unset($fav);
+        }
+    }
+    $wishCount = count($arUser['UF_FAVORITES']);
+
+
+}
+
+/* Вывод количества избранного */
+?>
 <style>
 
     .menu {
@@ -44,8 +84,8 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
 </style>
     <div class="main page__frontpage">
 <div class="main_inside_wrapper">
-    <a href="/personal/wishlist/">
-    <div class="menu">Избранное</div>
+    <a id='want' href="/personal/wishlist/">
+    <div class="menu">Избранное (<?=$wishCount?>)</div>
     <div class="text"></div>
     </a>
 				<div class="fp_top_cols d_flex f_wrap">

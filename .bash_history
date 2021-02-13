@@ -76,3 +76,9 @@ git checkout -b filter
 git pull origin filter
 git status
 git checkout dev
+git status
+git commit -m "favorites"
+git add .
+git commit -m "favorites"
+git status
+git push
