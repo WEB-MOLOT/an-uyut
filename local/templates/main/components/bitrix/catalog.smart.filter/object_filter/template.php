@@ -28,7 +28,8 @@ $this->setFrameMode(true);
         </div>
     </div>
     <?foreach($arResult["ITEMS"] as $key=>$arItem):?>
-    <?if(count($arItem["VALUES"])==0)continue?>
+    <?if(empty($arItem["VALUES"]))continue?>
+    <?if ($arItem["DISPLAY_TYPE"] == "A"&& ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0))continue;?>
     <div class="item">
         <div class="item-name"><?=$arItem["NAME"]?>:</div>
         <div class="item-field">
