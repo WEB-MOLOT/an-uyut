@@ -45,12 +45,15 @@ return sign +
 		});
 	});
 
-	const selectCustom = document.querySelector('.select_custom');
-	if(selectCustom != null) {
-		$('.select_custom').select2({
-		    minimumResultsForSearch: -1
-		});
+	function beautySelect() {
+		const selectCustom = document.querySelector('.select_custom');
+		if (selectCustom != null) {
+			$('.select_custom').select2({
+				minimumResultsForSearch: -1
+			});
+		}
 	}
+	beautySelect();
 
 	const montgagerage = document.querySelector('.mortgage_calculator_field');
 	if(montgagerage != null) {
@@ -458,6 +461,7 @@ return sign +
 			success:function(data){
 				$("#filterBlock").html(data);
 				initRange();
+				beautySelect();
 			},
 			error:function(err){
 				console.log(err);
@@ -481,6 +485,7 @@ return sign +
 				success: function (data) {
 					$("#filterBlock").html(data);
 					initRange();
+					beautySelect();
 					$(".filter_tabs li.active").removeClass("active");
 					that.addClass("active");
 				}
