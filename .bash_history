@@ -86,3 +86,8 @@ git status
 git add .
 git commit -m "fav"
 git status
+ls
+git status
+git add .
+git commit -m"Local Changes"
+git push origin dev
