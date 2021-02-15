@@ -2776,6 +2776,7 @@ h1.title_page {
     height: 50px;
     font-size: 0;
     white-space: nowrap;
+    background: #fff;
 }
 .catalog_filters_field--range_field:after {
     background: #1D1D1D;
@@ -2848,7 +2849,6 @@ h1.title_page {
     font-family: 'Proxima Nova Lt';
     font-weight: 600;
     font-size: 13px;
-    line-height: 16px;
     text-align: center;
     color: #000000;
     white-space: nowrap;
@@ -2857,6 +2857,7 @@ h1.title_page {
     padding: 0 10px;
     min-width: 47px;
     transition: 0.25s;
+    background: #fff;
 }
 .catalog_filters_field--checkbox:hover .catalog_filters_field--checkbox_txt {
     background: #269944;
@@ -3727,6 +3728,28 @@ h1.title_page {
 }
 .row.row_catalog_filters_fp .item .item-field{
     height: 100%;
+    position:relative;
+}
+.row.row_catalog_filters_fp .item .item-field .list{
+    position:absolute;
+    z-index:2000;
+    background: #fff;
+    box-shadow: 0 9px 15px rgba(0, 0, 0, 0.07);
+    top:50px;
+    left: 0;
+    width: 100%;
+    overflow:hidden;
+    overflow-y: auto;
+    max-height:300px;
+}
+.row.row_catalog_filters_fp .item .item-field .list .list-item{
+    padding: 10px;
+    transition: all .3s;
+    cursor:pointer;
+}
+.row.row_catalog_filters_fp .item .item-field .list .list-item:hover{
+    background-color: #5897fb;
+    color: white;
 }
 .row.row_catalog_filters_fp .item .item-field select,
 .row.row_catalog_filters_fp .item .item-field input[type='text']{
@@ -3734,6 +3757,7 @@ h1.title_page {
     border: 1px solid #B4C7D9;
     width:270px;
     padding: 0 10px;
+    background: #fff;
 }
 .row.row_catalog_filters_fp .item .item-field .select2{
     background: #fff;
@@ -4556,9 +4580,6 @@ h1.title_page {
 .contacts_info_wrapper {
     position: relative;
     z-index: 2;
-}
-.page__catalog .main_catalog_head {
-    overflow: hidden;
 }
 .page__catalog .main_catalog_head:after {
     background-image: url(../img/bg_catalog.png);

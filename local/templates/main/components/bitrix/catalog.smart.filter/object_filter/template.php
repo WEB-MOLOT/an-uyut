@@ -63,8 +63,17 @@ $this->setFrameMode(true);
                 <?break;?>
                 <?case "P":?>
                 <?if($arItem["CODE"]=="location_locality_name"||$arItem["CODE"]=="location_address"):?>
+                    <?if($_REQUEST["get"]):?>
+                        <div id="<?=$arItem["CODE"]?>">
+                            <?foreach($arItem["VALUES"] as $val => $ar):?>
+                            <?if($ar["DISABLED"])continue?>
+                            <div class="list-item" data-name="<?=$ar["CONTROL_NAME_ALT"]?>" data-value="<?=$ar["HTML_VALUE_ALT"]?>"><?=$ar["VALUE"];?></div>
+                            <?endforeach;?>
+                        </div>
+                    <?else:?>
                     <input type="hidden" name="<?=$arCur["CONTROL_NAME_ALT"]?>" value="<?=$arCur["HTML_VALUE_ALT"] ?>" id="value_<?=$arItem["CODE"]?>" onchange="smartFilter.keyup(this)">
-                    <input type="text" value="<?=$arCur["VALUE"] ?>" placeholder="<?=$arItem["FILTER_HINT"]?>" onkeyup="smartFilter.pseudo(this,'value_<?=$arItem["CODE"]?>')">
+                    <input type="text" class="pseudo" id="<?=$arItem["CODE"]?>" value="<?=$arCur["VALUE"] ?>" placeholder="<?=$arItem["FILTER_HINT"]?>">
+                    <?endif?>
                 <?else:?>
                 <select name="<?=$arCur["CONTROL_NAME_ALT"]?>" onchange="smartFilter.select(this)" class="select_custom">
                     <option value="" data-name=""><?=$arItem["FILTER_HINT"]?></option>
@@ -104,6 +113,7 @@ $this->setFrameMode(true);
         </button>
     </div>
 </div>
+    <input type="hidden" id="filterUrl" value="">
 </form>
 <script type="text/javascript">
     var smartFilter = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=CUtil::JSEscape($arParams["FILTER_VIEW_MODE"])?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
