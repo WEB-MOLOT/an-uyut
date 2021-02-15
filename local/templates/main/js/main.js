@@ -148,7 +148,10 @@ return sign +
 					$(this).parent().find('.catalog_filters_field--range_field').html(curText);
 				},
 				change: function() {
-					console.log($(this).slider("values", 1));
+					$("#"+$(this).data("min-id")).val($(this).slider("values", 0));
+					$("#"+$(this).data("max-id")).val($(this).slider("values", 1));
+					$("#"+$(this).data("min-id")).trigger( "change" );
+					$("#"+$(this).data("max-id")).trigger( "change" );
 					var curText = $(this).slider("values", 1) + ' ₽';
 					var curText = '<span class="catalog_filters_field--range_field_left">' + rangePrefix + $(this).slider("values", 0) + rangeSufix + '</span>' + '<span class="catalog_filters_field--range_field_right">' + rangePrefix2 + $(this).slider("values", 1) + rangeSufix + '</span>';
 					$(this).parent().find('.catalog_filters_field--range_field').html(curText);

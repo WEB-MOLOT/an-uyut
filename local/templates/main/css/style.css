@@ -2792,6 +2792,7 @@ h1.title_page {
     vertical-align: middle;
     width: 50%;
     overflow: hidden;
+    padding: 0 25px;
 }
 .catalog_filters_field--range_field span sup {
     vertical-align: super;
@@ -3704,6 +3705,33 @@ h1.title_page {
 .row.row_catalog_filters_fp {
     margin: 0 -11.5px;
 }
+.row.row_catalog_filters_fp .item{
+    height: 50px;
+    display:flex;
+    align-items:center;
+    margin-right: 23px;
+    margin-bottom: 25px;
+}
+.row.row_catalog_filters_fp .item .item-name{
+    margin-right: 11px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 120%;
+    color: #000000;
+}
+.row.row_catalog_filters_fp .item .item-field{
+    height: 100%;
+}
+.row.row_catalog_filters_fp .item .item-field select,
+.row.row_catalog_filters_fp .item .item-field input[type='text']{
+    height: 100%;
+    border: 1px solid #B4C7D9;
+    width:270px;
+    padding: 0 10px;
+}
+.row.row_catalog_filters_fp .item .item-field .select2{
+    background: #fff;
+}
 .row_catalog_filters_fp .col1 {
     padding: 0 11.5px;
     width: calc(100% - 724px);
@@ -3743,7 +3771,7 @@ h1.title_page {
     width: 100%;
 }
 .row_catalog_filters_fp .catalog_filters_field--checkbox {
-    margin-right: 0;
+    margin-right: 10px;
 }
 .row_catalog_filters_fp .catalog_filters_field--checkbox:last-child {
     margin-right: 0;
@@ -4318,12 +4346,15 @@ h1.title_page {
 .catalog_items_select_field {
     width: 284px;
 }
+.catalog_items_select_field select{
+    width: 100%;
+}
 .select_custom + .select2:focus,
 .select_custom + .select2 *:focus {
     outline: none;
 }
 .select_custom + .select2 {
-    width: 100% !important;
+    /*width: 100% !important;*/
 }
 .select_custom + .select2-container .select2-selection--single {
     background: none;
