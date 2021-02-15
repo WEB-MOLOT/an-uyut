@@ -14,7 +14,6 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\ModuleManager;
 
 $this->setFrameMode(true);
-
 $obCache = new CPHPCache();
 if ($obCache->InitCache(36000, serialize($arFilter), "/iblock/catalog"))
 {
@@ -71,6 +70,8 @@ if (!isset($arCurSection))
 
         <h1 class="title_page">Каталог недвижимости</h1>
         <?
+        if($_REQUEST['get']=='y')
+            $APPLICATION->RestartBuffer();
         $sectionId = $arCurSection["ID"];
         CModule::IncludeModule("iblock");
         $res = CIBlockSection::GetNavChain(31,$sectionId);
@@ -116,6 +117,8 @@ if (!isset($arCurSection))
         ),
             false
         );?>
+        <?if($_REQUEST['get']=='y')
+        die();?>
     </div>
     </div>
 

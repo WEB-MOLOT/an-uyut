@@ -18,27 +18,6 @@ function JCSmartFilter(ajaxURL, viewMode, params)
 	}
 }
 
-JCSmartFilter.prototype.pseudo = function(pseudo,id)
-{
-	var input = BX(id);
-
-	BX.ajax.loadJSON(
-		this.ajaxURL,
-		this.values2post(values),
-		BX.delegate(this.postHandler, this)
-	);
-
-
-
-	if(!!this.timer)
-	{
-		clearTimeout(this.timer);
-	}
-	this.timer = setTimeout(BX.delegate(function(){
-		this.reload(input);
-	}, this), 500);
-}
-
 JCSmartFilter.prototype.keyup = function(input)
 {
 	if(!!this.timer)
@@ -275,7 +254,7 @@ JCSmartFilter.prototype.bindUrlToButton = function (buttonId, url)
 
 		if (button.type == 'submit')
 			button.type = 'button';
-
+		BX("filterUrl").value = url;
 		BX.bind(button, 'click', proxy(url, function(url)
 		{
 			window.location.href = url;
