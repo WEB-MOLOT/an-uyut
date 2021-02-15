@@ -72,7 +72,7 @@ if (!isset($arCurSection))
         <?
         if($_REQUEST['get_address']=='y')
             $APPLICATION->RestartBuffer();
-        $sectionId = $arCurSection["ID"];
+        $sectionId = $arResult["VARIABLES"]["SECTION_ID"];
         CModule::IncludeModule("iblock");
         $res = CIBlockSection::GetNavChain(31,$sectionId);
         if($arSection = $res->GetNext()){
