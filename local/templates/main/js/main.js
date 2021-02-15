@@ -453,7 +453,6 @@ return sign +
 		if(document.location.pathname==="/"){
 			main="&main=y";
 		}
-		console.log("/ajax/get-filter.php?get=y&sectionId="+sectionId+main);
 		$.ajax({
 			url:"/ajax/get-filter.php?get=y&sectionId="+sectionId+main,
 			method:"get",
