@@ -37,3 +37,9 @@ else
 
 $arParams["FILTER_VIEW_MODE"] = (isset($arParams["FILTER_VIEW_MODE"]) && toUpper($arParams["FILTER_VIEW_MODE"]) == "HORIZONTAL") ? "HORIZONTAL" : "VERTICAL";
 $arParams["POPUP_POSITION"] = (isset($arParams["POPUP_POSITION"]) && in_array($arParams["POPUP_POSITION"], array("left", "right"))) ? $arParams["POPUP_POSITION"] : "left";
+if($arParams["MAIN"]){
+    foreach($arResult["ITEMS"] as $key=>$arItem){
+        if(!in_array($arItem["CODE"],$arParams["MAIN"]))unset($arResult["ITEMS"][$key]);
+    }
+}
+
