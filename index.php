@@ -93,7 +93,17 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
                                     "COMPONENT_TEMPLATE" => "main",
                                     "LINK" => $sectionLink,
                                     "TYPE" => $arType,
-                                    "PARENT" => $parentId
+                                    "PARENT" => $parentId,
+                                    "MAIN" => $mainArr = array(
+                                        "location_locality_name",
+                                        "location_address",
+                                        "rooms",
+                                        "price_value",
+                                        "area_value",
+                                        "floors_total",
+                                        "lot_type",
+                                        "lot_area_value"
+                                    )
                                 ),
                                     false
                                 );?>

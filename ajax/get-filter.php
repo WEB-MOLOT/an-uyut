@@ -20,7 +20,7 @@ while($arSection = $res->GetNext()){
     if($arSection["ID"]==$sectionId){$current="Y";$sectionLink=$arSection["SECTION_PAGE_URL"];}
     $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current);
 }
-$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", Array(
+$params = Array(
     "CACHE_GROUPS" => "Y",	// Учитывать права доступа
     "CACHE_TIME" => "36000000",	// Время кеширования (сек.)
     "CACHE_TYPE" => "A",	// Тип кеширования
@@ -47,7 +47,18 @@ $APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", A
     "LINK" => $sectionLink,
     "TYPE" => $arType,
     "PARENT" => $parentId
-),
-    false
 );
+if($_REQUEST["main"]=="y"){
+    $params["MAIN"] = array(
+        "location_locality_name",
+        "location_address",
+        "rooms",
+        "price_value",
+        "area_value",
+        "floors_total",
+        "lot_type",
+        "lot_area_value"
+    );
+}
+$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", $params,false);
 ?>

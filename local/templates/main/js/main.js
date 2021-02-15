@@ -446,8 +446,13 @@ return sign +
 	//перезагрузка фильтра взависимости от типа недвижки
 	$(document).on("change","#getFilter",function(){
 		var sectionId = $(this).val();
+		var main="";
+		if(document.location.pathname==="/"){
+			main="&main=y";
+		}
+		console.log("/ajax/get-filter.php?get=y&sectionId="+sectionId+main);
 		$.ajax({
-			url:"/ajax/get-filter.php?get=y&sectionId="+sectionId,
+			url:"/ajax/get-filter.php?get=y&sectionId="+sectionId+main,
 			method:"get",
 			cache: false,
 			success:function(data){
@@ -462,8 +467,12 @@ return sign +
 
 	$(document).on("click",".filter_tabs li",function(){
 		if($(this).hasClass("active"))return false;
+		var main="";
+		if(document.location.pathname==="/"){
+			main="&main=y";
+		}
 		var that = $(this);
-		var url=$(this).data("href");
+		var url=$(this).data("href")+main;
 		if(url.length) {
 			$.ajax({
 				url: url,

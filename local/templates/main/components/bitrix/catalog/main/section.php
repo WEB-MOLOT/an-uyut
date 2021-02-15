@@ -14,6 +14,42 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\ModuleManager;
 
 $this->setFrameMode(true);
+
+$obCache = new CPHPCache();
+if ($obCache->InitCache(36000, serialize($arFilter), "/iblock/catalog"))
+{
+    $arCurSection = $obCache->GetVars();
+}
+elseif ($obCache->StartDataCache())
+{
+    $arCurSection = array();
+    if (Loader::includeModule("iblock"))
+    {
+        $dbRes = CIBlockSection::GetList(array(), $arFilter, false, array("ID"));
+
+        if(defined("BX_COMP_MANAGED_CACHE"))
+        {
+            global $CACHE_MANAGER;
+            $CACHE_MANAGER->StartTagCache("/iblock/catalog");
+
+            if ($arCurSection = $dbRes->Fetch())
+            {
+                $CACHE_MANAGER->RegisterTag("iblock_id_".$arParams["IBLOCK_ID"]);
+            }
+            $CACHE_MANAGER->EndTagCache();
+        }
+        else
+        {
+            if(!$arCurSection = $dbRes->Fetch())
+                $arCurSection = array();
+        }
+    }
+    $obCache->EndDataCache($arCurSection);
+}
+if (!isset($arCurSection))
+{
+    $arCurSection = array();
+}
 ?>
     <div class="page__catalog">
 
@@ -34,7 +70,52 @@ $this->setFrameMode(true);
 
 
         <h1 class="title_page">Каталог недвижимости</h1>
-
+        <?
+        $sectionId = $arCurSection["ID"];
+        CModule::IncludeModule("iblock");
+        $res = CIBlockSection::GetNavChain(31,$sectionId);
+        if($arSection = $res->GetNext()){
+            $parentId = $arSection["ID"];
+            $parentLeftMargin = $arSection["LEFT_MARGIN"];
+            $parentRightMargin = $arSection["RIGHT_MARGIN"];
+        }
+        $arType = array();
+        $res = CIBlockSection::GetList(array("SORT"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL"));
+        while($arSection = $res->GetNext()){
+            $current = "N";
+            if($arSection["ID"]==$sectionId){$current="Y";$sectionLink=$arSection["SECTION_PAGE_URL"];}
+            $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current);
+        }
+        ?>
+        <?$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", Array(
+            "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],	// Учитывать права доступа
+            "CACHE_TIME" => $arParams["CACHE_TIME"],	// Время кеширования (сек.)
+            "CACHE_TYPE" => $arParams["CACHE_TYPE"],	// Тип кеширования
+            "CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],	// Показывать цены в одной валюте
+            "DISPLAY_ELEMENT_COUNT" => "N",	// Показывать количество
+            "FILTER_NAME" => $arParams["FILTER_NAME"],	// Имя выходящего массива для фильтрации
+            "FILTER_VIEW_MODE" => $arParams["FILTER_VIEW_MODE"],	// Вид отображения
+            "HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],	// Не отображать недоступные товары
+            "IBLOCK_ID" => $arParams["IBLOCK_ID"],	// Инфоблок
+            "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],	// Тип инфоблока
+            "PAGER_PARAMS_NAME" => $arParams["PAGER_PARAMS_NAME"],	// Имя массива с переменными для построения ссылок в постраничной навигации
+            "PRICE_CODE" => $arParams["~PRICE_CODE"],	// Тип цены
+            "SAVE_IN_SESSION" => "N",	// Сохранять установки фильтра в сессии пользователя
+            "SECTION_DESCRIPTION" => "DESCRIPTION",	// Описание
+            "SECTION_ID" => $sectionId,	// ID раздела инфоблока
+            "SECTION_TITLE" => "NAME",	// Заголовок
+            "SEF_MODE" => $arParams["SEF_MODE"],	// Включить поддержку ЧПУ
+            "SEF_RULE" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["smart_filter"],
+            "SMART_FILTER_PATH" => $arResult["VARIABLES"]["SMART_FILTER_PATH"],
+            "TEMPLATE_THEME" => $arParams["TEMPLATE_THEME"],	// Цветовая тема
+            "XML_EXPORT" => "N",	// Включить поддержку Яндекс Островов
+            "COMPONENT_TEMPLATE" => "object_filter",
+            "LINK" => $sectionLink,
+            "TYPE" => $arType,
+            "PARENT" => $parentId
+        ),
+            false
+        );?>
     </div>
     </div>
 
@@ -99,42 +180,6 @@ if ($arParams['USE_FILTER'] == 'Y')
 	{
 		$arFilter["=CODE"] = $arResult["VARIABLES"]["SECTION_CODE"];
 	}
-
-	$obCache = new CPHPCache();
-	if ($obCache->InitCache(36000, serialize($arFilter), "/iblock/catalog"))
-	{
-		$arCurSection = $obCache->GetVars();
-	}
-	elseif ($obCache->StartDataCache())
-	{
-		$arCurSection = array();
-		if (Loader::includeModule("iblock"))
-		{
-			$dbRes = CIBlockSection::GetList(array(), $arFilter, false, array("ID"));
-
-			if(defined("BX_COMP_MANAGED_CACHE"))
-			{
-				global $CACHE_MANAGER;
-				$CACHE_MANAGER->StartTagCache("/iblock/catalog");
-
-				if ($arCurSection = $dbRes->Fetch())
-				{
-					$CACHE_MANAGER->RegisterTag("iblock_id_".$arParams["IBLOCK_ID"]);
-				}
-				$CACHE_MANAGER->EndTagCache();
-			}
-			else
-			{
-				if(!$arCurSection = $dbRes->Fetch())
-					$arCurSection = array();
-			}
-		}
-		$obCache->EndDataCache($arCurSection);
-	}
-	if (!isset($arCurSection))
-	{
-		$arCurSection = array();
-	}
 	if ($verticalGrid)
 	{
 		?><div class="bx_sidebar"><?
@@ -183,52 +228,7 @@ else
 }
 $intSectionID = 0;
 ?>
-<?
-$sectionId = $arCurSection["ID"];
-CModule::IncludeModule("iblock");
-$res = CIBlockSection::GetNavChain(31,$sectionId);
-if($arSection = $res->GetNext()){
-    $parentId = $arSection["ID"];
-    $parentLeftMargin = $arSection["LEFT_MARGIN"];
-    $parentRightMargin = $arSection["RIGHT_MARGIN"];
-}
-$arType = array();
-$res = CIBlockSection::GetList(array("SORT"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL"));
-while($arSection = $res->GetNext()){
-    $current = "N";
-    if($arSection["ID"]==$sectionId){$current="Y";$sectionLink=$arSection["SECTION_PAGE_URL"];}
-    $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current);
-}
-?>
-<?$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", Array(
-    "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],	// Учитывать права доступа
-    "CACHE_TIME" => $arParams["CACHE_TIME"],	// Время кеширования (сек.)
-    "CACHE_TYPE" => $arParams["CACHE_TYPE"],	// Тип кеширования
-    "CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],	// Показывать цены в одной валюте
-    "DISPLAY_ELEMENT_COUNT" => "N",	// Показывать количество
-    "FILTER_NAME" => $arParams["FILTER_NAME"],	// Имя выходящего массива для фильтрации
-    "FILTER_VIEW_MODE" => $arParams["FILTER_VIEW_MODE"],	// Вид отображения
-    "HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],	// Не отображать недоступные товары
-    "IBLOCK_ID" => $arParams["IBLOCK_ID"],	// Инфоблок
-    "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],	// Тип инфоблока
-    "PAGER_PARAMS_NAME" => $arParams["PAGER_PARAMS_NAME"],	// Имя массива с переменными для построения ссылок в постраничной навигации
-    "PRICE_CODE" => $arParams["~PRICE_CODE"],	// Тип цены
-    "SAVE_IN_SESSION" => "N",	// Сохранять установки фильтра в сессии пользователя
-    "SECTION_DESCRIPTION" => "DESCRIPTION",	// Описание
-    "SECTION_ID" => $sectionId,	// ID раздела инфоблока
-    "SECTION_TITLE" => "NAME",	// Заголовок
-    "SEF_MODE" => $arParams["SEF_MODE"],	// Включить поддержку ЧПУ
-    "SEF_RULE" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["smart_filter"],
-    "SMART_FILTER_PATH" => $arResult["VARIABLES"]["SMART_FILTER_PATH"],
-    "TEMPLATE_THEME" => $arParams["TEMPLATE_THEME"],	// Цветовая тема
-    "XML_EXPORT" => "N",	// Включить поддержку Яндекс Островов
-    "COMPONENT_TEMPLATE" => "object_filter",
-    "LINK" => $sectionLink,
-    "TYPE" => $arType,
-    "PARENT" => $parentId
-),
-    false
-);?>
+
 
 <?
 $intSectionID = $APPLICATION->IncludeComponent(

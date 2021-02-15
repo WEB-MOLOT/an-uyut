@@ -2867,7 +2867,6 @@ h1.title_page {
 }
 .catalog_filters_field--btn {
     display: inline-block;
-    width: 50%;
     vertical-align: middle;
 }
 .catalog_filters_field--btn:nth-child(1) {
