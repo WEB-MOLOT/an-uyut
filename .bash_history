@@ -82,3 +82,7 @@ git add .
 git commit -m "favorites"
 git status
 git push
+git status
+git add .
+git commit -m "fav"
+git status
