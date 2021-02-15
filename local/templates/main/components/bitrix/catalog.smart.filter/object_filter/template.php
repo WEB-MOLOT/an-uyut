@@ -69,6 +69,7 @@ $this->setFrameMode(true);
                 <select name="<?=$arCur["CONTROL_NAME_ALT"]?>" onchange="smartFilter.select(this)" class="select_custom">
                     <option value="" data-name=""><?=$arItem["FILTER_HINT"]?></option>
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
+                        <?if($ar["DISABLED"])continue?>
                         <option value="<?=$ar["HTML_VALUE_ALT"] ?>" data-name="<?=$ar["CONTROL_NAME_ALT"]?>" <?=$ar["CHECKED"]? 'selected="selected"': '' ?>><?=$ar["VALUE"];?></option>
                     <?endforeach?>
                 </select>
@@ -77,6 +78,7 @@ $this->setFrameMode(true);
                 <? default:?>
                 <div class="catalog_filters_field--checkboxes d_flex a_items_center j_content_between f_wrap">
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
+                        <?if($ar["DISABLED"])continue?>
                         <label class="catalog_filters_field--checkbox" for="<? echo $ar["CONTROL_ID"] ?>">
                             <input
                                     type="checkbox"
