@@ -19,9 +19,8 @@ return sign +
 	(decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
 }
 	$('.tabs_changer ul li').on('click', function() {
-		if(!$(this).find('span')) {
+		if($(this).find('span').length===0) {
 			var curDataItem = $(this).attr('data-item');
-			console.log(curDataItem);
 			$(this).parent().find('li').removeClass('active');
 			$(this).addClass('active');
 			$(this).parent().parent().siblings('.tabs_changer--items').children('.tabs_changer--item').removeClass('active');
@@ -121,9 +120,7 @@ return sign +
 			});
 		});
 	}
-	
-	const catalogRange = document.querySelector('.catalog_filters_field--range');
-	if(catalogRange != null) {
+	function initRange(){
 		$('.catalog_filters_field--range').each(function() {
 			var rangePrefix = $(this).attr('data-prefix');
 			var rangePrefix2 = $(this).attr('data-prefix2');
@@ -168,6 +165,10 @@ return sign +
 				}
 			});
 		});
+	}
+	const catalogRange = document.querySelector('.catalog_filters_field--range');
+	if(catalogRange != null) {
+		initRange();
 	}
 	
 	const objectDescSlider = document.querySelector('.object_desc_wrapper');
@@ -438,4 +439,40 @@ return sign +
 	});
 	
 	$(".wus_field input[name='form_text_4'], .wus_field input[name='form_text_22'], .wus_field input[name='form_text_38'], .wus_field input[name='form_text_43'], .wus_field input[name='form_text_26'], .object_general_manager--form input[name='form_text_12']").mask("+7(999) 999-99-99");
+
+	//перезагрузка фильтра взависимости от типа недвижки
+	$(document).on("change","#getFilter",function(){
+		var sectionId = $(this).val();
+		$.ajax({
+			url:"/ajax/get-filter.php?get=y&sectionId="+sectionId,
+			method:"get",
+			cache: false,
+			success:function(data){
+				$("#filterBlock").html(data);
+				initRange();
+			},
+			error:function(err){
+				console.log(err);
+			}
+		})
+	});
+
+	$(document).on("click",".filter_tabs li",function(){
+		if($(this).hasClass("active"))return false;
+		var that = $(this);
+		var url=$(this).data("href");
+		if(url.length) {
+			$.ajax({
+				url: url,
+				method: "get",
+				cache: false,
+				success: function (data) {
+					$("#filterBlock").html(data);
+					initRange();
+					$(".filter_tabs li.active").removeClass("active");
+					that.addClass("active");
+				}
+			})
+		}
+	})
 });
