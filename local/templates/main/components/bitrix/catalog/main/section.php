@@ -70,7 +70,7 @@ if (!isset($arCurSection))
 
         <h1 class="title_page">Каталог недвижимости</h1>
         <?
-        if($_REQUEST['get']=='y')
+        if($_REQUEST['get_address']=='y')
             $APPLICATION->RestartBuffer();
         $sectionId = $arCurSection["ID"];
         CModule::IncludeModule("iblock");
@@ -117,7 +117,7 @@ if (!isset($arCurSection))
         ),
             false
         );?>
-        <?if($_REQUEST['get']=='y')
+        <?if($_REQUEST['get_address']=='y')
         die();?>
     </div>
     </div>

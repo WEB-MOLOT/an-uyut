@@ -499,7 +499,7 @@ return sign +
 		var id = $(this).attr("id");
 		if(txt.length>=2) {
 			$.ajax({
-				url: url + "?get=y",
+				url: url + "?get_address=y",
 				method: "get",
 				cache: false,
 				success: function (data) {
