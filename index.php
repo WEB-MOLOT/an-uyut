@@ -176,35 +176,6 @@ else {
                                     false
                                 );?>
                             </div>
-
-						<div class="catalog_filters">
-							<div class="new_offers_tabs">
-								<div class="title_bk title_bk--large">Новые <span>предложения</span></div>
-								<div class="new_offers_tabs_wrapper">
-									<div class="new_offers_tabs_inside">
-										<ul class="d_flex a_items_center f_wrap">
-											<?
-												$sections = array();
-												$k = 0;
-												$arFilter = array('IBLOCK_ID' => '31', 'SECTION_ID' => 57); // Берем подкатегории из категории Продажа -> Жилая
-												$uf_name = Array("UF_NAME");
-												$db_list = CIBlockSection::GetList(array(), $arFilter, true, $uf_name); // Считаем кол-во товаров в категориях
-												while($ar_result = $db_list->GetNext()) {
-													$sections[] = $ar_result['ID'];
-													?>
-													<li class="d_flex j_content_center a_items_center <?php if($k == 0){?>active<? } ?>" data-item="<?=$ar_result['ID'];?>">
-														<span class="new_offers_tabs--title"><?=(!empty($ar_result['UF_NAME'])) ? $ar_result['UF_NAME'] : $ar_result['NAME']; ?></span>
-														<span class="new_offers_tabs--count"><? echo $ar_result['ELEMENT_CNT']; ?></span>
-													</li>
-													<?
-													$k++;
-												}
-											?>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
                         </div>
                     </div>
 
@@ -275,6 +246,34 @@ else {
 
                         <div class="main_inside">
 								<div class="container">
+                                    <div class="catalog_filters">
+                                        <div class="new_offers_tabs">
+                                            <div class="title_bk title_bk--large">Новые <span>предложения</span></div>
+                                            <div class="new_offers_tabs_wrapper">
+                                                <div class="new_offers_tabs_inside">
+                                                    <ul class="d_flex a_items_center f_wrap">
+                                                        <?
+                                                        $sections = array();
+                                                        $k = 0;
+                                                        $arFilter = array('IBLOCK_ID' => '31', 'SECTION_ID' => 57); // Берем подкатегории из категории Продажа -> Жилая
+                                                        $uf_name = Array("UF_NAME");
+                                                        $db_list = CIBlockSection::GetList(array(), $arFilter, true, $uf_name); // Считаем кол-во товаров в категориях
+                                                        while($ar_result = $db_list->GetNext()) {
+                                                            $sections[] = $ar_result['ID'];
+                                                            ?>
+                                                            <li class="d_flex j_content_center a_items_center <?php if($k == 0){?>active<? } ?>" data-item="<?=$ar_result['ID'];?>">
+                                                                <span class="new_offers_tabs--title"><?=(!empty($ar_result['UF_NAME'])) ? $ar_result['UF_NAME'] : $ar_result['NAME']; ?></span>
+                                                                <span class="new_offers_tabs--count"><? echo $ar_result['ELEMENT_CNT']; ?></span>
+                                                            </li>
+                                                            <?
+                                                            $k++;
+                                                        }
+                                                        ?>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 								<? foreach($sections as $k => $sect) { // выводим товары для табов ?>
 								<?
 								$cl = '';
