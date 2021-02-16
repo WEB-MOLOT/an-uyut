@@ -69,8 +69,8 @@
   line-height: 1.5;
 }
 
-custom-select__option:hover{
-  background: #5897fb;
+.custom-select__option-wrap .custom-select__option:hover{
+  background: #c6dcff;
 }
 
 .custom-select__option:focus {
@@ -113,7 +113,7 @@ custom-select__option:hover{
 }
 
 .custom-select__option--selected {
-  background-color: #fcfcfc;
+  background-color: #5897fb;
 }
 
 .custom-select__option[disabled] {
