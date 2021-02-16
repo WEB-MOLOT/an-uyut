@@ -3714,7 +3714,7 @@ h1.title_page {
     padding: 17px 45px 31px 47px;
 }
 .row.row_catalog_filters_fp {
-    margin: 0 -11.5px;
+    margin: 0;
 }
 .row.row_catalog_filters_fp .item{
     height: 50px;
