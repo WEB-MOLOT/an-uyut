@@ -1,26 +1,6 @@
 <?
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 $APPLICATION->SetTitle("Главная");
-
-function tpl_tpluralForm($n, $form1, $form2, $form3)
-{
-    $n = abs($n) % 100;
-    $n1 = $n % 10;
-
-    if ($n > 10 && $n < 20) {
-        return $form3;
-    }
-
-    if ($n1 > 1 && $n1 < 5) {
-        return $form2;
-    }
-
-    if ($n1 == 1) {
-        return $form1;
-    }
-
-    return $form3;
-}
 ?><div class="main page__frontpage">
 <div class="main_inside_wrapper">
 				<div class="fp_top_cols d_flex f_wrap">
