@@ -96,7 +96,6 @@ if (!isset($arCurSection))
                 <li class=""><a href="/rent/">Сдать</a></li>
             </ul>
         </div>
-        <?global ${$arParams["FILTER_NAME"]}?>
         <?$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", Array(
             "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],	// Учитывать права доступа
             "CACHE_TIME" => $arParams["CACHE_TIME"],	// Время кеширования (сек.)
@@ -136,6 +135,9 @@ if (!isset($arCurSection))
                 <div class="catalog">
                     <div class="title_bk">
                         <? CModule::IncludeModule('iblock');
+                        global ${$arParams["FILTER_NAME"]};
+                        ${$arParams["FILTER_NAME"]}["SECTION_ID"] = $arSection["ID"];
+                        ${$arParams["FILTER_NAME"]}["INCLUDE_SUBSECTIONS"] = "Y";
                         $res = CIBlockElement::GetList(false, ${$arParams["FILTER_NAME"]}, array('IBLOCK_ID'));
                         if ($el = $res->Fetch())
                             echo 'Найдено&nbsp;'  .$el['CNT']; ?> <span><?=tpl_tpluralForm($el['CNT'],"предложение","предложения","предложений")?></span>
