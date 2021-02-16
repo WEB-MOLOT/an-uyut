@@ -1,27 +1,6 @@
 <?
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 $APPLICATION->SetTitle("Главная");
-<<<<<<< HEAD
-
-function tpl_tpluralForm($n, $form1, $form2, $form3)
-{
-    $n = abs($n) % 100;
-    $n1 = $n % 10;
-
-    if ($n > 10 && $n < 20) {
-        return $form3;
-    }
-
-    if ($n1 > 1 && $n1 < 5) {
-        return $form2;
-    }
-
-    if ($n1 == 1) {
-        return $form1;
-    }
-
-    return $form3;
-}
 ?>
 <?
 
@@ -81,10 +60,7 @@ else {
 
 
 </style>
-    <div class="main page__frontpage">
-=======
-?><div class="main page__frontpage">
->>>>>>> 050701a5f13859bd6f33fb722a288b9976446325
+<div class="main page__frontpage">
 <div class="main_inside_wrapper">
     <a id='want' href="/personal/wishlist/">
     <div class="menu">Избранное (<?=$wishCount?>)</div>
