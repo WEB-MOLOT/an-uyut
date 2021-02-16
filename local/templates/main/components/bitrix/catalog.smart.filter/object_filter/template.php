@@ -28,6 +28,7 @@ $this->setFrameMode(true);
         </div>
     </div>
     <?foreach($arResult["ITEMS"] as $key=>$arItem):?>
+        <?if(empty($arItem["VALUES"]))continue?>
     <div class="item">
         <div class="item-name"><?=$arItem["NAME"]?>:</div>
         <div class="item-field">
