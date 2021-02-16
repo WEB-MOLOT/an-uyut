@@ -102,7 +102,8 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
                                         "area_value",
                                         "floors_total",
                                         "lot_type",
-                                        "lot_area_value"
+                                        "lot_area_value",
+                                        "commercial_type"
                                     )
                                 ),
                                     false

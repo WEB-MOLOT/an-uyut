@@ -57,7 +57,8 @@ if($_REQUEST["main"]=="y"){
         "area_value",
         "floors_total",
         "lot_type",
-        "lot_area_value"
+        "lot_area_value",
+        "commercial_type"
     );
 }
 $APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", $params,false);
