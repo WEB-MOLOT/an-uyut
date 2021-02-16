@@ -55,7 +55,8 @@ return sign +
 
 		if($(".custom-select").length){
 			$(".custom-select").customSelect({
-				search: true
+				search: true,
+				includeValue: true
 			});
 		}
 	}
