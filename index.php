@@ -169,7 +169,8 @@ else {
                                         "area_value",
                                         "floors_total",
                                         "lot_type",
-                                        "lot_area_value"
+                                        "lot_area_value",
+                                        "commercial_type"
                                     )
                                 ),
                                     false
