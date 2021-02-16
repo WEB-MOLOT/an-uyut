@@ -493,6 +493,7 @@ return sign +
 
 	$(document).on("click",".filter_tabs li",function(){
 		if($(this).hasClass("active"))return false;
+		if($(this).find('a').length)return true;
 		var main="";
 		if(document.location.pathname==="/"){
 			main="&main=y";
