@@ -2765,6 +2765,7 @@ h1.title_page {
 }
 .catalog_filters_field--range_wrapper {
     position: relative;
+    width: 284px;
 }
 .catalog_filters_field--range_field {
     border: 1px solid #B4C7D9;
