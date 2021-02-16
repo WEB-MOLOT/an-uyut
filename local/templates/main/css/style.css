@@ -4428,7 +4428,6 @@ h1.title_page {
 .select2-dropdown.select2-dropdown--below {
     border-top: 50px solid #fff;
     position: relative;
-    top: -50px
 }
 .select2-results__options {
     font-family: 'Proxima Nova Lt';
