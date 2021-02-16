@@ -201,6 +201,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/jquery.custom-select.min.js"></script>
 <script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/main.js"></script>
 
 
