@@ -3652,6 +3652,9 @@ h1.title_page {
 }
 .fp_top_col_left {
     width: calc(100% - 318px);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 150px;
 }
 .fp_top_col_right {
     width: 318px;
@@ -3706,7 +3709,8 @@ h1.title_page {
 }
 .fp_top_cols .main_catalog_head {
     margin: 0;
-    padding: 17px 45px 31px 47px;
+    padding: 17px 45px 0 47px;
+    flex-grow:2;
 }
 .row.row_catalog_filters_fp {
     margin: 0;
