@@ -136,7 +136,7 @@ if (!isset($arCurSection))
                     <div class="title_bk">
                         <? CModule::IncludeModule('iblock');
                         global ${$arParams["FILTER_NAME"]};
-                        ${$arParams["FILTER_NAME"]}["SECTION_ID"] = $arSection["ID"];
+                        ${$arParams["FILTER_NAME"]}["SECTION_ID"] = $sectionId;
                         ${$arParams["FILTER_NAME"]}["INCLUDE_SUBSECTIONS"] = "Y";
                         $res = CIBlockElement::GetList(false, ${$arParams["FILTER_NAME"]}, array('IBLOCK_ID'));
                         if ($el = $res->Fetch())
