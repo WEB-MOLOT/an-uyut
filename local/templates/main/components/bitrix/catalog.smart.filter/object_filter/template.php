@@ -61,7 +61,7 @@ $this->setFrameMode(true);
                 </div>
                 <?break;?>
                 <?case "P":?>
-                <?if($arItem["CODE"]=="location_locality_name"||$arItem["CODE"]=="location_address"):?>
+                <?if($arItem["CODE"]=="internal_id"||$arItem["CODE"]=="location_address"):?>
                     <?if($_REQUEST["get_address"]):?>
                         <div id="<?=$arItem["CODE"]?>">
                             <?foreach($arItem["VALUES"] as $val => $ar):?>
