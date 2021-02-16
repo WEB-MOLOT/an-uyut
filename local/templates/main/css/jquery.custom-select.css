@@ -70,7 +70,7 @@
 }
 
 .custom-select__option-wrap .custom-select__option:hover{
-  background: #c6dcff;
+  background: #D9E3EC;
 }
 
 .custom-select__option:focus {
@@ -113,7 +113,8 @@
 }
 
 .custom-select__option--selected {
-  background-color: #5897fb;
+  background-color: #269944;
+  color:#fff;
 }
 
 .custom-select__option[disabled] {

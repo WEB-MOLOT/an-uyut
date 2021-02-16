@@ -57,7 +57,8 @@ return sign +
 			$(".custom-select").customSelect({
 				search: true,
 				includeValue: true,
-				transition: 200
+				transition: 200,
+				placeholder:'Выберите '+$(this).parents(".item").find(".item-name").text()
 			});
 		}
 	}
