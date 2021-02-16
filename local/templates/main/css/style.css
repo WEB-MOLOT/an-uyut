@@ -2794,7 +2794,7 @@ h1.title_page {
     height: 10px;
     width: 1px;
 }
-.catalog_filters_field--range_field span {
+.row.row_catalog_filters_fp .item .item-field .catalog_filters_field--range_field input[type='text'] {
     display: inline-block;
     font-family: 'Proxima Nova Lt';
     font-weight: 600;
@@ -2805,7 +2805,8 @@ h1.title_page {
     vertical-align: middle;
     width: 50%;
     overflow: hidden;
-    padding: 0 25px;
+    padding: 0 15px;
+    border:none;
 }
 .catalog_filters_field--range_field span sup {
     vertical-align: super;

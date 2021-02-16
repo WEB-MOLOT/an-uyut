@@ -147,7 +147,7 @@ return sign +
 				values: [rangeStart, rangeEnd],
 				range: true,
 				create: function() {
-					var curText = '<span class="catalog_filters_field--range_field_left">' + rangePrefix + $(this).slider("values", 0) + rangeSufix + '</span>' + '<span class="catalog_filters_field--range_field_right">' + rangePrefix2 + $(this).slider("values", 1) + rangeSufix + '</span>';
+					var curText = '<input type="text" class="catalog_filters_field--range_field_left" value="'+rangePrefix+$(this).slider("values", 0).toLocaleString()+ rangeSufix+'">' + '<input type="text" class="catalog_filters_field--range_field_right" value="'+rangePrefix2 + $(this).slider("values", 1).toLocaleString() + rangeSufix+'">';
 					$(this).parent().find('.catalog_filters_field--range_field').html(curText);
 				},
 				change: function() {
@@ -155,22 +155,29 @@ return sign +
 					$("#"+$(this).data("max-id")).val($(this).slider("values", 1));
 					$("#"+$(this).data("min-id")).trigger( "change" );
 					$("#"+$(this).data("max-id")).trigger( "change" );
-					var curText = $(this).slider("values", 1) + ' ₽';
-					var curText = '<span class="catalog_filters_field--range_field_left">' + rangePrefix + $(this).slider("values", 0) + rangeSufix + '</span>' + '<span class="catalog_filters_field--range_field_right">' + rangePrefix2 + $(this).slider("values", 1) + rangeSufix + '</span>';
+					var curText = '<input type="text" class="catalog_filters_field--range_field_left" value="'+rangePrefix+$(this).slider("values", 0).toLocaleString()+ rangeSufix+'">' + '<input type="text" class="catalog_filters_field--range_field_right" value="'+rangePrefix2 + $(this).slider("values", 1).toLocaleString() + rangeSufix+'">';
 					$(this).parent().find('.catalog_filters_field--range_field').html(curText);
 				},
 				slide: function() {
-					var curText = $(this).slider("values", 1) + ' ₽';
-					var curText = '<span class="catalog_filters_field--range_field_left">' + rangePrefix + $(this).slider("values", 0) + rangeSufix + '</span>' + '<span class="catalog_filters_field--range_field_right">' + rangePrefix2 + $(this).slider("values", 1) + rangeSufix + '</span>';
+					var curText = '<input type="text" class="catalog_filters_field--range_field_left" value="'+rangePrefix+$(this).slider("values", 0).toLocaleString()+ rangeSufix+'">' + '<input type="text" class="catalog_filters_field--range_field_right" value="'+rangePrefix2 + $(this).slider("values", 1).toLocaleString() + rangeSufix+'">';
 					$(this).parent().find('.catalog_filters_field--range_field').html(curText);
 				},
 				stop: function() {
-					var curText = $(this).slider("values", 1) + ' ₽';
-					var curText = '<span class="catalog_filters_field--range_field_left">' + rangePrefix + $(this).slider("values", 0) + rangeSufix + '</span>' + '<span class="catalog_filters_field--range_field_right">' + rangePrefix2 + $(this).slider("values", 1) + rangeSufix + '</span>';
+					var curText = '<input type="text" class="catalog_filters_field--range_field_left" value="'+rangePrefix+$(this).slider("values", 0).toLocaleString()+ rangeSufix+'">' + '<input type="text" class="catalog_filters_field--range_field_right" value="'+rangePrefix2 + $(this).slider("values", 1).toLocaleString() + rangeSufix+'">';
 					$(this).parent().find('.catalog_filters_field--range_field').html(curText);
 				}
 			});
 		});
+		$(document).on("change",".catalog_filters_field--range_field input",function() {
+			var slider = $(this).parent().next('.catalog_filters_field--range');
+			var inputs = $(this).parent().find("input");
+			var values = [];
+			inputs.each(function(){
+				var value = parseInt($(this).val().replace(/\D+/g, ""));
+				values.push(value);
+			})
+			slider.slider("option",{values:values});
+		})
 	}
 	const catalogRange = document.querySelector('.catalog_filters_field--range');
 	if(catalogRange != null) {
