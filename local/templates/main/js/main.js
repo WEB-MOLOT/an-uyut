@@ -52,6 +52,12 @@ return sign +
 				minimumResultsForSearch: -1
 			});
 		}
+
+		if($(".custom-select").length){
+			$(".custom-select").customSelect({
+				search: true
+			});
+		}
 	}
 	beautySelect();
 

@@ -20,7 +20,7 @@ $this->setFrameMode(true);
     <div class="item">
         <div class="item-name">Тип недвижимости:</div>
         <div class="item-field">
-            <select id="getFilter" class="select_custom">
+            <select id="getFilter" class="custom-select">
                 <?foreach($arParams["TYPE"] as $val=>$arrVal):?>
                     <option value="<?=$val?>"<?=$arrVal["CUR"]=="Y"?" selected":""?>><?=$arrVal["NAME"]?></option>
                 <?endforeach?>
@@ -74,7 +74,7 @@ $this->setFrameMode(true);
                     <input type="text" class="pseudo" id="<?=$arItem["CODE"]?>" value="<?=$arCur["VALUE"] ?>" placeholder="<?=$arItem["FILTER_HINT"]?>">
                     <?endif?>
                 <?else:?>
-                <select name="<?=$arCur["CONTROL_NAME_ALT"]?>" onchange="smartFilter.select(this)" class="select_custom">
+                <select name="<?=$arCur["CONTROL_NAME_ALT"]?>" onchange="smartFilter.select(this)" class="custom-select">
                     <option value="" data-name=""><?=$arItem["FILTER_HINT"]?></option>
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
                         <?if($ar["VALUE"]=="true")$ar["VALUE"]="Да"?>
