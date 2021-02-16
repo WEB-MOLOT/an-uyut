@@ -2660,6 +2660,10 @@ h1.title_page {
 .catalog_tabs {
     margin-bottom: 24px;
 }
+.catalog_tabs a{
+    color:#000000;
+    text-decoration:none;
+}
 .catalog_tabs > ul > li {
     border-bottom: 2px solid #D9E3EC;
     color: #000000;

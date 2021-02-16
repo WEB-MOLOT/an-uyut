@@ -61,8 +61,8 @@ function tpl_tpluralForm($n, $form1, $form2, $form3)
                                     <ul class="d_flex f_wrap">
                                         <li class="active" data-href="/ajax/get-filter.php?get=y&sectionId=59">Купить</li>
                                         <li class="" data-href="/ajax/get-filter.php?get=y&sectionId=64">Снять</li>
-                                        <li class=""><a href="">Продать</a></li>
-                                        <li class=""><a href="">Сдать</a></li>
+                                        <li class=""><a href="/deal/">Продать</a></li>
+                                        <li class=""><a href="/rent/">Сдать</a></li>
                                     </ul>
                                 </div>
 
