@@ -91,3 +91,22 @@ git status
 git add .
 git commit -m"Local Changes"
 git push origin dev
+git add .
+git commit -m "fav update"
+git status
+git status
+git add .
+git commit -m"Local Changes"
+git status
+git pull origin filter
+git status
+git push origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
