@@ -14,7 +14,7 @@ if($arSection = $res->GetNext()){
     $parentRightMargin = $arSection["RIGHT_MARGIN"];
 }
 $arType = array();
-$res = CIBlockSection::GetList(array("SORT"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL"));
+$res = CIBlockSection::GetList(array("SORT"=>"ASC","ID"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL"));
 while($arSection = $res->GetNext()){
     $current = "N";
     if($arSection["ID"]==$sectionId){$current="Y";$sectionLink=$arSection["SECTION_PAGE_URL"];}
