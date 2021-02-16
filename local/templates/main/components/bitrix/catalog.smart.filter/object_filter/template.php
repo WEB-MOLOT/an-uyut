@@ -74,8 +74,7 @@ $this->setFrameMode(true);
                     <input type="text" class="pseudo" id="<?=$arItem["CODE"]?>" value="<?=$arCur["VALUE"] ?>" placeholder="<?=$arItem["FILTER_HINT"]?>">
                     <?endif?>
                 <?else:?>
-                <select name="<?=$arCur["CONTROL_NAME_ALT"]?>" onchange="smartFilter.select(this)" class="custom-select">
-                    <option value="" data-name=""><?=$arItem["FILTER_HINT"]?></option>
+                <select name="<?=$arCur["CONTROL_NAME_ALT"]?>" placeholder="<?=$arItem["FILTER_HINT"]?>" onchange="smartFilter.select(this)" class="custom-select">
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
                         <?if($ar["VALUE"]=="true")$ar["VALUE"]="Да"?>
                         <?if($ar["VALUE"]=="false")$ar["VALUE"]="Нет"?>

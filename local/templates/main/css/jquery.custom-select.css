@@ -124,7 +124,7 @@
 
 .custom-select__option-wrap {
   overflow-y: auto;
-  max-height: 150px;
+  max-height: 250px;
 }
 
 .custom-select__option-wrap::-webkit-scrollbar {
