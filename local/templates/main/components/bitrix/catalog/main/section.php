@@ -88,6 +88,14 @@ if (!isset($arCurSection))
             $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current);
         }
         ?>
+        <div class="catalog_tabs filter_tabs">
+            <ul class="d_flex f_wrap">
+                <li class="<?=($parentId==56)?'active':''?>" data-href="/ajax/get-filter.php?get=y&sectionId=59">Купить</li>
+                <li class="<?=($parentId==62)?'active':''?>" data-href="/ajax/get-filter.php?get=y&sectionId=64">Снять</li>
+                <li class=""><a href="/deal/">Продать</a></li>
+                <li class=""><a href="/rent/">Сдать</a></li>
+            </ul>
+        </div>
         <?$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", Array(
             "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],	// Учитывать права доступа
             "CACHE_TIME" => $arParams["CACHE_TIME"],	// Время кеширования (сек.)
