@@ -78,7 +78,7 @@ $this->setFrameMode(true);
                     <option value="" data-name=""><?=$arItem["FILTER_HINT"]?></option>
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
                         <?if($ar["VALUE"]=="true")$ar["VALUE"]="Да"?>
-                        <?if($ar["VALUE"]=="false")$ar["VALUE"]="нет"?>
+                        <?if($ar["VALUE"]=="false")$ar["VALUE"]="Нет"?>
                         <option value="<?=$ar["HTML_VALUE_ALT"] ?>" data-name="<?=$ar["CONTROL_NAME_ALT"]?>" <?=$ar["CHECKED"]? 'selected="selected"': '' ?>><?=$ar["VALUE"];?></option>
                     <?endforeach?>
                 </select>
@@ -88,7 +88,7 @@ $this->setFrameMode(true);
                 <div class="catalog_filters_field--checkboxes d_flex a_items_center j_content_between f_wrap">
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
                         <?if($ar["VALUE"]=="true")$ar["VALUE"]="Да"?>
-                        <?if($ar["VALUE"]=="false")$ar["VALUE"]="нет"?>
+                        <?if($ar["VALUE"]=="false")$ar["VALUE"]="Нет"?>
                         <label class="catalog_filters_field--checkbox" for="<? echo $ar["CONTROL_ID"] ?>">
                             <input
                                     type="checkbox"
