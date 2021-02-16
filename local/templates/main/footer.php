@@ -198,7 +198,8 @@
 <script src="<?= SITE_TEMPLATE_PATH ?>/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/jquery.overlayScrollbars.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<?/*<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>*/?>
+<script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/select2.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/main.js"></script>
