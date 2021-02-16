@@ -54,11 +54,19 @@ return sign +
 		}
 
 		if($(".custom-select").length){
-			$(".custom-select").customSelect({
-				search: true,
-				includeValue: true,
-				transition: 200
-			});
+			$(".custom-select").each(function(){
+				var plchldr = "";
+				if($(this).attr("placeholder")!==null) {
+					plchldr = $(this).attr("placeholder");
+				}
+				$(this).customSelect({
+					search: true,
+					includeValue: true,
+					transition: 200,
+					placeholder:plchldr
+				});
+			})
+
 		}
 	}
 	beautySelect();
