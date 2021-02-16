@@ -32,6 +32,7 @@ $this->setFrameMode(true);
     <div class="item">
         <div class="item-name"><?=$arItem["NAME"]?>:</div>
         <div class="item-field">
+            <?$arCur = ""?>
             <?foreach($arItem["VALUES"] as $val => $ar){
                 if($ar["CHECKED"]){
                     $arCur = $ar;
