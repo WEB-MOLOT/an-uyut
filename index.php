@@ -246,7 +246,7 @@ else {
 
                         <div class="main_inside">
 								<div class="container">
-                                    <div class="catalog_filters">
+                                    <div class="catalog_filters" style="margin-top: -120px;">
                                         <div class="new_offers_tabs">
                                             <div class="title_bk title_bk--large">Новые <span>предложения</span></div>
                                             <div class="new_offers_tabs_wrapper">
