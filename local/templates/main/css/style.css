@@ -3725,6 +3725,9 @@ h1.title_page {
     flex-basis: 47%;
     margin-bottom: 25px;
 }
+.row_catalog_filters_fp .item.checkbox{
+    height: auto;
+}
 .row_catalog_filters_fp .item.hide{
     display:none;
 }
