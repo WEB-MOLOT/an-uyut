@@ -3813,9 +3813,11 @@ h1.title_page {
 }
 .row_catalog_filters_fp .catalog_filters_field--checkboxes {
     width: 100%;
+    margin-bottom: -10px;
 }
 .row_catalog_filters_fp .catalog_filters_field--checkbox {
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 .row_catalog_filters_fp .catalog_filters_field--checkbox:last-child {
     margin-right: 0;
