@@ -31,8 +31,8 @@ $hasMore = false;
     <?foreach($arResult["ITEMS"] as $key=>$arItem):?>
         <?if(empty($arItem["VALUES"]))continue?>
         <?if ($arItem["DISPLAY_TYPE"] == "A"&& ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0))continue;?>
-        <?if($arItem["DISPLAY_EXPANDED"]=="N")$hasMore = true;?>
-    <div class="item<?=$arItem["DISPLAY_EXPANDED"]=="N"?' hide':''?><?=($arItem["DISPLAY_TYPE"]!="A"&&$arItem["DISPLAY_TYPE"]!="P")?' checkbox':''?>">
+        <?if($arItem["DISPLAY_EXPANDED"]==NULL)$hasMore = true;?>
+    <div class="item<?=$arItem["DISPLAY_EXPANDED"]==NULL?' hide':''?><?=($arItem["DISPLAY_TYPE"]!="A"&&$arItem["DISPLAY_TYPE"]!="P")?' checkbox':''?>">
         <div class="item-name"><?=$arItem["NAME"]?>:</div>
         <div class="item-field">
             <?$arCur = ""?>
