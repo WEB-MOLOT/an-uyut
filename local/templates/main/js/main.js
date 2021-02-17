@@ -568,7 +568,7 @@ return sign +
 	})
 
 	$(document).on("click",".catalog_filters_field_more a",function(e){
-		e.preventDefault;
+		e.preventDefault();
 		$(this).parents(".row_catalog_filters_fp").find(".item.hide").removeClass("hide");
 		$(this).parent().remove();
 	})
