@@ -11,12 +11,13 @@
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
+$hasMore = false;
 ?>
 <?if(!$_REQUEST["get"]):?>
 <div class="catalog_filter_items tabs_changer--items" id="filterBlock">
 <?endif?>
 <form name="<?echo $arResult["FILTER_NAME"]."_form"?>" action="<?echo $arParams["LINK"]?>" method="get">
-<div class="row row_catalog_filters_fp d_flex f_wrap">
+<div class="row_catalog_filters_fp d_flex f_wrap">
     <div class="item">
         <div class="item-name">Тип недвижимости:</div>
         <div class="item-field">
@@ -30,7 +31,8 @@ $this->setFrameMode(true);
     <?foreach($arResult["ITEMS"] as $key=>$arItem):?>
         <?if(empty($arItem["VALUES"]))continue?>
         <?if ($arItem["DISPLAY_TYPE"] == "A"&& ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0))continue;?>
-    <div class="item">
+        <?if($arItem["DISPLAY_EXPANDED"]=="N")$hasMore = true;?>
+    <div class="item<?=$arItem["DISPLAY_EXPANDED"]=="N"?' hide':''?>">
         <div class="item-name"><?=$arItem["NAME"]?>:</div>
         <div class="item-field">
             <?$arCur = ""?>
@@ -85,7 +87,7 @@ $this->setFrameMode(true);
                 <?endif?>
                 <?break;?>
                 <? default:?>
-                <div class="catalog_filters_field--checkboxes d_flex a_items_center j_content_between f_wrap">
+                <div class="catalog_filters_field--checkboxes d_flex a_items_center f_wrap">
                     <?foreach($arItem["VALUES"] as $val => $ar):?>
                         <?if($ar["VALUE"]=="true")$ar["VALUE"]="Да"?>
                         <?if($ar["VALUE"]=="false")$ar["VALUE"]="Нет"?>
@@ -107,11 +109,16 @@ $this->setFrameMode(true);
         </div>
     </div>
     <?endforeach?>
-    <div class="catalog_filters_field--btn">
-        <button type="submit" id="set_filter" style="width: 250px;" class="btn btn_yellow btn--icon d_flex a_items_center j_content_center">
-            <em class="btn_icon"><svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 0C3.22266 0 3 0.222656 3 0.5V1H0V2H3V2.5C3 2.77734 3.22266 3 3.5 3H5.5C5.77734 3 6 2.77734 6 2.5V2H12V1H6V0.5C6 0.222656 5.77734 0 5.5 0H3.5ZM4 1H5V2H4V1ZM7.5 5C7.22266 5 7 5.22266 7 5.5V6H0V7H7V7.5C7 7.77734 7.22266 8 7.5 8H9.5C9.77734 8 10 7.77734 10 7.5V7H12V6H10V5.5C10 5.22266 9.77734 5 9.5 5H7.5ZM8 6H9V7H8V6ZM1.5 10C1.22266 10 1 10.2227 1 10.5V11H0V12H1V12.5C1 12.7773 1.22266 13 1.5 13H3.5C3.77734 13 4 12.7773 4 12.5V12H12V11H4V10.5C4 10.2227 3.77734 10 3.5 10H1.5ZM2 11H3V12H2V11Z" fill="#39331E"></path></svg></em>
-            <em class="btn_txt">Показать предложения</em>
-        </button>
+    <div class="item">
+        <div class="catalog_filters_field--btn">
+            <button type="submit" id="set_filter" style="width: 250px;" class="btn btn_yellow btn--icon d_flex a_items_center j_content_center">
+                <em class="btn_icon"><svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 0C3.22266 0 3 0.222656 3 0.5V1H0V2H3V2.5C3 2.77734 3.22266 3 3.5 3H5.5C5.77734 3 6 2.77734 6 2.5V2H12V1H6V0.5C6 0.222656 5.77734 0 5.5 0H3.5ZM4 1H5V2H4V1ZM7.5 5C7.22266 5 7 5.22266 7 5.5V6H0V7H7V7.5C7 7.77734 7.22266 8 7.5 8H9.5C9.77734 8 10 7.77734 10 7.5V7H12V6H10V5.5C10 5.22266 9.77734 5 9.5 5H7.5ZM8 6H9V7H8V6ZM1.5 10C1.22266 10 1 10.2227 1 10.5V11H0V12H1V12.5C1 12.7773 1.22266 13 1.5 13H3.5C3.77734 13 4 12.7773 4 12.5V12H12V11H4V10.5C4 10.2227 3.77734 10 3.5 10H1.5ZM2 11H3V12H2V11Z" fill="#39331E"></path></svg></em>
+                <em class="btn_txt">Показать предложения</em>
+            </button>
+        </div>
+        <?if($hasMore):?>
+        <div class="catalog_filters_field_more"><a href="#">Больше параметров</a></div>
+        <?endif?>
     </div>
 </div>
     <input type="hidden" id="filterUrl" value="">

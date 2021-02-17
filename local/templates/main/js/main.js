@@ -566,4 +566,10 @@ return sign +
 		$(this).parent().remove();
 		input.trigger( "change" );
 	})
+
+	$(document).on("click",".catalog_filters_field_more a",function(e){
+		e.preventDefault;
+		$(this).parents(".row_catalog_filters_fp").find(".item.hide").removeClass("hide");
+		$(this).parent().remove();
+	})
 });
