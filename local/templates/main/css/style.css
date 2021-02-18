@@ -3721,7 +3721,6 @@ h1.title_page {
 }
 .row_catalog_filters_fp {
     margin: 0;
-    justify-content:space-between;
     display:flex;
 }
 .row_catalog_filters_fp .item{
