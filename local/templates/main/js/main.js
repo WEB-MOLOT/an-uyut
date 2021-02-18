@@ -470,8 +470,8 @@ return sign +
 	$(".wus_field input[name='form_text_4'], .wus_field input[name='form_text_22'], .wus_field input[name='form_text_38'], .wus_field input[name='form_text_43'], .wus_field input[name='form_text_26'], .object_general_manager--form input[name='form_text_12']").mask("+7(999) 999-99-99");
 
 	//перезагрузка фильтра взависимости от типа недвижки
-	$(document).on("change","#getFilter",function(){
-		var sectionId = $(this).val();
+	$(document).on("click","#getFilter li",function(){
+		var sectionId = $(this).data("value");
 		var main="";
 		if(document.location.pathname==="/"){
 			main="&main=y";

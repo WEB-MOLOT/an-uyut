@@ -50,13 +50,21 @@ $this->setFrameMode(true);
                             $parentRightMargin = $arSection["RIGHT_MARGIN"];
                         }
                         $arType = array();
-                        $res = CIBlockSection::GetList(array("SORT"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL"));
+                        $res = CIBlockSection::GetList(array("SORT"=>"ASC","ID"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL","UF_ICON"));
                         while($arSection = $res->GetNext()){
                             $current = "N";
                             if($arSection["ID"]==$sectionId){$current="Y";$sectionLink=$arSection["SECTION_PAGE_URL"];}
-                            $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current);
+                            $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current,"ICON"=>CFile::GetPath($arSection["UF_ICON"]));
                         }
                         ?>
+                        <div class="catalog_tabs filter_tabs">
+                            <ul class="d_flex f_wrap">
+                                <li class="active" data-href="/ajax/get-filter.php?get=y&sectionId=59">Купить</li>
+                                <li class="" data-href="/ajax/get-filter.php?get=y&sectionId=64">Снять</li>
+                                <li class=""><a href="/deal/">Продать</a></li>
+                                <li class=""><a href="/rent/">Сдать</a></li>
+                            </ul>
+                        </div>
 
                         <?$APPLICATION->IncludeComponent("bitrix:catalog.smart.filter", "object_filter", Array(
                             "CACHE_GROUPS" => "Y",	// Учитывать права доступа
@@ -214,7 +222,7 @@ $intSectionID = $APPLICATION->IncludeComponent(
 		"OFFERS_SORT_ORDER2" => $arParams["OFFERS_SORT_ORDER2"],
 		"OFFERS_LIMIT" => $arParams["LIST_OFFERS_LIMIT"],
 
-		"SECTION_ID" => $arResult["VARIABLES"]["SECTION_ID"],
+		"SECTION_ID" => $sectionId,
 		"SECTION_CODE" => $arResult["VARIABLES"]["SECTION_CODE"],
 		"SECTION_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["section"],
 		"DETAIL_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["element"],

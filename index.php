@@ -30,11 +30,11 @@ $APPLICATION->SetTitle("Главная");
                                     $parentRightMargin = $arSection["RIGHT_MARGIN"];
                                 }
                                 $arType = array();
-                                $res = CIBlockSection::GetList(array("SORT"=>"ASC","ID"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL"));
+                                $res = CIBlockSection::GetList(array("SORT"=>"ASC","ID"=>"ASC"),array("IBLOCK_ID"=>31,"UF_FILTER_SHOW"=>1,"LEFT_MARGIN"=>$parentLeftMargin,"RIGHT_MARGIN"=>$parentRightMargin),false,array("NAME","ID","SECTION_PAGE_URL","UF_ICON"));
                                 while($arSection = $res->GetNext()){
                                     $current = "N";
                                     if($arSection["ID"]==$sectionId){$current="Y";$sectionLink=$arSection["SECTION_PAGE_URL"];}
-                                    $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current);
+                                    $arType[$arSection["ID"]] = array("NAME"=>$arSection["NAME"],"CUR"=>$current,"ICON"=>CFile::GetPath($arSection["UF_ICON"]));
                                 }
                                 ?>
                                 <div class="catalog_tabs filter_tabs">
