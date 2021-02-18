@@ -137,7 +137,7 @@ if (!empty($xml)) {
                 $PROP[$k] = array("VALUE" => $room );
             }
             else if ($k == 'floors-total'){
-                $PROP[$k] = array("VALUE" => $v );
+                $PROP['floors_total'] = array("VALUE" => $v );
             }
             else if ($k == 'image') {
                 $PROP['image'] = $v;
@@ -172,8 +172,8 @@ if (!empty($xml)) {
             endswitch;
             $name = $room ." "."-"." "."комн.";
         }
-        elseif (!empty($PROP['floors-total'])){
-            $name = $PROP["floors-total"]["VALUE"]." "."-"." "."эт.";
+        elseif (!empty($PROP['floors_total'])){
+            $name = $PROP["floors_total"]["VALUE"]." "."-"." "."эт.";
         }
 
         if(!empty($PROP['sales_agent_photo'])) {
