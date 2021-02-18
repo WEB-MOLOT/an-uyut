@@ -139,8 +139,12 @@ if (!isset($arCurSection))
                         ${$arParams["FILTER_NAME"]}["SECTION_ID"] = $sectionId;
                         ${$arParams["FILTER_NAME"]}["INCLUDE_SUBSECTIONS"] = "Y";
                         $res = CIBlockElement::GetList(false, ${$arParams["FILTER_NAME"]}, array('IBLOCK_ID'));
-                        if ($el = $res->Fetch())
+                        if ($el = $res->Fetch()){
                             echo 'Найдено&nbsp;'  .$el['CNT']; ?> <span><?=tpl_tpluralForm($el['CNT'],"предложение","предложения","предложений")?></span>
+                        <?}else{
+                            echo 'По вашему запросу ничего не найдено';
+                        }
+                        ?>
 
                     </div>
 
