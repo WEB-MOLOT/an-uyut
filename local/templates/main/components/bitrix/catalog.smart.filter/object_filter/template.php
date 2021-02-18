@@ -22,7 +22,7 @@ $hasMore = false;
             <?foreach($arParams["TYPE"] as $val=>$arrVal):?>
             <li data-value="<?=$val?>" class="catalog_filter_tab d_flex j_content_center a_items_center <?=$arrVal["CUR"]=="Y"?" active":""?>">
                 <span class="catalog_filter_tab--icon">
-                    <img src="<?=$arrVal["ICON"]?>" alt="">
+                    <?=file_get_contents($_SERVER["DOCUMENT_ROOT"].$arrVal["ICON"])?>
                 </span>
                 <span class="catalog_filter_tab--txt"><?=$arrVal["NAME"]?></span>
             </li>
