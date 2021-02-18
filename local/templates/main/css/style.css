@@ -3728,9 +3728,10 @@ h1.title_page {
     height: 50px;
     display:flex;
     align-items:center;
-    width: 47%;
-    flex-basis: 47%;
+    width: 496px;
+    flex-basis: 496px;
     margin-bottom: 25px;
+    margin-right: 23px;
 }
 .row_catalog_filters_fp .item.checkbox{
     height: auto;
