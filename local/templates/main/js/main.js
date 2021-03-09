@@ -521,7 +521,7 @@ $(document).ready(function() {
 		}
 	})
 
-	$(document).on("keyup",".row.row_catalog_filters_fp .item .item-field .pseudo",function(){
+	$(document).on("keyup",".row_catalog_filters_fp .item .item-field .pseudo",function(){
 		var txt = $(this).val().toLowerCase();
 		var url = $("#filterUrl").val();
 		var that = $(this);
@@ -532,6 +532,7 @@ $(document).ready(function() {
 				method: "get",
 				cache: false,
 				success: function (data) {
+
 					var list = $(data).find("#"+id).find(".list-item");
 					var str = "";
 					list.each(function () {
@@ -555,12 +556,12 @@ $(document).ready(function() {
 				}
 			})
 		}else{
-			$(".row.row_catalog_filters_fp .item .item-field .list .list-item").remove();
+			$(".row_catalog_filters_fp .item .item-field .list .list-item").remove();
 			$(this).prev().val("").attr("name","").trigger( "change" );
 		}
 	})
 
-	$(document).on("click",".row.row_catalog_filters_fp .item .item-field .list .list-item",function(){
+	$(document).on("click",".row_catalog_filters_fp .item .item-field .list .list-item",function(){
 		var name = $(this).data("name");
 		var value = $(this).data("value");
 		var trueValue = $(this).text();
