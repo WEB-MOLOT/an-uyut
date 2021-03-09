@@ -35,7 +35,15 @@ $hasMore = false;
             <?if ($arItem["DISPLAY_TYPE"] == "A"&& ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0))continue;?>
             <?if($arItem["DISPLAY_EXPANDED"]==NULL)$hasMore = true;?>
         <div class="item<?=$arItem["DISPLAY_EXPANDED"]==NULL?' hide':''?><?=($arItem["DISPLAY_TYPE"]!="A"&&$arItem["DISPLAY_TYPE"]!="P")?' checkbox':''?>">
+            <?if($arItem["DISPLAY_TYPE"]=="A"):?>
+                <?if(!empty($arItem["FILTER_HINT"])):?>
+                <div class="item-name"><?=implode(", ",array($arItem["NAME"],$arItem["FILTER_HINT"]))?>:</div>
+                <?else:?>
+                <div class="item-name"><?=$arItem["NAME"]?>:</div>
+                <?endif?>
+            <?else:?>
             <div class="item-name"><?=$arItem["NAME"]?>:</div>
+            <?endif?>
             <div class="item-field">
                 <?$arCur = ""?>
                 <?foreach($arItem["VALUES"] as $val => $ar){
@@ -63,7 +71,7 @@ $hasMore = false;
                         />
                         <div class="catalog_filters_field--range_field">
                         </div>
-                        <div class="catalog_filters_field--range" data-min-id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>" data-max-id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>" data-prefix="от" data-prefix2="до" data-sufix="<?=$arItem["FILTER_HINT"]?>" data-min="<?=$arItem["VALUES"]["MIN"]["VALUE"]?>" data-max="<?=$arItem["VALUES"]["MAX"]["VALUE"]?>" data-start="<?=$arItem["VALUES"]["MIN"]["HTML_VALUE"]?$arItem["VALUES"]["MIN"]["HTML_VALUE"]:$arItem["VALUES"]["MIN"]["VALUE"]?>" data-end="<?=$arItem["VALUES"]["MAX"]["HTML_VALUE"]?$arItem["VALUES"]["MAX"]["HTML_VALUE"]:$arItem["VALUES"]["MAX"]["VALUE"]?>"></div>
+                        <div class="catalog_filters_field--range" data-min-id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>" data-max-id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>" data-prefix="от" data-prefix2="до" data-sufix="" data-min="<?=$arItem["VALUES"]["MIN"]["VALUE"]?>" data-max="<?=$arItem["VALUES"]["MAX"]["VALUE"]?>" data-start="<?=$arItem["VALUES"]["MIN"]["HTML_VALUE"]?$arItem["VALUES"]["MIN"]["HTML_VALUE"]:$arItem["VALUES"]["MIN"]["VALUE"]?>" data-end="<?=$arItem["VALUES"]["MAX"]["HTML_VALUE"]?$arItem["VALUES"]["MAX"]["HTML_VALUE"]:$arItem["VALUES"]["MAX"]["VALUE"]?>"></div>
                     </div>
                     <?break;?>
                     <?case "P":?>
