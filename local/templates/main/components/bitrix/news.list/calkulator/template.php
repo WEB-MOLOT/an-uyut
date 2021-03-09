@@ -34,26 +34,31 @@ $range_val_3 = 25;
             <div class="col col-3">
                 <div class="mortgage_calculator_field">
                     <div class="mortgage_calculator_field--title">Стоимость квартиры:</div>
-                    <div class="mortgage_calculator_field--range_wrapper">
-                        <div id="js__field_1" class="mortgage_calculator_field--range_field "><?=number_format($range_val_1, 0, false, ' ')?> ₽</div>
-                        <div   class="mortgage_calculator_field <?Php if($arParams['PRICE_CHANGEABLE']){ ?>mortgage_calculator_field--range<?php }?>" data-min="0" data-max="25000000" data-start="<?=$range_val_1;?>"></div>
-                    </div>
+					<div class="mortgage_calculator_field--range_wrapper">
+						<div id="js__field_1" class="mortgage_calculator_field--range_field ">
+							<input type="text" value="<?=number_format($range_val_1, 0, false, ' ')?> ₽" <?php if(!$arParams['PRICE_CHANGEABLE']){ ?>disabled <? } ?>>
+						</div>
+						<div class="mortgage_calculator_field <?Php if($arParams['PRICE_CHANGEABLE']){ ?>mortgage_calculator_field--range<?php }?>" data-min="0" data-max="25000000" data-start="<?=$range_val_1;?>"></div>
+					</div>
                 </div>
             </div>
             <div class="col col-3">
-                <div class="mortgage_calculator_field">
-                    <div class="mortgage_calculator_field--title">Первый взнос?</div>
-                    <div class="mortgage_calculator_field--range_wrapper">
-                        <div  id="js__field_2"  class="mortgage_calculator_field--range_field"><?=$range_val_2;?> ₽</div>
-                        <div class="mortgage_calculator_field--range" data-min="0" data-max="10000000" data-start="<?=$range_val_2;?>"></div>
-                    </div>
-                </div>
+				<div class="mortgage_calculator_field">
+					<div class="mortgage_calculator_field--title">Первый взнос?</div>
+					<div class="mortgage_calculator_field--range_wrapper">
+						<div  id="js__field_2"  class="mortgage_calculator_field--range_field">
+						<input type="text" value="<?=$range_val_2;?> ₽">
+						</div>
+						<div class="mortgage_calculator_field--range" data-min="0" data-max="10000000" data-start="<?=$range_val_2;?>"></div>
+					</div>
+				</div>
             </div>
             <div class="col col-3">
                 <div class="mortgage_calculator_field">
                     <div class="mortgage_calculator_field--title">Срок:</div>
                     <div class="mortgage_calculator_field--range_wrapper">
-                        <div id="js__field_3" class="mortgage_calculator_field--range_field">25 лет</div>
+                        <div id="js__field_3" class="mortgage_calculator_field--range_field">
+                        <input type="text" value="25 лет"></div>
                         <div class="mortgage_calculator_field--range " data-min="0" data-max="30" data-start="25"></div>
                     </div>
                 </div>
@@ -143,7 +148,7 @@ $range_val_3 = 25;
 			<? uasort($row, 'cmp'); ?>
 			<? foreach($row as $k => $r) { ?>
 				<tr>
-                <td class="mortgage_calculator_table--bank"><img src="<?=$r['img'];?>" alt="<?=$r['name'];?>" style="max-width:200px;"></td>
+                <td class="mortgage_calculator_table--bank"><img src="<?=$r['img'];?>" alt="<?=$r['name'];?>"></td>
 				<td class="mortgage_calculator_table--stavka"> от <?=$r['rate'];?>%</td>
 				<td class="mortgage_calculator_table--vznos" id="<?=$k;?>" ><?=$r['first_perc']?>% / <?=$r['first'];?> руб.</td>
 				<td class="mortgage_calculator_table--srok"> до <?=$r['year']?> лет</td>

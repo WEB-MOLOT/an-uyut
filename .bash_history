@@ -110,3 +110,56 @@ git pull origin filter
 git pull origin filter
 git pull origin filter
 git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git status
+git add .
+git coit -m"local Changes"
+git pull origin filter
+git status
+git commit -m"local Changes"
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git status
+git diff index.php
+git add .
+git commit -m"Local Changes"
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter
+git pull origin filter

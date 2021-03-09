@@ -159,7 +159,7 @@ if($first_sum < $total_sum){
 	uasort($row, 'cmp');
 	foreach($row as $r) {
 		$html .='<tr>
-			<td class="mortgage_calculator_table--bank"><img src="'.$r['img'].'" alt="'.$r['name'].'" style="max-width:200px;"></td>
+			<td class="mortgage_calculator_table--bank"><img src="'.$r['img'].'" alt="'.$r['name'].'"></td>
 			<td class="mortgage_calculator_table--stavka"> от '.$r['rate'].'%</td>
 			<td class="mortgage_calculator_table--vznos" id="395">'.$r['first_perc']."% / ".$r['first'].' руб.</td>
 			<td class="mortgage_calculator_table--srok"> до '.$r['year'].' лет</td>

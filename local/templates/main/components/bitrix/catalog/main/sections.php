@@ -132,10 +132,10 @@ if ($el = $res->Fetch())
                                         <div class="catalog_items_select_field">
                                         <select class="select_custom" name="sort">
 
-                                           <!-- <option value="date" <?/*=(!isset($_GET['sort']) && $_GET['sort'] =='date') ? 'selected':'';*/?> >Дате добавления</option>
-                                            <option value="price_value" <?/*=(isset($_GET['sort']) && $_GET['sort'] =='price_value') ? 'selected':'';*/?> >По цене</option>-->
-                                            <option value="date" <?=(!isset($_GET['sort']) && $_GET['sort'] =='date') ? 'selected':'';?> >Дате добавления</option>
-                                            <option value="price_value" <?=(isset($_GET['sort']) && $_GET['sort'] =='price_value') ? 'selected':'';?> >По цене</option>
+                                            <option value="dated" <?=(!isset($_GET['sort']) || $_GET['sort'] == 'dated') ? 'selected':'';?> >Сначала новые</option>
+                                    <option value="datea" <?=(isset($_GET['sort']) && $_GET['sort'] == 'datea') ? 'selected':'';?> >Сначала старые</option>
+                                    <option value="price_valuea" <?=(isset($_GET['sort']) && $_GET['sort'] == 'price_valuea') ? 'selected':'';?>>Сначала дешевые</option>
+                                    <option value="price_valued" <?=(isset($_GET['sort']) && $_GET['sort'] == 'price_valued') ? 'selected':'';?>>Сначала дорогие</option>
 
                                         </select>
                                         </div>
@@ -147,14 +147,20 @@ if ($el = $res->Fetch())
 <?
 $intSectionID = 0;
 ?><?
-if($_GET['sort'] =='price_value'){
-    $sort = "PROPERTY_price_value";
-}
-elseif($_GET['sort'] =='date'){
-    $sort = "CREATE_DATE";
-}
-else{
-    $sort = $arParams["ELEMENT_SORT_FIELD"];
+$sort = $arParams["ELEMENT_SORT_FIELD"];
+$order = $arParams["ELEMENT_SORT_ORDER"];
+if(isset($_GET['sort']) && $_GET['sort'] == 'dated') {
+	$sort = 'timestamp_x';
+	$order = 'desc';
+} elseif(isset($_GET['sort']) && $_GET['sort'] == 'datea') {
+	$sort = 'timestamp_x';
+	$order = 'asc';
+} elseif(isset($_GET['sort']) && $_GET['sort'] == 'price_valuea') {
+	$sort = 'PROPERTY_price_value';
+	$order = 'asc';
+} elseif(isset($_GET['sort']) && $_GET['sort'] == 'price_valued') {
+	$sort = 'PROPERTY_price_value';
+	$order = 'desc';
 }
 $intSectionID = $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
@@ -163,7 +169,7 @@ $intSectionID = $APPLICATION->IncludeComponent(
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 		"ELEMENT_SORT_FIELD" => $sort,
-		"ELEMENT_SORT_ORDER" => $arParams["ELEMENT_SORT_ORDER"],
+		"ELEMENT_SORT_ORDER" => $order,
 		"ELEMENT_SORT_FIELD2" => $arParams["ELEMENT_SORT_FIELD2"],
 		"ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
 		"PROPERTY_CODE" => $arParams["LIST_PROPERTY_CODE"],

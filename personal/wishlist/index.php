@@ -5,169 +5,126 @@ use Bitrix\Main\Application;
 use Bitrix\Main\Web\Cookie;
 $application = Application::getInstance();
 $context = $application->getContext();
+if(CModule::IncludeModule("catalog") && CModule::IncludeModule("iblock")){
 ?>
 
-    <div class="inner container favorites">
-        <h1>Избранное</h1>
+<div class="page__catalog inner favorites">
+	<div class="main_inside_wrapper">
+		<div class="container">
+			<br><br>
+			<div class="breadcrumbs">
+				<a href="/" title="Главная">
+					<span itemprop="name">Главная</span>
+				</a>
+				<span class="sep">/</span>
+				<span>Избранное</span>
+			</div>
+			<h1 class="title_page">Избранное</h1>
+		<div class="catalog">
         <?
-        if(!$USER->IsAuthorized()) // Для неавторизованного
-        {
-            global $APPLICATION;
-            $favorites = unserialize($APPLICATION->get_cookie('favorites'));
-        }
-        else {
-            $idUser = $USER->GetID();
-            $rsUser = CUser::GetByID($idUser);
-            $arUser = $rsUser->Fetch();
-            $favorites = $arUser['UF_FAVORITES'];
+		if(!$USER->IsAuthorized()) { // Для неавторизованного
+			global $APPLICATION;
+			$favorites = unserialize($APPLICATION->get_cookie('favorites'));
+		} else {
+			$idUser = $USER->GetID();
+			$rsUser = CUser::GetByID($idUser);
+			$arUser = $rsUser->Fetch();
+			$favorites = $arUser['UF_FAVORITES'];
 
-        }
-        if(!is_array($favorites)) {
-            unset($favorites);
-        }
-
-        $GLOBALS['arrFilter']=Array("ID" => $favorites);
-        if(count($favorites) > 0 && is_array($favorites)):
-            $APPLICATION->IncludeComponent(
-	"bitrix:catalog.section", 
-	"favorites", 
-	array(
-		"ACTION_VARIABLE" => "action",
-		"ADD_PROPERTIES_TO_BASKET" => "Y",
-		"ADD_SECTIONS_CHAIN" => "N",
-		"ADD_TO_BASKET_ACTION" => "ADD",
-		"AJAX_MODE" => "N",
-		"AJAX_OPTION_ADDITIONAL" => "",
-		"AJAX_OPTION_HISTORY" => "N",
-		"AJAX_OPTION_JUMP" => "N",
-		"AJAX_OPTION_STYLE" => "Y",
-		"BACKGROUND_IMAGE" => "-",
-		"BASKET_URL" => "/personal/cart/",
-		"BROWSER_TITLE" => "-",
-		"CACHE_FILTER" => "N",
-		"CACHE_GROUPS" => "N",
-		"CACHE_TIME" => "36000000",
-		"CACHE_TYPE" => "A",
-		"COMPATIBLE_MODE" => "Y",
-		"CONVERT_CURRENCY" => "N",
-		"DETAIL_URL" => "/search/#SECTION_CODE#/#ELEMENT_CODE#/",
-		"DISABLE_INIT_JS_IN_COMPONENT" => "N",
-		"DISPLAY_BOTTOM_PAGER" => "Y",
-		"DISPLAY_COMPARE" => "N",
-		"DISPLAY_TOP_PAGER" => "N",
-		"ELEMENT_SORT_FIELD" => "sort",
-		"ELEMENT_SORT_FIELD2" => "id",
-		"ELEMENT_SORT_ORDER" => "asc",
-		"ELEMENT_SORT_ORDER2" => "desc",
-		"FILTER_NAME" => "arrFilter",
-		"HIDE_NOT_AVAILABLE" => "N",
-		"HIDE_NOT_AVAILABLE_OFFERS" => "Y",
-		"IBLOCK_ID" => "31",
-		"IBLOCK_TYPE" => "catalog",
-		"INCLUDE_SUBSECTIONS" => "Y",
-		"LAZY_LOAD" => "N",
-		"LINE_ELEMENT_COUNT" => "3",
-		"LOAD_ON_SCROLL" => "N",
-		"MESSAGE_404" => "",
-		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
-		"MESS_BTN_BUY" => "Купить",
-		"MESS_BTN_DETAIL" => "Подробнее",
-		"MESS_BTN_SUBSCRIBE" => "Подписаться",
-		"MESS_NOT_AVAILABLE" => "Нет в наличии",
-		"META_DESCRIPTION" => "-",
-		"META_KEYWORDS" => "-",
-		"OFFERS_LIMIT" => "5",
-		"PAGER_BASE_LINK_ENABLE" => "N",
-		"PAGER_DESC_NUMBERING" => "N",
-		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-		"PAGER_SHOW_ALL" => "N",
-		"PAGER_SHOW_ALWAYS" => "N",
-		"PAGER_TEMPLATE" => "swiss",
-		"PAGER_TITLE" => "Товары",
-		"PAGE_ELEMENT_COUNT" => "9",
-		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"PRICE_CODE" => array(
-			0 => "BASE",
-		),
-		"PRICE_VAT_INCLUDE" => "Y",
-		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_PROPERTIES" => "",
-		"PRODUCT_PROPS_VARIABLE" => "prop",
-		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
-		"PRODUCT_SUBSCRIPTION" => "Y",
-		"PROPERTY_CODE" => array(
-			0 => "",
-			1 => "",
-		),
-		"RCM_PROD_ID" => $_REQUEST["PRODUCT_ID"],
-		"RCM_TYPE" => "personal",
-		"SECTION_CODE" => "",
-		"SECTION_ID" => "",
-		"SECTION_ID_VARIABLE" => "SECTION_CODE",
-		"SECTION_URL" => "/search/#SECTION_CODE#",
-		"SECTION_USER_FIELDS" => array(
-			0 => "",
-			1 => "",
-		),
-		"SEF_MODE" => "Y",
-		"SET_BROWSER_TITLE" => "Y",
-		"SET_LAST_MODIFIED" => "N",
-		"SET_META_DESCRIPTION" => "Y",
-		"SET_META_KEYWORDS" => "Y",
-		"SET_STATUS_404" => "N",
-		"SET_TITLE" => "Y",
-		"SHOW_404" => "N",
-		"SHOW_ALL_WO_SECTION" => "Y",
-		"SHOW_CLOSE_POPUP" => "N",
-		"SHOW_DISCOUNT_PERCENT" => "N",
-		"SHOW_FROM_SECTION" => "N",
-		"SHOW_MAX_QUANTITY" => "N",
-		"SHOW_OLD_PRICE" => "N",
-		"SHOW_PRICE_COUNT" => "1",
-		"TEMPLATE_THEME" => "site",
-		"USE_ENHANCED_ECOMMERCE" => "N",
-		"USE_MAIN_ELEMENT_SECTION" => "N",
-		"USE_PRICE_COUNT" => "N",
-		"USE_PRODUCT_QUANTITY" => "N",
-		"COMPONENT_TEMPLATE" => "favorites",
-		"CUSTOM_FILTER" => "{\"CLASS_ID\":\"CondGroup\",\"DATA\":{\"All\":\"AND\",\"True\":\"True\"},\"CHILDREN\":[]}",
-		"PROPERTY_CODE_MOBILE" => array(
-		),
-		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
-		"ENLARGE_PRODUCT" => "STRICT",
-		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
-		"SHOW_SLIDER" => "Y",
-		"ADD_PICT_PROP" => "-",
-		"LABEL_PROP" => array(
-		),
-		"SLIDER_INTERVAL" => "3000",
-		"SLIDER_PROGRESS" => "N",
-		"OFFERS_SORT_FIELD" => "sort",
-		"OFFERS_SORT_ORDER" => "asc",
-		"OFFERS_SORT_FIELD2" => "id",
-		"OFFERS_SORT_ORDER2" => "desc",
-		"OFFERS_FIELD_CODE" => array(
-			0 => "",
-			1 => "",
-		),
-		"PRODUCT_DISPLAY_MODE" => "N",
-		"SEF_RULE" => "",
-		"SECTION_CODE_PATH" => ""
-	),
-	false
-);
-        else:
-            ?>
-            <div class="inner">
-                <div class="center">
-                    <div class="waitingfor">
-                        Вы не добавляли товары в избранное.
-                    </div>
-                </div>
-            </div>
-
-        <?endif;?>
-
-    </div>
-
+		}
+		if(!is_array($favorites)) {
+			unset($favorites);
+		}
+// 		print_r($favorites);
+		if(count($favorites) > 0 && is_array($favorites)) {
+		
+		$arSelect = Array("ID", "IBLOCK_ID", "NAME", "DETAIL_PICTURE", "PREVIEW_TEXT", "DETAIL_PAGE_URL",  "DATE_ACTIVE_FROM","PROPERTY_*");//IBLOCK_ID и ID обязательно должны быть указаны, см. описание arSelectFields выше
+		$arFilter = Array("IBLOCK_ID"=>31, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $favorites);
+		
+		$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>16), $arSelect);
+		$res->NavStart(0);
+		if($res->SelectedRowsCount() > 0){
+			?>
+			 <div class="catalog_item active" data-item="2">
+				<div class="catalog_item_cols">
+					<div class="row row_catalog d_flex f_wrap">
+						<?while($ob = $res->GetNextElement()) {?>
+						<?
+						$arFields = $ob->GetFields();
+						$arProps = $ob->GetProperties();
+						$img = CFile::getPath($arFields["DETAIL_PICTURE"]);
+						if($img == null || !$img || $arFields["DETAIL_PICTURE"] == '') $img = '/local/templates/main/components/bitrix/catalog/main/bitrix/catalog.section/.default/images/no_photo.png';
+						?>  
+						<div class="col col-4 item_item_container">
+							<div class="item">
+								<div class="item_head">
+									<div class="item_image"><a href="<?=$arFields["DETAIL_PAGE_URL"]?>"><img src="<?=$img?>" alt=""/></a></div>
+									<span class="item_favorite fpage" data-item="<?=$arFields["ID"]?>"><svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.00062 13.1365L7.79562 12.9665C7.40687 12.6415 6.88062 12.289 6.27062 11.8815C3.89438 10.2902 0.640625 8.11273 0.640625 4.40023C0.640625 2.10648 2.50687 0.240234 4.80062 0.240234C6.04688 0.240234 7.21438 0.795234 8.00062 1.74398C8.78687 0.795234 9.95438 0.240234 11.2006 0.240234C13.4944 0.240234 15.3606 2.10648 15.3606 4.40023C15.3606 8.11273 12.1069 10.2902 9.73063 11.8815C9.12062 12.289 8.59438 12.6415 8.20563 12.9665L8.00062 13.1365Z" fill="#D9E3EC"/></svg></span>
+								</div>
+								<a href="<?=$arFields["DETAIL_PAGE_URL"]?>" class="item_body">
+									<div class="item_meta d_flex a_items_center j_content_between f_wrap">
+										<? if (!empty($arProps['price_value']['VALUE'])){?>
+										<div class="item_meta_price"><?=number_format($arProps['price_value']['VALUE'], 0, '', ' ')?> ₽</div>
+										<?}?>
+										<? if (!empty($arProps['price_value']['VALUE'])){?>
+										<div class="item_meta_area"><?=number_format(ceil($arProps['price_value']['VALUE']/$arProps['area_value']['VALUE']), 0, '', ' ')?> ₽ за м<sup>2</sup></div>
+										<?}?>
+									</div>
+									<div class="item_info">
+									<span class="item_info--appartment"><?=$arFields["NAME"]?></span>,
+									<span class="item_info--appartment_info"><? if (!empty($arProps['area_value']['VALUE'])){?>
+											<?=$arProps['area_value']['VALUE']?> м<sup>2</sup>,<?}?>
+										<? if (!empty($arProps['floor']['VALUE'])){?>
+											<?=$arProps['floor']['VALUE']?> этаж<?}?></span>
+									<? if (!empty($arProps['location_locality_name']['VALUE'])){?><br><?=$arProps['location_locality_name']['VALUE']?>, <?=$arProps['location_address']['VALUE']?><?}?></div>
+								</a>
+							</div>
+						</div>
+						<? } ?>
+					</div>
+				</div>
+			</div>
+			<?
+			ob_start(); // начинаем буферизацию вывода
+			$APPLICATION->IncludeComponent(
+				'bitrix:system.pagenavigation',
+				'round',
+				array(
+					'NAV_TITLE'   => 'Элементы', // поясняющий текст для постраничной навигации
+					'NAV_RESULT'  => $res,  // результаты выборки из базы данных
+					'SHOW_ALWAYS' => false       // показывать постраничную навигацию всегда?
+				)
+			);
+			$navString = ob_get_clean(); // завершаем буферизацию вывода
+			echo $navString;
+			?>
+			<?
+		} else {
+			?>
+			<div class="inner">
+				<div class="center">
+					<div class="waitingfor">
+						Вы не добавляли товары в избранное.
+					</div>
+				</div>
+			</div>
+			<?
+		}
+		} else {
+			?>
+			<div class="inner">
+				<div class="center">
+					<div class="waitingfor">
+						Вы не добавляли товары в избранное.
+					</div>
+				</div>
+			</div>
+		<? } ?>
+		
+		</div>
+		</div>
+		</div>
+	</div>
+</div>
+<? } ?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

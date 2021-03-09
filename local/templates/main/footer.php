@@ -204,6 +204,55 @@
 <script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/jquery.custom-select.min.js"></script>
 <script type="text/javascript" src="<?= SITE_TEMPLATE_PATH ?>/js/main.js"></script>
 
+<script>
+$(document).ready(function() {
+	/* Favorites */
+	$('span.item_favorite').on('click', function(e) {
+		var favorID = $(this).attr('data-item');
+		if($(this).hasClass('active'))
+			var doAction = 'delete';
+		else
+			var doAction = 'add';
 
+		addFavorite(favorID, doAction, this);
+	});
+	/* Favorites */
+});
+/* Избранное */
+function addFavorite(id, action, ths)
+{
+	var param = 'id='+id+"&action="+action;
+	$.ajax({
+		url:     '/ajax/favorites.php', // URL отправки запроса
+		type:     "GET",
+		dataType: "html",
+		data: param,
+		success: function(response) { // Если Данные отправлены успешно
+			var result = $.parseJSON(response);
+			if(result == 1){ // Если всё чётко, то выполняем действия, которые показывают, что данные отправлены :)
+				$('.item_favorite[data-item="'+id+'"]').addClass('active');
+				var wishCount = parseInt($('#want span').html()) + 1;
+				$('#want span').html(wishCount); // Визуально меняем количество у иконки
+			}
+			if(result == 2){
+				$('.item_favorite[data-item="'+id+'"]').removeClass('active');
+				var wishCount = parseInt($('#want span').html()) - 1;
+				$('#want span').html(wishCount); // Визуально меняем количество у иконки
+				if($(ths).hasClass('fpage')) {
+					$(ths).closest('.item_item_container').hide();
+					if($('.page__catalog.favorites .item_item_container:visible').length == 0) {
+						$('.catalog').html('<div class="waitingfor">Вы не добавляли товары в избранное.</div>');
+					}
+				}
+				
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){ // Если ошибка, то выкладываем печаль в консоль
+			console.log('Error: '+ errorThrown);
+		}
+	});
+}
+/* Избранное */
+</script>
 </body>
 </html>

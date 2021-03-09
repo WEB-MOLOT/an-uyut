@@ -6,18 +6,18 @@ Number.prototype.format = function(n, x, s, c) {
 };
 $(document).ready(function() {
 	function formatMoney(number, decPlaces, decSep, thouSep) {
-decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
-decSep = typeof decSep === "undefined" ? "." : decSep;
-thouSep = typeof thouSep === "undefined" ? "," : thouSep;
-var sign = number < 0 ? "-" : "";
-var i = String(parseInt(number = Math.abs(Number(number) || 0).toFixed(decPlaces)));
-var j = (j = i.length) > 3 ? j % 3 : 0;
+		decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+		decSep = typeof decSep === "undefined" ? "." : decSep;
+		thouSep = typeof thouSep === "undefined" ? "," : thouSep;
+		var sign = number < 0 ? "-" : "";
+		var i = String(parseInt(number = Math.abs(Number(number) || 0).toFixed(decPlaces)));
+		var j = (j = i.length) > 3 ? j % 3 : 0;
 
-return sign +
-	(j ? i.substr(0, j) + thouSep : "") +
-	i.substr(j).replace(/(\decSep{3})(?=\decSep)/g, "$1" + thouSep) +
-	(decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
-}
+		return sign +
+			(j ? i.substr(0, j) + thouSep : "") +
+			i.substr(j).replace(/(\decSep{3})(?=\decSep)/g, "$1" + thouSep) +
+			(decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
+	}
 	$('.tabs_changer ul li').on('click', function() {
 		if($(this).find('span').length===0) {
 			var curDataItem = $(this).attr('data-item');
@@ -70,6 +70,8 @@ return sign +
 		}
 	}
 	beautySelect();
+	
+	
 
 	const montgagerage = document.querySelector('.mortgage_calculator_field');
 	if(montgagerage != null) {
@@ -77,21 +79,23 @@ return sign +
 			var rangeMin = parseInt($(this).find('.mortgage_calculator_field--range').attr('data-min'));
 			var rangeMax = parseInt($(this).find('.mortgage_calculator_field--range').attr('data-max'));
 			var rangeStart = parseInt($(this).find('.mortgage_calculator_field--range').attr('data-start'));
-			$(this).find('.mortgage_calculator_field--range').slider({
+			
+			var sl = $(this).find('.mortgage_calculator_field--range').slider({
+				animate: true,
 				min: rangeMin,
 				max: rangeMax,
 				values: [rangeMin, rangeStart],
 				range: true,
-				create: function() {
+				slide: function(event, ui) {
 					var meas = '';
 					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
 						meas = ' лет';
 					} else {
 						meas = ' ₽';
 					}
-					var v = parseInt($(this).slider("values", 1));
+					var v = parseInt(ui.value);
 					var curText = v.format(0, 3, " ", ",") + meas;
-					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
+					$(this).parent().find('.mortgage_calculator_field--range_field input').val(curText);
 				},
 				change: function() {
 					var meas = '';
@@ -102,19 +106,17 @@ return sign +
 					}
 					var v = parseInt($(this).slider("values", 1));
 					var curText = v.format(0, 3, " ", ",") + meas;
-					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
+// 					$(this).parent().find('.mortgage_calculator_field--range_field input').val(curText);
 
 					$.post( "/ajax.php", {
-						total_sum : parseInt($('#js__field_1').text().replace(/\s+/g, '').trim()),
-						first_sum :parseInt($('#js__field_2').text().replace(/\s+/g, '').trim()),
-						years :parseInt($('#js__field_3').text().replace(/\s+/g, '').trim())
+						total_sum : parseInt($('#js__field_1 input').val().replace(/\s+/g, '').trim()),
+						first_sum :parseInt($('#js__field_2 input').val().replace(/\s+/g, '').trim()),
+						years :parseInt($('#js__field_3 input').val().replace(/\s+/g, '').trim())
 					}).done(function( response ) {
-				
-
 						$('.mortgage_calculator_items tbody').html(response)
 					});
 				},
-				slide: function() {
+				create: function() {
 					var meas = '';
 					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
 						meas = ' лет';
@@ -123,20 +125,23 @@ return sign +
 					}
 					var v = parseInt($(this).slider("values", 1));
 					var curText = v.format(0, 3, " ", ",") + meas;
-					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
+					$(this).parent().find('.mortgage_calculator_field--range_field input').val(curText);
 				},
-				stop: function() {
-					var meas = '';
-					if($(this).parent().find('.mortgage_calculator_field--range_field').attr('id') == 'js__field_3') {
-						meas = ' лет';
-					} else {
-						meas = ' ₽';
-					}
-					var v = parseInt($(this).slider("values", 1));
-					var curText = v.format(0, 3, " ", ",") + meas;
-					$(this).parent().find('.mortgage_calculator_field--range_field').text(curText);
-				}
 			});
+			
+		});
+		$(document).on("change", ".mortgage_calculator_field--range_field input",function() {
+			var values = [];
+			values.push($(this).closest('.mortgage_calculator_field--range_wrapper').find('.mortgage_calculator_field--range').slider("values", 0));
+			var value = parseInt($(this).val().replace(/\D+/g, ""));
+			values.push(value);
+			$(this).closest('.mortgage_calculator_field--range_wrapper').find('.mortgage_calculator_field--range').slider("option", {values: values});
+			if($(this).parent().attr('id') == 'js__field_3') {
+				meas = ' лет';
+			} else {
+				meas = ' ₽';
+			}
+			$(this).val(value.format(0, 3, " ", ",") + meas);
 		});
 	}
 	function initRange(){

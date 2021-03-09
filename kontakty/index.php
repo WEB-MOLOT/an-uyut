@@ -60,17 +60,17 @@ $APPLICATION->SetTitle("Контакты");
 								</div>
 								<div class="contacts_info_address_wrapper">
 									<div class="contacts_info_address active" id="contacts_info_address-car" style="display: block;">
-										<p>По адресу1: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
+										<p>По адресу: г. Жуковский, Гагарина д.19/2, Офис №9</p>
 										<p>Координаты gps: 55.604381, 38.102618</p>
 									</div>
 									<div class="contacts_info_address" id="contacts_info_address-ob">
-										<p>По адресу2: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
-										<p>Координаты gps: 55.604381, 38.102618</p>
+										<p>От ж/д станции «Ильинская»: маршрутка N 19, до перекрестка ул. Гагарина - ул. Мичурина.</p>
+									    <p>От ст. метро «Котельники»: Автобусы N 424, 478, до остановки «Дикси» на ул. Гагарина. </p>
 									</div>
 									<div class="contacts_info_address" id="contacts_info_address-tx">
-										<p>По адресу3: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
-										<p>Координаты gps: 55.604381, 38.102618</p>
-									</div>
+										<p>Кликните по кнопке ниже для заказа такси:</p>
+								    	<script src="//yastatic.net/taxi-widget/ya-taxi-widget.js"></script><div class="ya-taxi-widget" data-use-location="true" data-app="3" data-redirect="1178268795219780156" data-tariff="econom" data-lang="ru" data-size="xs" data-theme="normal" data-title="Вызвать такси" data-point-a="" data-point-b="38.10251,55.604473" data-ref="http%3A%2F%2Fan.ledimiqx.beget.tech%2F" data-proxy-url="https://{app}.redirect.appmetrica.yandex.com/route?start-lat={start-lat}&amp;start-lon={start-lon}&amp;end-lat={end-lat}&amp;end-lon={end-lon}&amp;ref={ref}&amp;appmetrica_tracking_id={redirect}&amp;tariffClass={tariff}&amp;lang={lang}"></div>
+								</div>
 								</div>
 								<div class="contacts_info_bottom d_flex a_items_center f_wrap">
 									<div class="contacts_info_bottom--callback">
@@ -115,7 +115,7 @@ $APPLICATION->SetTitle("Контакты");
 					</div>
 					<div class="price_control price_control--contacts">
 						<div class="price_control_info">
-							<div class="price_control_desc"><strong>Здравствуйте!</strong> Меня зовут Дмитрий Соколов, я руководитель отдела продаж в агентстве недвижимости "Уют". Моя цель, чтобы вы были довольны покупкой у нас на всех этапах. <br>Если это не так - напишите мне: <br><strong>ds@an-uyut.ru</strong></div>
+							<div class="price_control_desc"><strong>Здравствуйте!</strong> Меня зовут Дмитрий Соколов, я руководитель отдела продаж в агентстве недвижимости "Уют". <br>Моя цель, чтобы вы были довольны покупкой у нас на всех этапах. <br>Если это не так - напишите мне: <br><strong>ds@an-uyut.ru</strong></div>
 						</div>
 						<div class="price_control_image">
 							<img src="/local/templates/main/img/bg_price_control.png" alt=""/>
@@ -140,13 +140,13 @@ Array("MODE"=>"html")
 		
 		ymaps.ready(function () {
 			var myMap = new ymaps.Map('map', {
-				center: [55.996850, 92.796438],
-				zoom: 16,
+				center: [55.604473, 38.102510],
+				zoom: 18,
 				controls: ['zoomControl']
 			}),
 			MyIconContentLayout = ymaps.templateLayoutFactory.createClass('<div class="some-class">$[properties.iconContent]</div>'), 
 				myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
-				iconContent: '<div class="map__caption">г. Жуковский, Гагарина д.19/2А <br>Офис №9</div>',
+				
 			}, {
 				iconLayout: 'default#imageWithContent',
 				iconImageHref: '/local/templates/main/img/svg/icon_contacts_svg_marker.svg',

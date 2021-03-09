@@ -126,6 +126,9 @@ foreach ($arResult['ITEMS'] as $key => $arItem)
 															<div class="item_meta_area"><?=number_format(ceil($arItem['PROPERTIES']['price_value']['VALUE']/$arItem['PROPERTIES']['area_value']['VALUE']), 0, '', ' ')?> ₽ за м<sup>2</sup></div>
 														</div>
 														<div class="item_info"><span class="item_info--appartment"><? echo $arItem['NAME']; ?></span>, <span class="item_info--appartment_info"><?=$arItem['PROPERTIES']['area_value']['VALUE']?> м<sup>²</sup>, <?=$arItem['PROPERTIES']['floor']['VALUE']?> этаж</span> <br><?=$arItem['PROPERTIES']['addr']['VALUE']?> </div>
+														<div class="item_meta d_flex a_items_center j_content_between f_wrap a_list_addr">
+															<?=$arItem['PROPERTIES']['location_locality_name']['VALUE']?>, <?=$arItem['PROPERTIES']['location_address']['VALUE']?>
+														</div>
 													</a>
 												</div>
 											</div>
@@ -134,49 +137,7 @@ foreach ($arResult['ITEMS'] as $key => $arItem)
     		</div>
     	</div>
     </div>
-<script>
-    $(document).ready(function() {
-        /* Favorites */
-        $('span.item_favorite').on('click', function(e) {
-            var favorID = $(this).attr('data-item');
-            if($(this).hasClass('active'))
-                var doAction = 'delete';
-            else
-                var doAction = 'add';
 
-            addFavorite(favorID, doAction);
-        });
-        /* Favorites */
-    });
-    /* Избранное */
-    function addFavorite(id, action)
-    {
-        var param = 'id='+id+"&action="+action;
-        $.ajax({
-            url:     '/ajax/favorites.php', // URL отправки запроса
-            type:     "GET",
-            dataType: "html",
-            data: param,
-            success: function(response) { // Если Данные отправлены успешно
-                var result = $.parseJSON(response);
-                if(result == 1){ // Если всё чётко, то выполняем действия, которые показывают, что данные отправлены :)
-                    $('.item_favorite[data-item="'+id+'"]').addClass('active');
-                    var wishCount = parseInt($('#want .col').html()) + 1;
-                    $('#want .col').html(wishCount); // Визуально меняем количество у иконки
-                }
-                if(result == 2){
-                    $('.item_favorite[data-item="'+id+'"]').removeClass('active');
-                    var wishCount = parseInt($('#want .col').html()) - 1;
-                    $('#want .col').html(wishCount); // Визуально меняем количество у иконки
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown){ // Если ошибка, то выкладываем печаль в консоль
-                console.log('Error: '+ errorThrown);
-            }
-        });
-    }
-    /* Избранное */
-</script>
 	<div class="catalog_item" data-item="3">
 		<div class="yandexmapa" id="yandexmapa" style="width: 100%; height: 700px;"></div>
 			<? foreach ($arResult['ITEMS'] as $key => $arItem){?>

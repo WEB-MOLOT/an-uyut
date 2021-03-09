@@ -10,6 +10,8 @@
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
+// global $USER;
+// $USER->Authorize(1);
 $this->setFrameMode(true);
 $templateLibrary = array('popup');
 $currencyList = '';
@@ -26,7 +28,9 @@ $templateData = array(
 	'CURRENCIES' => $currencyList
 );
 unset($currencyList, $templateLibrary);
-
+// echo "<pre>";
+// print_r($arResult['IBLOCK_SECTION_ID']);
+// echo "</pre>";
 $strMainID = $this->GetEditAreaId($arResult['ID']);
 $arItemIDs = array(
 	'ID' => $strMainID,
@@ -65,7 +69,9 @@ $arItemIDs = array(
 );
 $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $strMainID);
 $templateData['JS_OBJ'] = $strObName;
-
+// echo '<pre>';
+// print_r($arResult['PROPERTIES']);
+// echo '</pre>';
 $strTitle = (
 	isset($arResult["IPROPERTY_VALUES"]["ELEMENT_DETAIL_PICTURE_FILE_TITLE"]) && $arResult["IPROPERTY_VALUES"]["ELEMENT_DETAIL_PICTURE_FILE_TITLE"] != ''
 	? $arResult["IPROPERTY_VALUES"]["ELEMENT_DETAIL_PICTURE_FILE_TITLE"]
@@ -76,6 +82,40 @@ $strAlt = (
 	? $arResult["IPROPERTY_VALUES"]["ELEMENT_DETAIL_PICTURE_FILE_ALT"]
 	: $arResult['NAME']
 );
+
+// определяем категорию (продажа \ аренда)
+// if(stristr($_SERVER['REQUEST_URI'], 'prodazha')) {
+	$type1 = 1;
+// } else {
+// 	$type1 = 2;
+// }
+if(stristr($_SERVER['REQUEST_URI'], 'kvartira') && ($arResult['PROPERTIES']['new_flat']['VALUE'] == 'false' || empty($arResult['PROPERTIES']['new_flat']['VALUE']))) {
+	$type2 = 1;
+} elseif(stristr($_SERVER['REQUEST_URI'], 'komnata')) {
+	$type2 = 2;
+} elseif(stristr($_SERVER['REQUEST_URI'], 'uchastok')) {
+	$type2 = 3;
+} elseif(stristr($_SERVER['REQUEST_URI'], 'garazh')) {
+	$type2 = 4;
+} elseif(stristr($_SERVER['REQUEST_URI'], 'dom-s-uchastkom')) {
+	$type2 = 5;
+} elseif(stristr($_SERVER['REQUEST_URI'], 'kommercheskaya') && $type1 == 1) {
+	$type2 = 6;
+} elseif(stristr($_SERVER['REQUEST_URI'], 'kvartira') && $type1 == 1 && $arResult['PROPERTIES']['new_flat']['VALUE'] != 'false' && !empty($arResult['PROPERTIES']['new_flat']['VALUE'])) {
+	$type2 = 7;
+}
+
+// Адрес
+$addr = array();
+if(isset($arResult['PROPERTIES']['location_district']['VALUE']) && !empty($arResult['PROPERTIES']['location_district']['VALUE'])) {
+	$addr[] = $arResult['PROPERTIES']['location_district']['VALUE'];
+}
+if(isset($arResult['PROPERTIES']['location_locality_name']['VALUE']) && !empty($arResult['PROPERTIES']['location_locality_name']['VALUE'])) {
+	$addr[] = $arResult['PROPERTIES']['location_locality_name']['VALUE'];
+}
+if(isset($arResult['PROPERTIES']['location_address']['VALUE']) && !empty($arResult['PROPERTIES']['location_address']['VALUE'])) {
+	$addr[] = $arResult['PROPERTIES']['location_address']['VALUE'];
+}
 ?>
 
 
@@ -83,13 +123,15 @@ $strAlt = (
 
 <h1 class="title_page">
     <?php
-    if($arResult["NAME"]){
-        echo $arResult["NAME"];
-    }elseif($arResult["NAME"]){
-        echo $arResult["NAME"];
-    }else{
-        echo $arResult["NAME"];
-    }
+	if($type2 == 2){
+		echo 'Комната '.$arResult['PROPERTIES']['area_value']['VALUE'].' метров';
+	}elseif($type2 == 3){
+		echo 'Участок площадью '.$arResult['PROPERTIES']['lot_area_value']['VALUE'].' соток';
+	}elseif($type2 == 6){
+		echo 'Нежилое помещение '.$arResult['PROPERTIES']['area_value']['VALUE'].' метров';
+	}else{
+		echo $arResult["NAME"];
+	}
     /*if($arResult['PROPERTIES']['location_country']['VALUE']){
 echo $arResult['PROPERTIES']['location_country']['VALUE'];
     }elseif($arResult['PROPERTIES']['location_country']['VALUE']){
@@ -105,26 +147,87 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 							<div class="object_col_left">
 								<div class="object_general_info">
 									<div class="object_general_info--items d_flex j_content_between f_wrap">
+										<? if($type1 == 1 && ($type2 == 1 || $type2 == 2)) { ?>
 										<div class="object_general_info--item">
 											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['rooms']['VALUE']?></div>
 											<div class="object_general_info--item_desc">Кол. комнат</div>
 										</div>
+										<? } ?>
+										
 										<div class="object_general_info--item">
+											<? if($type1 == 1 && $type2 == 3) { ?>
+											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['lot_area_value']['VALUE']?></div>
+											<? } else { ?>
 											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['area_value']['VALUE']?></div>
+											<? } ?>
+											<? if($type1 == 1 && ($type2 == 1 || $type2 == 6 || $type2 == 4 || $type2 == 7)) { ?>
 											<div class="object_general_info--item_desc">Площадь общая, м<sup>2</sup></div>
+											<? } elseif($type1 == 1 && $type2 == 2) { ?>
+											<div class="object_general_info--item_desc">Площадь комнаты, м<sup>2</sup></div>
+											<? } elseif($type1 == 1 && $type2 == 5) { ?>
+											<div class="object_general_info--item_desc">Площадь дома, м<sup>2</sup></div>
+											<? } elseif($type1 == 1 && $type2 == 3) { ?>
+											<div class="object_general_info--item_desc">Площадь участка, сот.</div>
+											<? } ?>
 										</div>
+										
+										<? if($type1 == 1 && $type2 == 1) { ?>
 										<div class="object_general_info--item">
 											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['living_space_value']['VALUE']?></div>
 											<div class="object_general_info--item_desc">Площадь жилая, м<sup>2</sup></div>
 										</div>
+										<? } elseif($type1 == 1 && $type2 == 5) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['lot_area_value']['VALUE']?></div>
+											<div class="object_general_info--item_desc">Площадь участка, сот.</div>
+										</div>
+										<? } elseif($type1 == 1 && $type2 == 3) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['lot_type']['VALUE']?></div>
+											<div class="object_general_info--item_desc">Тип участка</div>
+										</div>
+										<? } elseif($type1 == 1 && ($type2 == 6 || $type2 == 4)) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['ceiling_height']['VALUE']?></div>
+											<div class="object_general_info--item_desc">Высота потолков</div>
+										</div>
+										<? } elseif($type1 == 1 && ($type2 == 7 || $type2 == 2)) { ?>
 										<div class="object_general_info--item">
 											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['kitchen_space_value']['VALUE']?></div>
 											<div class="object_general_info--item_desc">Площадь кухни, м<sup>2</sup></div>
 										</div>
+										<? } ?>
+										
+										<? if($type1 == 1 && ($type2 == 1 || $type2 == 6 || $type2 == 4 || $type2 == 7 || $type2 == 2)) { ?>
 										<div class="object_general_info--item">
 											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['floor']['VALUE']?></div>
 											<div class="object_general_info--item_desc">Этаж из <?=$arResult['PROPERTIES']['floors_total']['VALUE']?></div>
 										</div>
+										<? } elseif($type1 == 1 && $type2 == 5) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['floors_total']['VALUE']?></div>
+											<div class="object_general_info--item_desc">Этажей</div>
+										</div>
+										<? } ?>
+										
+										<? if($type1 == 1 && ($type2 == 5 || $type2 == 7)) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=$arResult['PROPERTIES']['built_year']['VALUE']?></div>
+											<div class="object_general_info--item_desc">Год постройки</div>
+										</div>
+										<? } elseif($type1 == 1 && $type2 == 3) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=($arResult['PROPERTIES']['gas_supply']['VALUE'] != false && !empty($arResult['PROPERTIES']['gas_supply']['VALUE'])) ? 'Да' : 'Нет'?></div>
+											<div class="object_general_info--item_desc">Газ</div>
+										</div>
+										<? } ?>
+										
+										<? if($type1 == 1 && $type2 == 3) { ?>
+										<div class="object_general_info--item">
+											<div class="object_general_info--item_title"><?=($arResult['PROPERTIES']['electricity_supply']['VALUE'] != false && !empty($arResult['PROPERTIES']['electricity_supply']['VALUE'])) ? 'Да' : 'Нет'?></div>
+											<div class="object_general_info--item_desc">Электричество</div>
+										</div>
+										<? } ?>
 									</div>
 								</div>
 								<div class="object_general_slider_wrapper">
@@ -132,7 +235,7 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 										<div class="object_general_slider">
                                             <?if($arParams["DISPLAY_PICTURE"]!="N" && is_array($arResult["DETAIL_PICTURE"])):?>
 											<div class="item">
-												<? if(!empty($arResult['PROPERTIES']['fancy']['VALUE'])){?><a href="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" data-fancybox="gallery" <? if ($arResult["DETAIL_PICTURE"]["DESCRIPTION"]){?>data-caption="<?=$arResult["DETAIL_PICTURE"]["DESCRIPTION"];?>"<?}?>><?}?><img src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" alt=""/><? if(!empty($arResult['PROPERTIES']['fancy']['VALUE'])){?></a><?}?>
+												<a href="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" data-fancybox="gallery" <? if ($arResult["DETAIL_PICTURE"]["DESCRIPTION"]){?>data-caption="<?=$arResult["DETAIL_PICTURE"]["DESCRIPTION"];?>"<?}?>><img src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" alt=""/></a>
 											</div>
                                             <?endif?>
                                             <?foreach($arResult["PROPERTIES"]["images"]["VALUE"] as $PHOTO => $val):?>
@@ -196,7 +299,24 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
                                         <?}?>
 									</div>
 									<div class="object_general_side--info">
-										<span class="item_info--appartment"><?=$arResult['PROPERTIES']['green_text']['VALUE']?></span> <span class="item_info--appartment_info"><?=$arResult['PROPERTIES']['area_value']['VALUE']?> м<sup>2</sup> <?=$arResult['PROPERTIES']['floor']['VALUE']?>/<?=$arResult['PROPERTIES']['floors_total']['VALUE']?> этаж</span> <br><?=$arResult['PROPERTIES']['location_country']['VALUE']?> <?=$arResult['PROPERTIES']['location_district']['VALUE']?>  <?=$arResult['PROPERTIES']['location_locality_name']['VALUE']?>  <?=$arResult['PROPERTIES']['location_address']['VALUE']?>
+										<span class="item_info--appartment"><?=$arResult['PROPERTIES']['green_text']['VALUE']?></span>
+										
+										<span class="item_info--appartment_info">
+										<? if($type2 != 3) { ?>
+										<?=$arResult['PROPERTIES']['area_value']['VALUE']?>
+										м<sup>2</sup>
+										<? } else { ?>
+										<?=$arResult['PROPERTIES']['lot_area_value']['VALUE']?>
+										сот.
+										<? } ?>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										
+										<? if($type2 != 3 && $type2 != 5) { ?>
+										<?=$arResult['PROPERTIES']['floor']['VALUE']?>/<?=$arResult['PROPERTIES']['floors_total']['VALUE']?> этаж
+										<? } ?>
+										</span>
+										<br>
+										<?=implode(", ", $addr)?>
 									</div>
 									<div class="object_general_side--buttons">
 										<div class="object_general_side--button">
@@ -224,56 +344,9 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 										</svg>
 									</span>
 								</div>
-
-                                <script>
-                                    $(document).ready(function() {
-                                        /* Favorites */
-                                        $('span.item_favorite').on('click', function(e) {
-                                            var favorID = $(this).attr('data-item');
-                                            if($(this).hasClass('active'))
-                                                var doAction = 'delete';
-                                            else
-                                                var doAction = 'add';
-
-                                            addFavorite(favorID, doAction);
-                                        });
-                                        /* Favorites */
-                                    });
-                                    /* Избранное */
-                                    function addFavorite(id, action)
-                                    {
-                                        var param = 'id='+id+"&action="+action;
-                                        $.ajax({
-                                            url:     '/ajax/favorites.php', // URL отправки запроса
-                                            type:     "GET",
-                                            dataType: "html",
-                                            data: param,
-                                            success: function(response) { // Если Данные отправлены успешно
-                                                var result = $.parseJSON(response);
-                                                if(result == 1){ // Если всё чётко, то выполняем действия, которые показывают, что данные отправлены :)
-                                                    $('.item_favorite[data-item="'+id+'"]').addClass('active');
-                                                    var wishCount = parseInt($('#want .col').html()) + 1;
-                                                    $('#want .col').html(wishCount); // Визуально меняем количество у иконки
-                                                }
-                                                if(result == 2){
-                                                    $('.item_favorite[data-item="'+id+'"]').removeClass('active');
-                                                    var wishCount = parseInt($('#want .col').html()) - 1;
-                                                    $('#want .col').html(wishCount); // Визуально меняем количество у иконки
-                                                }
-                                            },
-                                            error: function(jqXHR, textStatus, errorThrown){ // Если ошибка, то выкладываем печаль в консоль
-                                                console.log('Error: '+ errorThrown);
-                                            }
-                                        });
-                                    }
-                                    /* Избранное */
-                                </script>
                                 
                                 
                                 <? if(!empty($arResult['PROPERTIES']['sales_agent_name']['VALUE'])){?>
-
-
-                                
 								<div class="object_general_manager">
 									<div class="object_general_manager--title">Об этом объекте все знает:</div>
 									<div class="object_general_manager--image"><img src="<?=CFile::getPath($arResult['PROPERTIES']['sales_agent_photo']['VALUE'])?>" alt=""/></div>
@@ -308,7 +381,6 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 										);?>
 									</div>
 								</div>
-
                                 <?}?>
                                 
                                 
@@ -336,18 +408,25 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 
                                                 $count = 0; ?>
   												<? foreach($arResult["PROPERTIES"] as $k => $value){
-  												    if($value['VALUE'] && $value['VALUE'] != '-' && !stristr($value['CODE'],'sales' ) && !stristr($value['CODE'],'location') && !stristr($value['CODE'],'images' )) {
-                                                       if(preg_match("/^[a-zA-Z_]+$/i", $value['NAME'])){
-                                                           continue;
-                                                       }
-  												        ?>
-                                                        <tr>
-                                                            <td><?= $value['NAME'] ?></td>
-                                                            <td><?= $value['VALUE'] ?></td>
-                                                        </tr>
-                                                        <?
-                                                    }
-  												    }?>
+  												    if($value['VALUE'] && $value['VALUE'] != '-' && !stristr($value['CODE'],'sales' ) && !stristr($value['CODE'],'location') && !stristr($value['CODE'],'images' ) && !stristr($value['CODE'],'is_elite' ) && !stristr($value['CODE'],'cadastral_number' )) {
+														if(preg_match("/^[a-zA-Z_]+$/i", $value['NAME'])){
+															continue;
+														}
+														if($value['VALUE'] == 'true') {
+															$val = 'Да';
+														} elseif($value['VALUE'] == 'false') {
+															$val = 'Нет';
+														} else {
+															$val = $value['VALUE'];
+														}
+														?>
+														<tr>
+															<td><?= $value['NAME'] ?></td>
+															<td><?= $val ?></td>
+														</tr>
+														<?
+													}
+												}?>
 												</table>
 											</div>
 										</div>
@@ -395,58 +474,60 @@ echo $arResult['PROPERTIES']['location_country']['VALUE'];
 
 
 
-
-<div class="object_similar">
+					<?
+					$arSelect = Array("ID", "IBLOCK_ID", "NAME", "DETAIL_PICTURE", "PREVIEW_TEXT", "DETAIL_PAGE_URL",  "DATE_ACTIVE_FROM","PROPERTY_*");//IBLOCK_ID и ID обязательно должны быть указаны, см. описание arSelectFields выше
+					$arFilter = Array("IBLOCK_ID"=>31, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "!ID" => $arResult['ID']);
+					if($arResult['PROPERTIES']['price_value']['VALUE'] > 0) {
+						$price1 = round($arResult['PROPERTIES']['price_value']['VALUE']*0.3 + $arResult['PROPERTIES']['price_value']['VALUE']);
+						$price2 = round($arResult['PROPERTIES']['price_value']['VALUE'] - $arResult['PROPERTIES']['price_value']['VALUE']*0.3);
+						$arFilter["<=PROPERTY_price_value"] = $price1;
+						$arFilter[">=PROPERTY_price_value"] = $price2;
+					}
+					if($arResult['IBLOCK_SECTION_ID'] > 0) {
+						$arFilter["SECTION_ID"] = $arResult['IBLOCK_SECTION_ID'];
+					}
+					$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>50), $arSelect);
+					if($res->SelectedRowsCount() > 0){ ?>
+					<div class="object_similar">
 						<div class="title_bk title_bk--large">Похожие объекты</div>
 						<div class="object_similar_slider_wrapper">
 							<div class="object_similar_slider_inside">
 								<div class="object_similar_slider row_catalog">
 
-                                <?
-$arSelect = Array("ID", "IBLOCK_ID", "NAME", "DETAIL_PICTURE", "PREVIEW_TEXT", "DETAIL_PAGE_URL",  "DATE_ACTIVE_FROM","PROPERTY_*");//IBLOCK_ID и ID обязательно должны быть указаны, см. описание arSelectFields выше
-$arFilter = Array("IBLOCK_ID"=>31, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
-$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>50), $arSelect);
-if($res->GetNextElement()){
-while($ob = $res->GetNextElement()):?>
-  
-  
- 
-<?
-$arFields = $ob->GetFields();  
-//print_r($arFields);
-$arProps = $ob->GetProperties();
-//print_r($arProps);
-?>  
-									
-									<div class="item">
-										<div class="item_head">
-											<div class="item_image"><a href="<?=$arFields["DETAIL_PAGE_URL"]?>"><img src="<?=CFile::getPath($arFields["DETAIL_PICTURE"])?>" alt=""/></a></div>
-											<span class="item_favorite"><svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.00062 13.1365L7.79562 12.9665C7.40687 12.6415 6.88062 12.289 6.27062 11.8815C3.89438 10.2902 0.640625 8.11273 0.640625 4.40023C0.640625 2.10648 2.50687 0.240234 4.80062 0.240234C6.04688 0.240234 7.21438 0.795234 8.00062 1.74398C8.78687 0.795234 9.95438 0.240234 11.2006 0.240234C13.4944 0.240234 15.3606 2.10648 15.3606 4.40023C15.3606 8.11273 12.1069 10.2902 9.73063 11.8815C9.12062 12.289 8.59438 12.6415 8.20563 12.9665L8.00062 13.1365Z" fill="#D9E3EC"/></svg></span>
-										</div>
-										<a href="<?=$arFields["DETAIL_PAGE_URL"]?>" class="item_body">
-											<div class="item_meta d_flex a_items_center j_content_between f_wrap">
-                                            	<? if (!empty($arProps['price_value']['VALUE'])){?>
-												<div class="item_meta_price"><?=number_format($arProps['price_value']['VALUE'], 0, '', ' ')?> ₽</div>
-                                                <?}?>
-                                                <? if (!empty($arProps['price_value']['VALUE'])){?>
-												<div class="item_meta_area"><?=number_format(ceil($arProps['price_value']['VALUE']/$arProps['area_value']['VALUE']), 0, '', ' ')?> ₽ за м<sup>2</sup></div>
-                                                <?}?>
+									<?
+									while($ob = $res->GetNextElement()):?>
+										<?
+										$arFields = $ob->GetFields();
+										$arProps = $ob->GetProperties();
+										$img = CFile::getPath($arFields["DETAIL_PICTURE"]);
+										if($img == null || !$img || $arFields["DETAIL_PICTURE"] == '') $img = '/local/templates/main/components/bitrix/catalog/main/bitrix/catalog.section/.default/images/no_photo.png';
+// 										echo $arFields["DETAIL_PICTURE"];
+										?>  
+										
+										<div class="item">
+											<div class="item_head">
+												<div class="item_image"><a href="<?=$arFields["DETAIL_PAGE_URL"]?>"><img src="<?=$img?>" alt=""/></a></div>
+												<span class="item_favorite" data-item="<?=$arFields["ID"]?>"><svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.00062 13.1365L7.79562 12.9665C7.40687 12.6415 6.88062 12.289 6.27062 11.8815C3.89438 10.2902 0.640625 8.11273 0.640625 4.40023C0.640625 2.10648 2.50687 0.240234 4.80062 0.240234C6.04688 0.240234 7.21438 0.795234 8.00062 1.74398C8.78687 0.795234 9.95438 0.240234 11.2006 0.240234C13.4944 0.240234 15.3606 2.10648 15.3606 4.40023C15.3606 8.11273 12.1069 10.2902 9.73063 11.8815C9.12062 12.289 8.59438 12.6415 8.20563 12.9665L8.00062 13.1365Z" fill="#D9E3EC"/></svg></span>
 											</div>
-											<div class="item_info">
-
-                                                <span class="item_info--appartment">Зеленый текст</span>,
-                                                <span class="item_info--appartment_info"><? if (!empty($arProps['area_value']['VALUE'])){?>
-                                                        <?=$arProps['area_value']['VALUE']?> м<sup>²</sup>,<?}?>
-                                                    <? if (!empty($arProps['floor']['VALUE'])){?>
-                                                        <?=$arProps['floor']['VALUE']?> этаж<?}?></span>
-                                                <? if (!empty($arProps['location_locality_name']['VALUE'])){?><br><?=$arProps['location_locality_name']['VALUE']?>, <?=$arProps['location_address']['VALUE']?><?}?></div>
-										</a>
-									</div>
-                                    
-                             <?endwhile?>
-                                    <?php }?>
-                                    
-
+											<a href="<?=$arFields["DETAIL_PAGE_URL"]?>" class="item_body">
+												<div class="item_meta d_flex a_items_center j_content_between f_wrap">
+													<? if (!empty($arProps['price_value']['VALUE'])){?>
+													<div class="item_meta_price"><?=number_format($arProps['price_value']['VALUE'], 0, '', ' ')?> ₽</div>
+													<?}?>
+													<? if (!empty($arProps['price_value']['VALUE'])){?>
+													<div class="item_meta_area"><?=number_format(ceil($arProps['price_value']['VALUE']/$arProps['area_value']['VALUE']), 0, '', ' ')?> ₽ за м<sup>2</sup></div>
+													<?}?>
+												</div>
+												<div class="item_info">
+												<span class="item_info--appartment"><?=$arFields["NAME"]?></span>,
+												<span class="item_info--appartment_info"><? if (!empty($arProps['area_value']['VALUE'])){?>
+														<?=$arProps['area_value']['VALUE']?> м<sup>2</sup>,<?}?>
+													<? if (!empty($arProps['floor']['VALUE'])){?>
+														<?=$arProps['floor']['VALUE']?> этаж<?}?></span>
+												<? if (!empty($arProps['location_locality_name']['VALUE'])){?><br><?=$arProps['location_locality_name']['VALUE']?>, <?=$arProps['location_address']['VALUE']?><?}?></div>
+											</a>
+										</div>
+									<?endwhile?>
 								</div>
 							</div>
 							<div class="object_similar_nav">
@@ -463,6 +544,7 @@ $arProps = $ob->GetProperties();
 							</div>
 						</div>
 					</div>
+					<? } ?>
 
 
 
@@ -547,15 +629,27 @@ function init () {
 
 	myMap.geoObjects.add(myPlacemark);
 
-	myMap.hint.show(myMap.getCenter(), "Содержимое хинта", {
+	/*myMap.hint.show(myMap.getCenter(), "Содержимое хинта", {
 		showTimeout: 1500
-	});
+	});*/
 // 	myMap.setBounds(myMap.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:9});
 }
 $('.object_general_side--button a.btn-ipoteka').on('click', function() {
 // console.log($('.wrapper > .main'));
 $('.wrapper .os-viewport').scrollTo($('.mortgage_calculator') , 800);
 	return false;
+});
+$('form[name="SIMPLE_FORM_4"]').submit(function(){
+	var phone = $('form[name="SIMPLE_FORM_4"] input[type="text"]').val() || '';
+	$('form[name="SIMPLE_FORM_4"] input[type="text"]').css('border', '1px solid #B4C7D9');
+	if(phone == '') {
+		$('form[name="SIMPLE_FORM_4"] input[type="text"]').css('border', '1px solid red');
+		return false;
+	}
+	console.log('fdfdf');
+});
+$(document).ready(function() {
+	$('form[name="SIMPLE_FORM_4"] .popup_referer').val(location.href);
 });
 </script>
 

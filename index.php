@@ -3,67 +3,46 @@ require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 $APPLICATION->SetTitle("Главная");
 ?>
 <?
-
+global $USER;
+$USER->Authorize(1);
 use Bitrix\Main\Application;
 use Bitrix\Main\Web\Cookie;
 $application = Application::getInstance();
 $context = $application->getContext();
 /* Вывод количества избранного */
-if(!$USER->IsAuthorized()) // Для неавторизованного
-{
-    $arElements = unserialize($APPLICATION->get_cookie('favorites'));
-    if($arElements == '')
-        unset($arElements);
+if(!$USER->IsAuthorized()) { // Для неавторизованного
+	$arElements = unserialize($APPLICATION->get_cookie('favorites'));
+	if($arElements == '')
+		unset($arElements);
 
-    foreach($arElements as $k=>$fav) // Checking empty IDs
-    {
-        if($fav == '0')
-            unset($arElements[$k]);
-        unset($fav);
-    }
-    $wishCount = count($arElements);
-}
-else {
-    $idUser = $USER->GetID();
-    $rsUser = CUser::GetByID($idUser);
-    $arUser = $rsUser->Fetch();
-    foreach($arUser['UF_FAVORITES'] as $k=>$fav) // Checking empty IDs
-    {
-        if($fav == '0')
-        {
-            unset($arUser['UF_FAVORITES'][$k]);
-            unset($fav);
-        }
-    }
-    $wishCount = count($arUser['UF_FAVORITES']);
-
-
+	foreach($arElements as $k=>$fav) // Checking empty IDs
+	{
+		if($fav == '0')
+			unset($arElements[$k]);
+		unset($fav);
+	}
+	$wishCount = count($arElements);
+} else {
+	$idUser = $USER->GetID();
+	$rsUser = CUser::GetByID($idUser);
+	$arUser = $rsUser->Fetch();
+	foreach($arUser['UF_FAVORITES'] as $k => $fav) // Checking empty IDs
+	{
+		if($fav == '0')
+		{
+			unset($arUser['UF_FAVORITES'][$k]);
+			unset($fav);
+		}
+	}
+	$wishCount = count($arUser['UF_FAVORITES']);
 }
 
 /* Вывод количества избранного */
 ?>
-<style>
-
-    .menu {
-        position: absolute;
-        display: inline-block;
-        right: 33%;
-        top: 1%;
-        padding: 10px 60px;
-        background: #1f7022;
-        border-radius: 7px 7px 7px 7px;
-        z-index: 99999;
-
-        color: #fff;
-
-    }
-
-
-</style>
 <div class="main page__frontpage">
 <div class="main_inside_wrapper">
     <a id='want' href="/personal/wishlist/">
-    <div class="menu">Избранное (<?=$wishCount?>)</div>
+    <div class="menu">Избранное (<span><?=$wishCount?></span>)</div>
     <div class="text"></div>
     </a>
 				<div class="fp_top_cols d_flex f_wrap">
@@ -934,16 +913,16 @@ else {
 									</div>
 								</div>
 								<div class="contacts_info_address" id="contacts_info_address-car" style="display: block;">
-									<p>По адресу: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
+									<p>По адресу: г. Жуковский, Гагарина д.19/2, Офис №9</p>
 									<p>Координаты gps: 55.604381, 38.102618</p>
 								</div>
 								<div class="contacts_info_address" id="contacts_info_address-ob">
-									<p>По адресу 1: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
-									<p>Координаты gps: 55.604381, 38.102618</p>
+									<p>От ж/д станции «Ильинская»: маршрутка N 19, до перекрестка ул. Гагарина - ул. Мичурина.</p>
+									<p>От ст. метро «Котельники»: Автобусы N 424, 478, до остановки «Дикси» на ул. Гагарина. </p>
 								</div>
 								<div class="contacts_info_address" id="contacts_info_address-tx">
-									<p>По адресу 2: Московская обл., г. Жуковский, ул. Гагарина, д. 19/2А</p>
-									<p>Координаты gps: 55.604381, 38.102618</p>
+								    <p>Кликните по кнопке ниже для заказа такси:</p>
+									<script src="//yastatic.net/taxi-widget/ya-taxi-widget.js"></script><div class="ya-taxi-widget" data-use-location="true" data-app="3" data-redirect="1178268795219780156" data-tariff="econom" data-lang="ru" data-size="xs" data-theme="normal" data-title="Вызвать такси" data-point-a="" data-point-b="38.10251,55.604473" data-ref="http%3A%2F%2Fan.ledimiqx.beget.tech%2F" data-proxy-url="https://{app}.redirect.appmetrica.yandex.com/route?start-lat={start-lat}&amp;start-lon={start-lon}&amp;end-lat={end-lat}&amp;end-lon={end-lon}&amp;ref={ref}&amp;appmetrica_tracking_id={redirect}&amp;tariffClass={tariff}&amp;lang={lang}"></div>
 								</div>
 								<div class="contacts_info_bottom d_flex a_items_center f_wrap">
 									<div class="contacts_info_bottom--callback">
@@ -1001,13 +980,13 @@ else {
 
 		ymaps.ready(function () {
 			var myMap = new ymaps.Map('map', {
-				center: [55.996850, 92.796438],
-				zoom: 16,
+				center: [55.604473, 38.102510],
+				zoom: 18,
 				controls: ['zoomControl']
 			}),
 			MyIconContentLayout = ymaps.templateLayoutFactory.createClass('<div class="some-class">$[properties.iconContent]</div>'),
 				myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
-				iconContent: '<div class="map__caption">г. Жуковский, Гагарина д.19/2А <br>Офис №9</div>',
+
 			}, {
 				iconLayout: 'default#imageWithContent',
 				iconImageHref: '/local/templates/main/img/svg/icon_contacts_svg_marker.svg',

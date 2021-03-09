@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -14,7 +15,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha512-H9jrZiiopUdsLpg94A333EfumgUBpO9MdbxStdeITo+KEIMaNfHNvwyjjDJb+ERPaRS6DpyRlKbvPUasNItRyw==" crossorigin="anonymous" />
 
 		<title><? $APPLICATION->ShowTitle() ?></title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA==" crossorigin="anonymous"></script>
 		<? $APPLICATION->ShowHead(); ?>
 		<!--[if IE]>
@@ -26,7 +27,29 @@
         
 	</head>
 <body>
-
+<?
+if(!$USER->IsAuthorized())
+{
+	$arFavorites = unserialize($APPLICATION->get_cookie("favorites"));
+	//print_r($arFavorites);
+}
+else {
+	$idUser = $USER->GetID();
+	$rsUser = CUser::GetByID($idUser);
+	$arUser = $rsUser->Fetch();
+	$arFavorites = $arUser['UF_FAVORITES'];  // Достаём избранное пользователя
+}
+// print_r($arFavorites);
+/* Меняем отображение сердечка товара */
+?>
+<script>
+$(document).ready(function() {
+<?
+foreach($arFavorites as $k => $favoriteItem):?>
+	$('.item_favorite[data-item="<?=$favoriteItem?>"]').addClass('active');
+<?endforeach;?>
+});
+</script>
 	<div class="wrapper d_flex j_content_end f_wrap">
 		<span class="overlay_sidebar"></span>
 		<div class="sidebar">
